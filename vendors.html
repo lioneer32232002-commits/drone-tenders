@@ -16,8 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/style.css?v=6">
-<script type="module" src="assets/vendors.js?v=6"></script>
+<link rel="stylesheet" href="assets/style.css?v=7">
+<script type="module" src="assets/vendors.js?v=7"></script>
 </head>
 <body>
 
@@ -37,7 +37,7 @@
 
   <section class="hero" aria-labelledby="h1">
     <h1 class="page-title" id="h1">得標廠商</h1>
-    <p class="note">依得標金額排序，點廠商名稱可展開它的所有得標案。</p>
+    <p class="note">只計國內標案，依得標金額排序，點廠商名稱可展開它的所有得標案。</p>
     <p class="result-line" id="result">載入中…</p>
   </section>
 
@@ -48,7 +48,7 @@
 
   <section aria-labelledby="h-graph">
     <h2 class="sec-h" id="h-graph"><span class="sec-n">02</span><span>誰賣給誰</span></h2>
-    <p class="note">帶狀寬度是得標金額，左邊廠商、右邊出錢的機關；金額差距大時小案會細到幾乎看不見，滑過可看數字。</p>
+    <p class="note">帶狀寬度是得標金額，左邊廠商、右邊出錢的機關，不含對美軍購與工程類。</p>
     <div class="graph" id="graph"></div>
     <ul class="graph-key">
       <li><span class="sw sw-v"></span>廠商</li>

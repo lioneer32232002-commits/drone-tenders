@@ -1,6 +1,6 @@
 import {
   loadJSON, failInto, initChrome, stampFooter, fmtAmount, fmtInt, fmtDate,
-  el, $, clear, sum, showTip, hideTip,
+  el, $, clear, sum, showTip, hideTip, trackOf,
 } from './common.js';
 
 initChrome('vendors');
@@ -16,7 +16,11 @@ loadJSON('data/tenders.json').then(start).catch(err => failInto($('#rows'), err)
 
 function start(d) {
   stampFooter(d.generated_at);
-  const awarded = (d.tenders || []).filter(t => t.status === 'awarded' && t.winners?.length);
+  // 只算國內標案：對美軍購與工程類的量級不同，混在一起排行沒有意義
+  const awarded = (d.tenders || []).filter(t =>
+    t.status === 'awarded' && t.winners?.length
+    && (t.track || trackOf(t)) === 'domestic'
+    && t.drone_in_title !== false);
 
   const map = new Map();
   for (const t of awarded) {
@@ -33,6 +37,7 @@ function start(d) {
 
   const vendors = [...map.values()].sort((a, b) => b.amount - a.amount || b.count - a.count);
   $('#result').innerHTML =
+    `國內標案<span class="sep"> · </span>` +
     `<span class="n">${fmtInt(vendors.length)}</span> 家廠商曾得標` +
     `<span class="sep"> · </span>合計 ${fmtAmount(sum(vendors, v => v.amount))}`;
 

@@ -18,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/style.css?v=6">
-<script type="module" src="assets/index.js?v=6"></script>
+<link rel="stylesheet" href="assets/style.css?v=7">
+<script type="module" src="assets/index.js?v=7"></script>
 </head>
 <body>
 
@@ -39,6 +39,7 @@
 
   <section class="hero" aria-labelledby="lede">
     <h1 class="serif lede" id="lede">載入中…</h1>
+    <p class="meta" id="hero-aside" hidden></p>
     <p class="meta" id="hero-meta"></p>
 
     <dl class="totals">
@@ -63,29 +64,29 @@
 
   <section aria-labelledby="h-origin">
     <h2 class="sec-h" id="h-origin"><span class="sec-n">01</span><span>哪裡製造</span></h2>
-    <p class="note">決標金額依機關填報的原產地國別歸戶，沒填的不計入。</p>
+    <p class="note">決標金額依機關填報的原產地國別歸戶，沒填的不計入，不含對美軍購與工程類。</p>
     <div class="sbar sbar-big" id="origin-bar" role="img"></div>
     <ul class="legend" id="origin-legend"></ul>
-    <p class="note" id="origin-years-note" style="margin:34px 0 0">逐年的比例變化。</p>
+    <p class="note" id="origin-years-note" style="margin:34px 0 0">2016 年起每年的比例，年份下方是該年國內決標總額。</p>
     <div class="years" id="origin-years" role="list"></div>
   </section>
 
   <section aria-labelledby="h-quarter">
     <h2 class="sec-h" id="h-quarter"><span class="sec-n">02</span><span>每季決標金額</span></h2>
-    <p class="note" id="quarter-note">一根是一季。</p>
+    <p class="note" id="quarter-note">一根是一季，2016 年起，不含對美軍購與工程類。</p>
     <div class="chart" id="quarter-chart"></div>
   </section>
 
   <section aria-labelledby="h-group">
     <h2 class="sec-h" id="h-group"><span class="sec-n">03</span><span>錢從哪裡來</span></h2>
-    <p class="note">決標金額依出錢的機關群組拆開。</p>
+    <p class="note">決標金額依出錢的機關群組拆開，不含對美軍購與工程類。</p>
     <div class="sbar" id="group-bar" role="img"></div>
     <ul class="legend" id="group-legend"></ul>
   </section>
 
   <section aria-labelledby="h-vendor">
     <h2 class="sec-h" id="h-vendor"><span class="sec-n">04</span><span>錢到哪裡去</span></h2>
-    <p class="note">得標金額前十名的廠商。</p>
+    <p class="note">得標金額前十名的廠商，不含對美軍購與工程類。</p>
     <div class="hbars" id="vendor-bars"></div>
     <p class="more"><a href="vendors.html">看全部廠商與客戶關係</a></p>
   </section>
@@ -97,8 +98,14 @@
     <p class="more"><a href="tenders.html">看全部標案</a></p>
   </section>
 
+  <section id="offbook" aria-labelledby="h-offbook" hidden>
+    <h2 class="sec-h" id="h-offbook"><span class="sec-n">06</span><span>不在圖表裡的</span></h2>
+    <p class="note">經美國在台協會的對美軍購與工程類標案，金額量級與國內採購不同，單獨列在這裡。</p>
+    <ul class="recent" id="offbook-list"></ul>
+  </section>
+
   <section aria-labelledby="h-photo">
-    <h2 class="sec-h" id="h-photo"><span class="sec-n">06</span><span>標的物</span></h2>
+    <h2 class="sec-h" id="h-photo"><span class="sec-n">07</span><span>標的物</span></h2>
     <figure class="photo">
       <img src="assets/img/tengyun-hsinchu-2015.jpg" width="1600" height="900" loading="lazy" decoding="async"
            alt="停機坪上靜態展示的中科院騰雲大型無人機，機身標示 NCSIST ASRD。">

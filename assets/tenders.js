@@ -1,6 +1,6 @@
 import {
   loadJSON, failInto, initChrome, stampFooter, fmtAmount, fmtInt, fmtDate,
-  el, $, clear, STATUS, DOMAIN,
+  el, $, clear, STATUS, DOMAIN, TRACK, trackOf,
 } from './common.js';
 
 initChrome('tenders');
@@ -8,7 +8,7 @@ initChrome('tenders');
 const PAGE = 200;
 
 const F = {
-  year: $('#f-year'), status: $('#f-status'), category: $('#f-category'),
+  scope: $('#f-scope'), year: $('#f-year'), status: $('#f-status'), category: $('#f-category'),
   group: $('#f-group'), domain: $('#f-domain'), q: $('#f-q'),
 };
 
@@ -19,7 +19,7 @@ let shown = 0;
 loadJSON('data/tenders.json').then(start).catch(err => failInto($('#tbody-host'), err));
 
 function start(d) {
-  ALL = d.tenders || [];
+  ALL = (d.tenders || []).map(t => (t.track ? t : { ...t, track: trackOf(t) }));
   stampFooter(d.generated_at);
   buildOptions();
   readURL();
@@ -28,7 +28,7 @@ function start(d) {
     node.addEventListener(k === 'q' ? 'input' : 'change', () => { writeURL(); apply(); });
   }
   $('#f-reset').addEventListener('click', () => {
-    F.year.value = ''; F.status.value = ''; F.category.value = '';
+    F.scope.value = 'domestic'; F.year.value = ''; F.status.value = ''; F.category.value = '';
     F.group.value = ''; F.domain.value = 'air'; F.q.value = '';
     writeURL(); apply();
   });
@@ -55,14 +55,16 @@ function buildOptions() {
 
 /* ---------- 網址同步 ---------- */
 
-const KEYS = { year: 'y', status: 's', category: 'c', group: 'g', domain: 'd', q: 'q' };
+const KEYS = { scope: 'k', year: 'y', status: 's', category: 'c', group: 'g', domain: 'd', q: 'q' };
+
+const DEFAULTS = { scope: 'domestic', domain: 'air' };
 
 function readURL() {
   const p = new URLSearchParams(location.search);
   for (const [k, short] of Object.entries(KEYS)) {
     const node = F[k];
     if (!node) continue;
-    const fallback = k === 'domain' ? 'air' : '';
+    const fallback = DEFAULTS[k] ?? '';
     const v = p.get(short) ?? fallback;
     node.value = v;
     if (node.tagName === 'SELECT' && node.value !== v) node.value = fallback;
@@ -74,7 +76,7 @@ function writeURL() {
   for (const [k, short] of Object.entries(KEYS)) {
     const v = F[k]?.value || '';
     if (!v) continue;
-    if (k === 'domain' && v === 'air') continue;
+    if (DEFAULTS[k] && v === DEFAULTS[k]) continue;
     p.set(short, v);
   }
   const qs = p.toString();
@@ -85,10 +87,15 @@ function writeURL() {
 
 function apply() {
   const y = F.year.value, s = F.status.value, c = F.category.value;
-  const g = F.group.value, d = F.domain.value;
+  const g = F.group.value, d = F.domain.value, k = F.scope.value;
   const q = F.q.value.trim().toLowerCase();
 
   view = ALL.filter(t => {
+    // 「全部」才會帶出其他軌，以及標題沒寫無人機的案子（定翼機撈到的有人機）
+    if (k) {
+      if (t.track !== k) return false;
+      if (t.drone_in_title === false) return false;
+    }
     if (y && (t.award_date || t.first_notice_date || '').slice(0, 4) !== y) return false;
     if (s && t.status !== s) return false;
     if (c && t.category !== c) return false;
@@ -103,7 +110,9 @@ function apply() {
 
   const awarded = view.filter(t => t.status === 'awarded');
   const total = awarded.reduce((a, t) => a + (t.award_amount || 0), 0);
+  const label = TRACK[F.scope.value] || '全部範圍';
   $('#result').innerHTML =
+    `${label}<span class="sep"> · </span>` +
     `<span class="n">${fmtInt(view.length)}</span> 件` +
     `<span class="sep"> · </span>決標 ${fmtInt(awarded.length)} 件，共 ${fmtAmount(total)}`;
 
@@ -184,6 +193,7 @@ function detail(t) {
   const box = el('div', { class: 'detail-box' }, [
     dl([
       ['類別', t.category],
+      ['範圍', TRACK[t.track] || null],
       ['領域', DOMAIN[t.domain] || t.domain],
       ['採購性質', t.procurement_type],
       ['招標方式', t.method],
@@ -192,6 +202,7 @@ function detail(t) {
       ['原產地', oText],
       ['標的分類', t.subject_class],
       ['國安採購', t.national_security ? '是' : null],
+      ['標題關鍵字', t.drone_in_title === false ? '標題沒有無人機字樣' : null],
     ]),
     el('div', null, [
       el('h3', { text: '公告時間軸' }),

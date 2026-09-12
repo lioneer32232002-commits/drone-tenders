@@ -1,6 +1,6 @@
 import {
   loadJSON, failInto, initChrome, stampFooter, fmtAmount, fmtInt, fmtDate,
-  el, $, clear, sum, STATUS,
+  el, $, clear, sum, STATUS, trackOf,
 } from './common.js';
 
 initChrome('agencies');
@@ -11,7 +11,9 @@ loadJSON('data/tenders.json').then(start).catch(err => failInto($('#groups'), er
 
 function start(d) {
   stampFooter(d.generated_at);
-  const tenders = d.tenders || [];
+  // 與廠商頁一致，只算國內標案
+  const tenders = (d.tenders || []).filter(t =>
+    (t.track || trackOf(t)) === 'domestic' && t.drone_in_title !== false);
 
   const byAgency = new Map();
   for (const t of tenders) {
@@ -27,6 +29,7 @@ function start(d) {
 
   const agencies = [...byAgency.values()];
   $('#result').innerHTML =
+    `國內標案<span class="sep"> · </span>` +
     `<span class="n">${fmtInt(agencies.length)}</span> 個機關買過無人機` +
     `<span class="sep"> · </span>決標合計 ${fmtAmount(sum(agencies, a => a.amount))}`;
 

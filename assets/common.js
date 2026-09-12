@@ -23,6 +23,18 @@ export function originOrder(countries) {
 
 export const DOMAIN = { air: '空中', sea: '水上水下', ground: '地面' };
 
+export const TRACK = { domestic: '國內標案', fms: '對美軍購', works: '工程類' };
+
+// 標案屬於哪一軌。資料有標就用資料的，沒標就從內容判斷。
+export function trackOf(t) {
+  const v = t.track || t.scope || t.bucket;
+  if (v && TRACK[v]) return v;
+  const winners = (t.winners || []).map(w => w.name || '').join(' ');
+  if (/美國在台協會|A\.\s*I\.\s*T|AIT/i.test(winners + ' ' + (t.agency || ''))) return 'fms';
+  if (t.procurement_type === '工程') return 'works';
+  return 'domestic';
+}
+
 const NBSP = ' ';
 
 /* ---------- 載入 ---------- */

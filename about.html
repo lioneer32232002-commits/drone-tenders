@@ -16,8 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/style.css?v=6">
-<script type="module" src="assets/about.js?v=6"></script>
+<link rel="stylesheet" href="assets/style.css?v=7">
+<script type="module" src="assets/about.js?v=7"></script>
 </head>
 <body>
 
@@ -80,7 +80,7 @@
       </div>
       <div>
         <dt>類別與機關群組</dt>
-        <dd>類別依標題與機關名判斷，順序為國防、反制、警政、消防救災、農林漁業、測繪巡檢、教育研究、環境監測、其他。機關群組依機關代碼首段與名稱歸成國防、中央部會、地方政府、國營事業、學校、其他。</dd>
+        <dd>類別依標題與機關名判斷，順序為國防、反制、警政、海巡、消防救災、農林漁業、測繪巡檢、教育研究、環境監測、其他。機關群組依機關代碼首段與名稱歸成國防、中央部會、地方政府、國營事業、學校、其他。</dd>
       </div>
     </dl>
   </section>
@@ -91,6 +91,9 @@
       <li>用標題關鍵字搜尋，標題沒寫「無人機」之類字眼的案子會漏掉，例如夾在大型系統採購裡的無人機部分。</li>
       <li>共同供應契約沒有總額，這些件數會出現在列表裡但不進金額統計。</li>
       <li>原產地由機關自行填報，填寫率不高，占比只能當趨勢看，不能當精確數字。<span id="data-notes"></span></li>
+      <li>原產地金額常常只填國產的那一部分。海巡署的艦載無人機決標 12 億，原產地欄只填了臺灣 2.47 億，其餘沒填。因此原產地圖的分母是「有填的金額」，不是決標總額。</li>
+      <li>機關會重複使用標案案號。本站以機關代碼加案號去重，同一組編號被重用時會被併成一筆，可能少算件數。</li>
+      <li>臺灣銀行等代辦採購案，公告機關不是真正要用的機關。這類案子的機關已改用「履約執行機關」，原公告機關另外記在 <code>announcing_agency</code>。</li>
       <li>更正公告會改寫先前的內容，本站以最新一筆公告為準，不保留歷史版本。</li>
       <li>類別與領域是用規則判斷的，邊界案例會有誤判。</li>
     </ul>
