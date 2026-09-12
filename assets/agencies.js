@@ -92,7 +92,7 @@ function agencyBody(a) {
       .map(t => el('li', null, [
         el('span', { class: 'd', text: fmtDate(t.award_date || t.first_notice_date) }),
         el('span', { class: 'k' }, [
-          el('a', { href: `tenders.html?q=${encodeURIComponent(t.title)}`, text: t.title }),
+          el('a', { href: `tenders?q=${encodeURIComponent(t.title)}`, text: t.title }),
           el('span', { class: 'ag', text: ` ${STATUS[t.status] || t.status}` }),
         ]),
         el('span', { class: 'v', text: fmtAmount(t.award_amount ?? t.budget) }),

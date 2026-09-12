@@ -89,7 +89,7 @@ function vendorBody(v) {
       .map(({ t, amount }) => el('li', null, [
         el('span', { class: 'd', text: fmtDate(t.award_date) }),
         el('span', { class: 'k' }, [
-          el('a', { href: `tenders.html?q=${encodeURIComponent(t.title)}`, text: t.title }),
+          el('a', { href: `tenders?q=${encodeURIComponent(t.title)}`, text: t.title }),
           el('span', { class: 'ag', text: ` ${t.agency}` }),
         ]),
         el('span', { class: 'v', text: fmtAmount(amount) }),

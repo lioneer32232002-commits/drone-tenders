@@ -339,7 +339,7 @@ function recent(d) {
     host.append(el('li', null, [
       el('span', { class: 'd', text: fmtDate(r.date) }),
       el('span', { class: 't' }, [
-        el('a', { href: `tenders.html?q=${encodeURIComponent(r.title)}`, text: r.title }),
+        el('a', { href: `tenders?q=${encodeURIComponent(r.title)}`, text: r.title }),
         el('span', { class: 'ag', text: r.agency }),
       ]),
       el('span', { class: 'a' }, [
@@ -372,7 +372,7 @@ function offBook(fms, works) {
     host.append(el('li', null, [
       el('span', { class: 'd', text: fmtDate(r.award_date || r.date) }),
       el('span', { class: 't' }, [
-        el('a', { href: `tenders.html?k=${r.kind === '對美軍購' ? 'fms' : 'works'}&q=${encodeURIComponent(r.title || '')}`, text: r.title || '(無標題)' }),
+        el('a', { href: `tenders?k=${r.kind === '對美軍購' ? 'fms' : 'works'}&q=${encodeURIComponent(r.title || '')}`, text: r.title || '(無標題)' }),
         el('span', { class: 'ag', text: r.agency || '' }),
       ]),
       el('span', { class: 'a' }, [
