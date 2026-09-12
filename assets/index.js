@@ -358,15 +358,17 @@ function offBook(fms, works) {
   if (!sec || !host) return;
   clear(host);
 
+  const byAmount = (a, b) => (b.award_amount ?? b.amount ?? 0) - (a.award_amount ?? a.amount ?? 0);
   const rows = [
-    ...itemsOf(fms).map(r => ({ ...r, kind: '對美軍購' })),
-    ...itemsOf(works).map(r => ({ ...r, kind: '工程類' })),
-  ].sort((a, b) => ((a.award_date || a.date || '') < (b.award_date || b.date || '') ? 1 : -1));
+    // 對美軍購本來就沒幾件，全列；工程類只列最大的幾件
+    ...itemsOf(fms).sort(byAmount).slice(0, 10).map(r => ({ ...r, kind: '對美軍購' })),
+    ...itemsOf(works).sort(byAmount).slice(0, 5).map(r => ({ ...r, kind: '工程類' })),
+  ].sort(byAmount);
 
   if (!rows.length) { sec.hidden = true; return; }
   sec.hidden = false;
 
-  for (const r of rows.slice(0, 20)) {
+  for (const r of rows) {
     host.append(el('li', null, [
       el('span', { class: 'd', text: fmtDate(r.award_date || r.date) }),
       el('span', { class: 't' }, [
