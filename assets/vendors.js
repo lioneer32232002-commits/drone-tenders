@@ -135,24 +135,46 @@ function renderGraph(vendors) {
   const NW = 7;
   const X1 = Math.round(W * 0.30), X2 = Math.round(W * 0.70);
 
-  const place = (list) => {
+  // 金額分布極端時（單一大案就吃掉九成），小節點要有最小高度才看得見；
+  // 畫布跟著長高，比例仍然是照金額。
+  const MIN = 4;
+  const CAP = H;                     // 比例照金額，不為了好看把圖拉長
+  const heights = (list) => {
     const total = sum(list, x => x[1]) || 1;
-    const avail = H - (list.length - 1) * GAP;
-    let y = 0;
-    const m = new Map();
-    for (const [name, amt] of list) {
-      const h = Math.max(3, (amt / total) * avail);
-      m.set(name, { y0: y, y1: y + h, amt });
-      y += h + GAP;
+    const gaps = (list.length - 1) * GAP;
+    let base = H - gaps;
+    for (let i = 0; i < 4; i++) {
+      const extra = list.reduce((a, [, amt]) => a + Math.max(0, MIN - (amt / total) * base), 0);
+      if (extra < 0.5 || base + gaps >= CAP) break;
+      base = Math.min(base + extra, CAP - gaps);
     }
-    const scale = y - GAP > H ? H / (y - GAP) : 1;
-    if (scale !== 1) for (const p of m.values()) { p.y0 *= scale; p.y1 *= scale; }
+    let hs = list.map(([, amt]) => Math.max(MIN, (amt / total) * base));
+    const span = hs.reduce((a, b) => a + b, 0) + gaps;
+    if (span > CAP) {
+      const k = (CAP - gaps) / (span - gaps);
+      hs = hs.map(h => h * k);
+    }
+    return hs;
+  };
+
+  const hl = heights(L), hr = heights(R);
+  const span = hs => hs.reduce((a, b) => a + b, 0);
+  const H2 = Math.min(CAP, Math.max(H, span(hl) + (L.length - 1) * GAP, span(hr) + (R.length - 1) * GAP));
+
+  const place = (list, hs) => {
+    const span = hs.reduce((a, b) => a + b, 0) + (list.length - 1) * GAP;
+    let y = (H2 - span) / 2;
+    const m = new Map();
+    list.forEach(([name, amt], i) => {
+      m.set(name, { y0: y, y1: y + hs[i], amt });
+      y += hs[i] + GAP;
+    });
     return m;
   };
 
-  const lp = place(L), rp = place(R);
+  const lp = place(L, hl), rp = place(R, hr);
   const g = svg('svg', {
-    viewBox: `0 0 ${W} ${H}`, role: 'img',
+    viewBox: `0 0 ${W} ${H2}`, role: 'img',
     'aria-label': `前 ${L.length} 家廠商與前 ${R.length} 個機關的得標金額關係圖。`,
   });
 
