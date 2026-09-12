@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-12T20:35:03.492Z",
+ "generated_at": "2026-09-12T20:57:04.442Z",
  "scope": "domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。下面 totals / by_quarter / by_year / by_category / by_agency_group / top_agencies / top_vendors / by_origin / by_origin_year / vendor_agency_edges 全部只算 domestic；對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。",
  "tracks": {
   "domestic": {
