@@ -744,6 +744,7 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
 
   /* 表格轉卡片 */
   table, tbody, tr, td { display: block; width: 100%; }
+  table { table-layout: auto; }
   thead { display: none; }
 
   tbody tr {
@@ -759,9 +760,9 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
     width: auto;
   }
 
-  td.t-date { font-size: 14px; }
-  td.t-title { padding: 3px 0 5px; font-size: 17px; }
-  td.t-agency { font-size: 15px; color: var(--muted); }
+  td.t-date { width: auto; font-size: 14px; }
+  td.t-title { width: auto; padding: 3px 0 5px; font-size: 17px; }
+  td.t-agency { width: auto; font-size: 15px; color: var(--muted); }
 
   td.t-num, td.t-vendor, td.t-status {
     display: inline;

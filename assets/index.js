@@ -121,25 +121,38 @@ function origin(s) {
 
 /* ---------- 02 季度 ---------- */
 
-function quarters(s) {
-  const rows = (s.by_quarter || []).filter(r => r.q >= '2016Q1');
-  const host = clear($('#quarter-chart'));
-  if (!rows.length) { host.append(el('p', { class: 'empty', text: '沒有季度資料。' })); return; }
+let qRows = null;
 
-  const W = 1000, H = 230, PB = 26, PT = 10;
+function quarters(s) {
+  qRows = (s.by_quarter || []).filter(r => r.q >= '2016Q1');
+  drawQuarters();
+  let t = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(drawQuarters, 160);
+  });
+}
+
+function drawQuarters() {
+  const rows = qRows;
+  const host = clear($('#quarter-chart'));
+  if (!rows || !rows.length) { host.append(el('p', { class: 'empty', text: '沒有季度資料。' })); return; }
+
+  // viewBox 對齊實際像素寬，字級才不會被縮掉
+  const W = Math.max(320, Math.round(host.clientWidth || 1000));
+  const narrow = W < 560;
+  const H = narrow ? 180 : 230;
+  const PB = 24, PT = 12;
   const max = Math.max(...rows.map(r => r.awarded_amount), 1);
   const step = W / rows.length;
-  const bw = Math.max(2, step * 0.66);
+  const bw = Math.max(2, step * 0.62);
   const g = svg('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img' });
-  g.setAttribute('aria-label',
-    `2016 年起每季決標金額長條圖，最高 ${fmtAmount(max)}。`);
+  g.setAttribute('aria-label', `2016 年起每季決標金額長條圖，最高 ${fmtAmount(max)}。`);
 
-  // 基線與刻度
-  const gridY = [0.5, 1];
-  for (const f of gridY) {
+  for (const f of [0.5, 1]) {
     const yy = PT + (H - PB - PT) * (1 - f);
-    g.append(svg('line', { x1: 0, x2: W, y1: yy, y2: yy, class: f === 1 ? 'tickline' : 'tickline' }));
-    const lab = svg('text', { x: 2, y: yy - 5, class: 'tlabel' });
+    g.append(svg('line', { x1: 0, x2: W, y1: yy, y2: yy, class: 'tickline' }));
+    const lab = svg('text', { x: 0, y: yy - 5, class: 'tlabel' });
     lab.textContent = fmtAmount(max * f);
     g.append(lab);
   }
@@ -148,15 +161,17 @@ function quarters(s) {
   const bars = [];
   rows.forEach((r, i) => {
     const h = (r.awarded_amount / max) * (H - PB - PT);
-    const x = i * step + (step - bw) / 2;
     if (h > 0) {
-      const b = svg('rect', { x, y: H - PB - h, width: bw, height: h, class: 'bar' });
+      const b = svg('rect', {
+        x: i * step + (step - bw) / 2, y: H - PB - h, width: bw, height: h, class: 'bar',
+      });
       bars[i] = b;
       g.append(b);
     }
-    if (r.q.endsWith('Q1')) {
-      const t = svg('text', { x: i * step, y: H - 9, class: 'tlabel' });
-      t.textContent = r.q.slice(0, 4);
+    const yr = +r.q.slice(0, 4);
+    if (r.q.endsWith('Q1') && (!narrow || yr % 2 === 0)) {
+      const t = svg('text', { x: i * step, y: H - 8, class: 'tlabel' });
+      t.textContent = narrow ? `'${String(yr).slice(2)}` : String(yr);
       g.append(t);
       g.append(svg('line', { x1: i * step, x2: i * step, y1: H - PB, y2: H - PB + 4, class: 'axis' }));
     }
@@ -168,7 +183,7 @@ function quarters(s) {
     });
     hit.addEventListener('pointerleave', () => {
       host.classList.remove('dim');
-      g.querySelectorAll('.bar.on').forEach(b => b.classList.remove('on'));
+      bars[i]?.classList.remove('on');
       hideTip();
     });
     g.append(hit);

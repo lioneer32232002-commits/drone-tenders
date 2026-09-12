@@ -38,6 +38,11 @@ function start(d) {
 
   renderRows(vendors);
   renderGraph(vendors);
+  let t = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(() => renderGraph(vendors), 160);
+  });
 }
 
 /* ---------- 排行 ---------- */
@@ -122,11 +127,13 @@ function renderGraph(vendors) {
     return;
   }
 
-  const W = 1000;
+  // viewBox 對齊實際像素寬，字級才不會被縮掉
+  const W = Math.max(600, Math.round(host.clientWidth || 1000));
   const rows = Math.max(L.length, R.length);
   const H = Math.max(400, rows * 36);
   const GAP = 10;
-  const X1 = 330, X2 = 670, NW = 7;
+  const NW = 7;
+  const X1 = Math.round(W * 0.30), X2 = Math.round(W * 0.70);
 
   const place = (list) => {
     const total = sum(list, x => x[1]) || 1;
