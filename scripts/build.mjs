@@ -329,6 +329,13 @@ const VENDOR_ALIAS = new Map([
   ['中山科學研究院', '國家中山科學研究院'],
   ['國防部軍備局中山科學研究院', '國家中山科學研究院'],
 ]);
+/** 名稱含這些片段的一律視為同一法人（中科院各所、打錯字的變體）。 */
+const VENDOR_CANON = [[/中山科(學|山)/, '國家中山科學研究院']];
+function canonVendor(name) {
+  if (VENDOR_ALIAS.has(name)) return VENDOR_ALIAS.get(name);
+  for (const [re, canon] of VENDOR_CANON) if (re.test(name)) return canon;
+  return name;
+}
 
 /** 廠商名稱正規化：去掉括號內含英文的部分、全形空白、統一空白。不動法定名稱本體。 */
 function normalizeVendorName(raw) {
@@ -340,7 +347,7 @@ function normalizeVendorName(raw) {
   // 中文名稱不該有空白，全部拿掉，讓同一家公司的不同寫法可以合併
   if (/[一-鿿]/.test(s)) s = s.replace(/\s+/g, '');
   s = s.replace(/[，,、]$/, '').trim();
-  return VENDOR_ALIAS.get(s) || s;
+  return canonVendor(s);
 }
 
 /** 合併用的 key：統一台/臺、去標點。顯示仍用 normalizeVendorName 的結果。 */
@@ -777,7 +784,7 @@ function reclassify(t) {
   t.agency_group = classifyAgencyGroup(t.agency_id, t.agency);
   t.domain = classifyDomain(t.title);
   t.drone_in_title = DRONE_IN_TITLE.test(t.title);
-  for (const w of t.winners || []) if (VENDOR_ALIAS.has(w.name)) w.name = VENDOR_ALIAS.get(w.name);
+  for (const w of t.winners || []) w.name = canonVendor(w.name);
   t.works = t.procurement_type === '工程';
   t.fms = (t.winners || []).some((w) => FMS_VENDOR.test(w.name)) || FMS_TEXT.test(t.title);
   return t;
@@ -878,7 +885,8 @@ function buildSummary(all, notes) {
   const edges = new Map();
   for (const t of awarded) {
     for (const w of t.winners) {
-      const key = w.id || vendorKey(w.name);
+      // 中科院等有多個統編的法人以正規化名稱合併，其餘以廠商代碼優先
+      const key = canonVendor(w.name) !== w.name || VENDOR_CANON.some(([re]) => re.test(w.name)) ? vendorKey(w.name) : (w.id || vendorKey(w.name));
       if (!vendors.has(key)) vendors.set(key, { name: w.name, id: w.id, count: 0, amount: 0, sme: w.sme, agencies: new Map() });
       const v = vendors.get(key);
       v.count++;

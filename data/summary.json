@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-12T20:31:03.452Z",
+ "generated_at": "2026-09-12T20:35:03.492Z",
  "scope": "domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。下面 totals / by_quarter / by_year / by_category / by_agency_group / top_agencies / top_vendors / by_origin / by_origin_year / vendor_agency_edges 全部只算 domestic；對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。",
  "tracks": {
   "domestic": {
@@ -873,10 +873,10 @@
  ],
  "top_vendors": [
   {
-   "vendor": "國家中山科學院",
+   "vendor": "國家中山科學研究院",
    "id": "45002910",
-   "count": 23,
-   "amount": 5774496000,
+   "count": 37,
+   "amount": 7079472000,
    "sme": false,
    "top_agencies": [
     {
@@ -884,12 +884,12 @@
      "count": 9
     },
     {
-     "agency": "交通部民用航空局臺北國際航空站",
-     "count": 2
+     "agency": "國防部海軍司令部",
+     "count": 6
     },
     {
-     "agency": "國防部空軍司令部",
-     "count": 2
+     "agency": "國防部陸軍司令部",
+     "count": 5
     }
    ]
   },
@@ -995,27 +995,6 @@
    ]
   },
   {
-   "vendor": "國家中山科學研究院",
-   "id": "95838204",
-   "count": 7,
-   "amount": 795384000,
-   "sme": true,
-   "top_agencies": [
-    {
-     "agency": "國防部海軍司令部",
-     "count": 5
-    },
-    {
-     "agency": "行政院農業委員會林務局農林航空測量所",
-     "count": 1
-    },
-    {
-     "agency": "國防部陸軍司令部",
-     "count": 1
-    }
-   ]
-  },
-  {
    "vendor": "財團法人金屬工業研究發展中心",
    "id": "83300307",
    "count": 16,
@@ -1071,19 +1050,6 @@
     {
      "agency": "國防部",
      "count": 1
-    }
-   ]
-  },
-  {
-   "vendor": "國家中山科學研究院",
-   "id": "305101000C",
-   "count": 3,
-   "amount": 405892000,
-   "sme": false,
-   "top_agencies": [
-    {
-     "agency": "國防部陸軍司令部",
-     "count": 3
     }
    ]
   },
@@ -1243,11 +1209,41 @@
      "count": 7
     }
    ]
+  },
+  {
+   "vendor": "浩汎國際股份有限公司",
+   "id": "28585356",
+   "count": 4,
+   "amount": 76140000,
+   "sme": true,
+   "top_agencies": [
+    {
+     "agency": "屏東縣政府",
+     "count": 3
+    },
+    {
+     "agency": "澎湖縣政府",
+     "count": 1
+    }
+   ]
+  },
+  {
+   "vendor": "遠傳電信股份有限公司系統整合分公司",
+   "id": "53010695",
+   "count": 1,
+   "amount": 75000000,
+   "sme": false,
+   "top_agencies": [
+    {
+     "agency": "海洋委員會海巡署教育訓練測考中心",
+     "count": 1
+    }
+   ]
   }
  ],
  "vendor_agency_edges": [
   {
-   "vendor": "國家中山科學院",
+   "vendor": "國家中山科學研究院",
    "agency": "國防部空軍司令部",
    "count": 2,
    "amount": 3685476000
@@ -1283,34 +1279,34 @@
    "amount": 987810000
   },
   {
-   "vendor": "國家中山科學院",
+   "vendor": "國家中山科學研究院",
+   "agency": "國防部海軍司令部",
+   "count": 6,
+   "amount": 657610000
+  },
+  {
+   "vendor": "國家中山科學研究院",
    "agency": "國防部資通電軍指揮部",
    "count": 1,
    "amount": 657284000
   },
   {
    "vendor": "國家中山科學研究院",
-   "agency": "國防部海軍司令部",
+   "agency": "國防部陸軍司令部",
    "count": 5,
-   "amount": 557610000
+   "amount": 652816000
   },
   {
-   "vendor": "國家中山科學院",
+   "vendor": "國家中山科學研究院",
    "agency": "交通部民用航空局臺北國際航空站",
    "count": 2,
    "amount": 538651000
   },
   {
-   "vendor": "國家中山科學院",
+   "vendor": "國家中山科學研究院",
    "agency": "海洋委員會海巡署東南沙分署",
    "count": 1,
    "amount": 472000000
-  },
-  {
-   "vendor": "國家中山科學研究院",
-   "agency": "國防部陸軍司令部",
-   "count": 3,
-   "amount": 405892000
   },
   {
    "vendor": "長榮航太科技股份有限公司",
@@ -1337,12 +1333,6 @@
    "amount": 253800000
   },
   {
-   "vendor": "國家中山科學研究院",
-   "agency": "國防部陸軍司令部",
-   "count": 1,
-   "amount": 236924000
-  },
-  {
    "vendor": "仲碩科技股份有限公司",
    "agency": "海洋委員會海巡署",
    "count": 1,
@@ -1361,7 +1351,7 @@
    "amount": 203950000
   },
   {
-   "vendor": "國家中山科學院",
+   "vendor": "國家中山科學研究院",
    "agency": "桃園國際機場股份有限公司",
    "count": 1,
    "amount": 195000000
@@ -1379,7 +1369,7 @@
    "amount": 159784000
   },
   {
-   "vendor": "國家中山科學院",
+   "vendor": "國家中山科學研究院",
    "agency": "海洋委員會海巡署艦隊分署",
    "count": 1,
    "amount": 142200000
@@ -1395,12 +1385,6 @@
    "agency": "行政院農業委員會林務局農林航空測量所",
    "count": 11,
    "amount": 113563000
-  },
-  {
-   "vendor": "國家中山科學研究院",
-   "agency": "國防部海軍司令部",
-   "count": 1,
-   "amount": 100000000
   },
   {
    "vendor": "創思達科技股份有限公司",
@@ -1427,7 +1411,7 @@
    "amount": 65637000
   },
   {
-   "vendor": "國家中山科學院",
+   "vendor": "國家中山科學研究院",
    "agency": "經濟部水利署",
    "count": 9,
    "amount": 64900000
@@ -1835,12 +1819,6 @@
    "amount": 10073250
   },
   {
-   "vendor": "國家中山科學院",
-   "agency": "國防部陸軍司令部",
-   "count": 1,
-   "amount": 10000000
-  },
-  {
    "vendor": "臺灣希望創新股份有限公司",
    "agency": "嘉義縣政府",
    "count": 1,
@@ -2105,7 +2083,7 @@
    "amount": 6970215
   },
   {
-   "vendor": "國家中山科學院",
+   "vendor": "國家中山科學研究院",
    "agency": "交通部",
    "count": 2,
    "amount": 6900000
@@ -3389,7 +3367,7 @@
    "amount": 2000000
   },
   {
-   "vendor": "中山科學院資訊通信所",
+   "vendor": "國家中山科學研究院",
    "agency": "交通部中央氣象局(一)",
    "count": 1,
    "amount": 2000000
@@ -3645,6 +3623,24 @@
    "agency": "經濟部礦務局",
    "count": 1,
    "amount": 1630000
+  },
+  {
+   "vendor": "國立臺北科技大學",
+   "agency": "國立暨南國際大學",
+   "count": 1,
+   "amount": 1620000
+  },
+  {
+   "vendor": "逢甲大學",
+   "agency": "國防部軍備局中山科學研究院",
+   "count": 2,
+   "amount": 1619200
+  },
+  {
+   "vendor": "新樂飛無人機股份有限公司",
+   "agency": "苗栗縣政府",
+   "count": 1,
+   "amount": 1600000
   }
  ],
  "by_origin": [
