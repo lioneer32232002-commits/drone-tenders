@@ -141,7 +141,7 @@ const ORIGIN_BUCKETS = ['臺灣', '美國', '中國', '日本'];
 // ---------------------------------------------------------------------------
 
 const API = 'https://pcc-api.openfun.app';
-const USER_AGENT = 'skyfaring-drone-tenders/1.0 (+https://tenders.skyfaring.net)';
+const USER_AGENT = process.env.PCC_UA || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36 skyfaring-drone-tenders/1.0 (+https://tenders.skyfaring.net)';
 
 // 實測（2026-09）：上游 Cloudflare 限流約 30 req/min，突發上限 10。
 // 間隔 2000 ms 可穩定不觸發 429；觸發時拉長間隔並冷卻。
