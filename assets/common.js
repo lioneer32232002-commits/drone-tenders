@@ -9,7 +9,17 @@ export const STATUS = {
   pre: '前置作業',
 };
 
-export const ORIGIN_ORDER = ['台灣', '美國', '中國', '日本', '其他'];
+// 原產地排序：優先國別照這個順序，其餘依名稱排，「其他」永遠最後
+export const ORIGIN_PREF = ['臺灣', '台灣', '美國', '中國', '中國大陸', '日本'];
+
+export function originOrder(countries) {
+  const list = [...new Set(countries)];
+  const known = ORIGIN_PREF.filter(c => list.includes(c));
+  const rest = list
+    .filter(c => !ORIGIN_PREF.includes(c) && c !== '其他')
+    .sort((a, b) => a.localeCompare(b, 'zh-Hant'));
+  return [...known, ...rest, ...(list.includes('其他') ? ['其他'] : [])];
+}
 
 export const DOMAIN = { air: '空中', sea: '水上水下', ground: '地面' };
 

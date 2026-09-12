@@ -1,6 +1,6 @@
 import {
   loadJSON, failInto, initChrome, stampFooter, fmtAmount, amountParts, fmtInt,
-  fmtPct, fmtDate, el, $, clear, sum, showTip, hideTip, ORIGIN_ORDER,
+  fmtPct, fmtDate, el, $, clear, sum, showTip, hideTip, originOrder,
 } from './common.js';
 
 initChrome('index');
@@ -18,24 +18,34 @@ loadJSON('data/summary.json').then(render).catch(err => failInto($('#lede'), err
 function render(s) {
   stampFooter(s.generated_at);
 
-  const y = s.totals?.year || { count: 0, awarded_amount: 0, open_count: 0 };
-  const all = s.totals?.all || { count: 0, awarded_amount: 0, open_count: 0 };
-  const awardedThisYear = s.by_year?.find(r => r.y === String(new Date().getFullYear()))?.awarded_count;
+  const T = s.totals || {};
+  const year = T.this_year || T.year || {};
+  const all = T.all || T;
 
-  // ---- 開場一句 ----
-  const n = awardedThisYear ?? y.count;
-  const money = amountParts(y.awarded_amount) || { value: '0', unit: '' };
+  const yearCount = year.awarded_count ?? year.count ?? 0;
+  const yearAmount = year.awarded_amount ?? 0;
+  const openCount = all.open_count ?? 0;
+  const allCount = all.count ?? 0;
+  const allAmount = all.awarded_amount ?? 0;
+
+  const money = amountParts(yearAmount) || { value: '0', unit: '' };
   $('#lede').innerHTML =
-    `今年到目前為止，台灣政府決標了 <b>${fmtInt(n)}</b> 件無人機採購，` +
+    `今年到目前為止，台灣政府決標了 <b>${fmtInt(yearCount)}</b> 件無人機採購，` +
     `共 <b>${money.value}${money.unit ? ' ' + money.unit : ''}</b>元。`;
 
   $('#hero-meta').innerHTML =
     `資料更新 <time data-updated>—</time><span class="sep">·</span>` +
-    `招標中 ${fmtInt(all.open_count)} 件<span class="sep">·</span>` +
-    `收錄 ${fmtInt(all.count)} 件`;
+    `招標中 ${fmtInt(openCount)} 件<span class="sep">·</span>` +
+    `收錄 ${fmtInt(allCount)} 件`;
   stampFooter(s.generated_at);
 
-  fillTotals(s, y, all, n);
+  const ya = amountParts(yearAmount) || { value: '0', unit: '' };
+  const aa = amountParts(allAmount) || { value: '0', unit: '' };
+  num($('#t-year-count'), fmtInt(yearCount), '件');
+  num($('#t-year-amount'), ya.value, ya.unit);
+  num($('#t-open'), fmtInt(openCount), '件');
+  num($('#t-all-amount'), aa.value, aa.unit);
+
   origin(s);
   quarters(s);
   sources(s);
@@ -49,21 +59,23 @@ function num(node, v, unit) {
   if (unit) node.append(el('span', { class: 'u', text: unit }));
 }
 
-function fillTotals(s, y, all, n) {
-  const ya = amountParts(y.awarded_amount) || { value: '0', unit: '' };
-  const aa = amountParts(all.awarded_amount) || { value: '0', unit: '' };
-  num($('#t-year-count'), fmtInt(n), '件');
-  num($('#t-year-amount'), ya.value, ya.unit);
-  num($('#t-open'), fmtInt(all.open_count), '件');
-  num($('#t-all-amount'), aa.value, aa.unit);
-}
-
 /* ---------- 01 哪裡製造 ---------- */
 
+// 每個國別在主條與逐年小圖用同一個顏色
+const colorOf = (order, c) => (c === '其他' ? 'c6' : `c${(order.indexOf(c) % 5) + 1}`);
+
 function origin(s) {
-  const rows = (s.by_origin || []).slice().sort(
-    (a, b) => ORIGIN_ORDER.indexOf(a.country) - ORIGIN_ORDER.indexOf(b.country)
-  );
+  const rows = (s.by_origin || []).filter(r => r.amount > 0);
+  const years = (s.by_origin_year || []).map(r => ({
+    year: String(r.year ?? r.y),
+    map: Array.isArray(r.origins)
+      ? new Map(r.origins.map(o => [o.country, o.amount]))
+      : new Map(Object.entries(r).filter(([k, v]) => k !== 'y' && k !== 'year' && typeof v === 'number')),
+  })).filter(r => sum([...r.map.values()]) > 0);
+
+  const names = [...new Set([...rows.map(r => r.country), ...years.flatMap(r => [...r.map.keys()])])];
+  const order = originOrder(names);
+
   const total = sum(rows, r => r.amount);
   const bar = clear($('#origin-bar'));
   const leg = clear($('#origin-legend'));
@@ -73,47 +85,46 @@ function origin(s) {
     leg.append(el('li', { class: 'v', text: '目前沒有可歸戶的原產地金額。' }));
   }
 
-  rows.forEach((r, i) => {
-    if (r.amount > 0) {
-      bar.append(el('span', {
-        class: `c${i + 1}`,
-        style: `width:${(r.amount / total) * 100}%`,
-        title: `${r.country} ${fmtAmount(r.amount)}`,
-      }));
-    }
+  const sorted = order.filter(c => rows.some(r => r.country === c));
+  for (const c of sorted) {
+    const amount = rows.find(r => r.country === c).amount;
+    bar.append(el('span', {
+      class: colorOf(order, c),
+      style: `width:${(amount / total) * 100}%`,
+      title: `${c} ${fmtAmount(amount)}`,
+    }));
     leg.append(el('li', null, [
-      el('span', { class: `sw c${i + 1}` }),
-      el('span', { class: 'k', text: r.country }),
-      el('span', { class: 'v', text: `${fmtAmount(r.amount)}　${fmtPct(r.amount, total)}` }),
+      el('span', { class: `sw ${colorOf(order, c)}` }),
+      el('span', { class: 'k', text: c }),
+      el('span', { class: 'v', text: `${fmtAmount(amount)}　${fmtPct(amount, total)}` }),
     ]));
-  });
+  }
 
   bar.setAttribute('aria-label',
-    '原產地金額占比：' + rows.map(r => `${r.country} ${fmtPct(r.amount, total)}`).join('、'));
+    '原產地金額占比：' + sorted.map(c => `${c} ${fmtPct(rows.find(r => r.country === c).amount, total)}`).join('、'));
 
-  // 逐年變化
-  const years = (s.by_origin_year || []).filter(r => ORIGIN_ORDER.some(c => r[c] > 0));
   const wrap = clear($('#origin-years'));
-  if (!years.length) { $('#origin-years-note')?.remove(); wrap.remove(); return; }
+  if (years.length < 2) { $('#origin-years-note')?.remove(); wrap.remove(); return; }
 
   for (const r of years) {
-    const t = sum(ORIGIN_ORDER, c => r[c]);
+    const t = sum([...r.map.values()]);
     const col = el('span', { class: 'col-bar' });
-    ORIGIN_ORDER.forEach((c, i) => {
-      if (!r[c]) return;
+    for (const c of order) {
+      const v = r.map.get(c) || 0;
+      if (!v) continue;
       col.append(el('span', {
-        class: `c${i + 1}`,
-        style: `height:${(r[c] / t) * 100}%`,
-        title: `${r.y} ${c} ${fmtAmount(r[c])}`,
+        class: colorOf(order, c),
+        style: `height:${(v / t) * 100}%`,
+        title: `${r.year} ${c} ${fmtAmount(v)}`,
       }));
-    });
+    }
     wrap.append(el('div', {
       class: 'yr',
       role: 'listitem',
-      'aria-label': `${r.y} 年，` + ORIGIN_ORDER.filter(c => r[c]).map(c => `${c} ${fmtPct(r[c], t)}`).join('、'),
+      'aria-label': `${r.year} 年，` + order.filter(c => r.map.get(c)).map(c => `${c} ${fmtPct(r.map.get(c), t)}`).join('、'),
     }, [
       col,
-      el('span', { class: 'yl', text: r.y }),
+      el('span', { class: 'yl', text: r.year }),
       el('span', { class: 'yv', text: fmtAmount(t) }),
     ]));
   }
@@ -124,7 +135,25 @@ function origin(s) {
 let qRows = null;
 
 function quarters(s) {
-  qRows = (s.by_quarter || []).filter(r => r.q >= '2016Q1');
+  const given = (s.by_quarter || []).map(r => ({
+    q: r.q || r.quarter,
+    awarded_count: r.awarded_count || 0,
+    awarded_amount: r.awarded_amount || 0,
+  })).filter(r => r.q).sort((a, b) => (a.q < b.q ? -1 : 1));
+
+  // 補上沒有資料的季，時間軸才是真的等距
+  qRows = [];
+  if (given.length) {
+    const at = new Map(given.map(r => [r.q, r]));
+    const [y0, q0] = [+given[0].q.slice(0, 4), +given[0].q.slice(5)];
+    const [y1, q1] = [+given.at(-1).q.slice(0, 4), +given.at(-1).q.slice(5)];
+    for (let i = y0 * 4 + (q0 - 1); i <= y1 * 4 + (q1 - 1); i++) {
+      const key = `${Math.floor(i / 4)}Q${(i % 4) + 1}`;
+      qRows.push(at.get(key) || { q: key, awarded_count: 0, awarded_amount: 0 });
+    }
+    const note = $('#quarter-note');
+    if (note) note.textContent = `一根是一季，${y0} 年起。`;
+  }
   drawQuarters();
   let t = 0;
   window.addEventListener('resize', () => {
@@ -145,9 +174,9 @@ function drawQuarters() {
   const PB = 24, PT = 12;
   const max = Math.max(...rows.map(r => r.awarded_amount), 1);
   const step = W / rows.length;
-  const bw = Math.max(2, step * 0.62);
+  const bw = Math.max(2, Math.min(46, step * 0.62));
   const g = svg('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img' });
-  g.setAttribute('aria-label', `2016 年起每季決標金額長條圖，最高 ${fmtAmount(max)}。`);
+  g.setAttribute('aria-label', `每季決標金額長條圖，最高 ${fmtAmount(max)}。`);
 
   for (const f of [0.5, 1]) {
     const yy = PT + (H - PB - PT) * (1 - f);
@@ -158,6 +187,7 @@ function drawQuarters() {
   }
   g.append(svg('line', { x1: 0, x2: W, y1: H - PB, y2: H - PB, class: 'axis' }));
 
+  const manyYears = new Set(rows.map(r => r.q.slice(0, 4))).size > 8;
   const bars = [];
   rows.forEach((r, i) => {
     const h = (r.awarded_amount / max) * (H - PB - PT);
@@ -169,9 +199,10 @@ function drawQuarters() {
       g.append(b);
     }
     const yr = +r.q.slice(0, 4);
-    if (r.q.endsWith('Q1') && (!narrow || yr % 2 === 0)) {
+    const tick = rows.length <= 8 || r.q.endsWith('Q1');
+    if (tick && (!narrow || !manyYears || yr % 2 === 0)) {
       const t = svg('text', { x: i * step, y: H - 8, class: 'tlabel' });
-      t.textContent = narrow ? `'${String(yr).slice(2)}` : String(yr);
+      t.textContent = narrow && manyYears ? `'${String(yr).slice(2)}` : (rows.length <= 8 ? r.q : String(yr));
       g.append(t);
       g.append(svg('line', { x1: i * step, x2: i * step, y1: H - PB, y2: H - PB + 4, class: 'axis' }));
     }
@@ -195,7 +226,10 @@ function drawQuarters() {
 /* ---------- 03 錢從哪裡來 ---------- */
 
 function sources(s) {
-  const rows = (s.by_agency_group || []).filter(r => r.amount > 0).sort((a, b) => b.amount - a.amount);
+  const rows = (s.by_agency_group || [])
+    .map(r => ({ name: r.agency_group ?? r.name, count: r.count, amount: r.amount || 0 }))
+    .filter(r => r.amount > 0)
+    .sort((a, b) => b.amount - a.amount);
   const total = sum(rows, r => r.amount);
   const bar = clear($('#group-bar'));
   const leg = clear($('#group-legend'));
@@ -218,7 +252,9 @@ function sources(s) {
 /* ---------- 04 錢到哪裡去 ---------- */
 
 function vendors(s) {
-  const rows = (s.top_vendors || []).slice(0, 10);
+  const rows = (s.top_vendors || [])
+    .map(r => ({ name: r.vendor ?? r.name, count: r.count, amount: r.amount || 0 }))
+    .slice(0, 10);
   const host = clear($('#vendor-bars'));
   if (!rows.length) { host.append(el('p', { class: 'empty', text: '沒有得標廠商資料。' })); return; }
   const max = Math.max(...rows.map(r => r.amount), 1);
