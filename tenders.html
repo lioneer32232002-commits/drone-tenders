@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>無人機標案總表｜政府採購招標決標查詢、預算與得標廠商</title>
+<meta name="description" content="台灣政府無人機採購標案總表，可依年份、狀態、類別、機關群組與關鍵字篩選，展開可看公告時間軸、投標家數、原產地與採購網原始連結。">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://tenders.skyfaring.net/tenders.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="無人機標案觀測站">
+<meta property="og:title" content="無人機標案總表｜政府採購招標決標查詢、預算與得標廠商">
+<meta property="og:description" content="台灣政府無人機採購標案總表，可依年份、狀態、類別、機關群組與關鍵字篩選。">
+<meta property="og:url" content="https://tenders.skyfaring.net/tenders.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script type="module" src="assets/tenders.js"></script>
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="https://skyfaring.net">Skyfaring</a>
+  <span class="site-name">無人機標案觀測站</span>
+  <nav class="nav" aria-label="主選單">
+    <a data-p="index" href="index.html">總覽</a>
+    <a data-p="tenders" href="tenders.html">標案</a>
+    <a data-p="vendors" href="vendors.html">廠商</a>
+    <a data-p="agencies" href="agencies.html">機關</a>
+    <a data-p="about" href="about.html">方法</a>
+  </nav>
+</header>
+
+<main class="col">
+
+  <section class="hero" aria-labelledby="h1">
+    <h1 class="page-title" id="h1">全部標案</h1>
+    <p class="note">點標案名稱可展開公告時間軸、投標家數與原產地。篩選條件會寫進網址，可以直接分享。</p>
+
+    <div class="filters" role="group" aria-label="篩選">
+      <div class="field">
+        <label for="f-year">年份</label>
+        <select id="f-year"><option value="">全部</option></select>
+      </div>
+      <div class="field">
+        <label for="f-status">狀態</label>
+        <select id="f-status"><option value="">全部</option></select>
+      </div>
+      <div class="field">
+        <label for="f-category">類別</label>
+        <select id="f-category"><option value="">全部</option></select>
+      </div>
+      <div class="field">
+        <label for="f-group">機關群組</label>
+        <select id="f-group"><option value="">全部</option></select>
+      </div>
+      <div class="field">
+        <label for="f-domain">領域</label>
+        <select id="f-domain">
+          <option value="air">空中</option>
+          <option value="sea">水上水下</option>
+          <option value="ground">地面</option>
+          <option value="">全部</option>
+        </select>
+      </div>
+      <div class="field field-wide">
+        <label for="f-q">搜尋</label>
+        <input id="f-q" type="search" placeholder="標案、機關或廠商">
+      </div>
+      <button type="button" class="linkish" id="f-reset">清除</button>
+    </div>
+
+    <p class="result-line" id="result">載入中…</p>
+  </section>
+
+  <section class="tight" aria-label="標案列表">
+    <div class="table-wrap" id="tbody-host">
+      <table id="table">
+        <thead>
+          <tr>
+            <th scope="col" class="t-date">日期</th>
+            <th scope="col" class="t-agency">機關</th>
+            <th scope="col" class="t-title">標案名稱</th>
+            <th scope="col" class="t-num">預算</th>
+            <th scope="col" class="t-num">決標金額</th>
+            <th scope="col" class="t-vendor">得標廠商</th>
+            <th scope="col" class="t-status">狀態</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <p class="empty" id="empty" hidden>沒有符合條件的標案。</p>
+      <p class="more-wrap"><button type="button" class="linkish" id="more-btn" hidden></button></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <p>資料來源：政府電子採購網，經 <a href="https://pcc-api.openfun.app/" rel="noopener">g0v 標案 API</a> 取得。每週一自動更新，最後更新 <time data-updated>—</time>。</p>
+  <p class="fr">Adam Pan<span class="sep"> · </span><a href="https://github.com/lioneer32232002-commits/drone-tenders" rel="noopener">GitHub</a></p>
+</footer>
+
+</body>
+</html>

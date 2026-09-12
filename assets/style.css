@@ -148,6 +148,7 @@ ul, ol { padding: 0; list-style: none; }
 .col > section { padding-block: 52px; }
 .col > section + section { border-top: 1px solid var(--rule); }
 .col > section.hero { padding-top: 26px; }
+.col > section.tight { padding-top: 30px; border-top: 0; }
 
 .sec-h {
   display: flex;
@@ -189,6 +190,14 @@ h3 {
 }
 
 .lede b { font-weight: 700; }
+
+.page-title {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(26px, 4.4vw, 38px);
+  line-height: 1.4;
+}
 
 .meta { margin: 18px 0 0; font-size: 16px; color: var(--muted); }
 .meta .sep { padding: 0 9px; color: var(--rule); }
@@ -455,12 +464,15 @@ figure.photo figcaption a { text-underline-offset: 3px; }
 }
 
 .result-line .n { color: var(--fg); }
+.result-line .sep { color: var(--rule); }
+
+.more-wrap { margin-top: 22px; }
 
 /* ---------- 表格 ---------- */
 
 .table-wrap { margin-top: 18px; }
 
-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+table { width: 100%; border-collapse: collapse; font-size: 16px; table-layout: fixed; }
 
 thead th {
   padding: 0 10px 8px 0;
@@ -483,12 +495,12 @@ tbody td {
 tbody tr:nth-child(4n + 3) td { background: var(--paper); }
 tbody td:last-child, thead th:last-child { padding-right: 0; }
 
-.t-date { width: 8.5em; font-family: var(--mono); font-size: 15px; color: var(--muted); white-space: nowrap; }
-.t-agency { width: 20%; }
+.t-date { width: 6.6em; font-family: var(--mono); font-size: 15px; color: var(--muted); white-space: nowrap; }
+.t-agency { width: 15%; }
 .t-title { width: auto; }
-.t-num { width: 7.5em; text-align: right; white-space: nowrap; }
-.t-vendor { width: 18%; color: var(--muted); }
-.t-status { width: 5.5em; white-space: nowrap; color: var(--muted); }
+.t-num { width: 5.8em; text-align: right; white-space: nowrap; }
+.t-vendor { width: 14%; color: var(--muted); }
+.t-status { width: 4.2em; white-space: nowrap; color: var(--muted); }
 
 th.t-num { text-align: right; }
 
@@ -575,17 +587,48 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
 }
 
 .mini-list .d { font-family: var(--mono); font-size: 14px; color: var(--muted); }
+.mini-list .k { min-width: 0; overflow-wrap: anywhere; }
+.mini-list .k .ag { color: var(--muted); font-size: 15px; }
 .mini-list .v { text-align: right; font-size: 15px; color: var(--muted); }
+.mini-list.two li { grid-template-columns: minmax(0, 1fr) auto; }
 
 /* ---------- 關係圖 ---------- */
 
 .graph { width: 100%; margin-top: 8px; }
-.graph svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
-.link { stroke: var(--rule); fill: none; }
+.graph svg { display: block; width: 100%; height: auto; overflow: visible; touch-action: pan-y; }
+
+.ribbon {
+  fill: var(--accent);
+  fill-opacity: 0.22;
+  stroke: none;
+  transition: fill-opacity 150ms ease;
+}
+
+.graph svg.dim .ribbon { fill-opacity: 0.07; }
+.ribbon.on { fill-opacity: 0.5; }
+
 .node-v { fill: var(--accent); }
 .node-a { fill: var(--c2); }
-.node-label { fill: var(--muted); font-size: 11px; }
-.node-label.on { fill: var(--fg); }
+
+.node-label {
+  fill: var(--muted);
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+.graph-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 26px;
+  margin-top: 18px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.graph-key li { display: flex; align-items: baseline; gap: 8px; }
+.graph-key .sw { flex: none; width: 18px; height: 7px; transform: translateY(-2px); }
+.sw-v { background: var(--accent); }
+.sw-a { background: var(--c2); }
 
 /* ---------- 提示 ---------- */
 
@@ -608,6 +651,11 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
 /* ---------- 內文（about） ---------- */
 
 .prose { max-width: 40em; font-size: 17px; }
+.prose code, .deflist code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  color: var(--muted);
+}
 .prose p + p { margin-top: 18px; }
 .prose a { text-underline-offset: 4px; }
 

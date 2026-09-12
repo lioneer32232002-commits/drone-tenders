@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>無人機得標廠商排行｜政府採購金額、件數與主要客戶機關</title>
+<meta name="description" content="台灣政府無人機採購的得標廠商排行：得標金額、件數、是否中小企業、主要客戶機關，以及廠商與機關之間的金額關係圖。">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://tenders.skyfaring.net/vendors.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="無人機標案觀測站">
+<meta property="og:title" content="無人機得標廠商排行｜政府採購金額、件數與主要客戶機關">
+<meta property="og:description" content="台灣政府無人機採購的得標廠商排行，以及廠商與機關之間的金額關係。">
+<meta property="og:url" content="https://tenders.skyfaring.net/vendors.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script type="module" src="assets/vendors.js"></script>
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="https://skyfaring.net">Skyfaring</a>
+  <span class="site-name">無人機標案觀測站</span>
+  <nav class="nav" aria-label="主選單">
+    <a data-p="index" href="index.html">總覽</a>
+    <a data-p="tenders" href="tenders.html">標案</a>
+    <a data-p="vendors" href="vendors.html">廠商</a>
+    <a data-p="agencies" href="agencies.html">機關</a>
+    <a data-p="about" href="about.html">方法</a>
+  </nav>
+</header>
+
+<main class="col">
+
+  <section class="hero" aria-labelledby="h1">
+    <h1 class="page-title" id="h1">得標廠商</h1>
+    <p class="note">依得標金額排序，點廠商名稱可展開它的所有得標案。</p>
+    <p class="result-line" id="result">載入中…</p>
+  </section>
+
+  <section class="tight" aria-labelledby="h-rank">
+    <h2 class="sec-h" id="h-rank"><span class="sec-n">01</span><span>排行</span></h2>
+    <ul class="rows" id="rows"><li class="loading">載入中…</li></ul>
+  </section>
+
+  <section aria-labelledby="h-graph">
+    <h2 class="sec-h" id="h-graph"><span class="sec-n">02</span><span>誰賣給誰</span></h2>
+    <p class="note">帶狀寬度是得標金額，左邊是廠商、右邊是出錢的機關。</p>
+    <div class="graph" id="graph"></div>
+    <ul class="graph-key">
+      <li><span class="sw sw-v"></span>廠商</li>
+      <li><span class="sw sw-a"></span>機關</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <p>資料來源：政府電子採購網，經 <a href="https://pcc-api.openfun.app/" rel="noopener">g0v 標案 API</a> 取得。每週一自動更新，最後更新 <time data-updated>—</time>。</p>
+  <p class="fr">Adam Pan<span class="sep"> · </span><a href="https://github.com/lioneer32232002-commits/drone-tenders" rel="noopener">GitHub</a></p>
+</footer>
+
+</body>
+</html>

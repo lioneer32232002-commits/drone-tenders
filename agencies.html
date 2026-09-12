@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>無人機採購機關排行｜國防部、警察局、消防局、農業部標案</title>
+<meta name="description" content="哪些機關在買無人機：依國防、中央部會、地方政府、國營事業、學校分區排行，列出決標金額、件數與主要供應商，點機關可展開它的所有標案。">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://tenders.skyfaring.net/agencies.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="無人機標案觀測站">
+<meta property="og:title" content="無人機採購機關排行｜國防部、警察局、消防局、農業部標案">
+<meta property="og:description" content="哪些機關在買無人機：依群組分區的決標金額與件數排行。">
+<meta property="og:url" content="https://tenders.skyfaring.net/agencies.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script type="module" src="assets/agencies.js"></script>
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="https://skyfaring.net">Skyfaring</a>
+  <span class="site-name">無人機標案觀測站</span>
+  <nav class="nav" aria-label="主選單">
+    <a data-p="index" href="index.html">總覽</a>
+    <a data-p="tenders" href="tenders.html">標案</a>
+    <a data-p="vendors" href="vendors.html">廠商</a>
+    <a data-p="agencies" href="agencies.html">機關</a>
+    <a data-p="about" href="about.html">方法</a>
+  </nav>
+</header>
+
+<main class="col">
+
+  <section class="hero" aria-labelledby="h1">
+    <h1 class="page-title" id="h1">採購機關</h1>
+    <p class="note">依機關群組分區，區內用決標金額排序。點機關名稱可展開它的所有標案。</p>
+    <p class="result-line" id="result">載入中…</p>
+  </section>
+
+  <section class="tight" aria-label="機關排行">
+    <div id="groups"><p class="loading">載入中…</p></div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <p>資料來源：政府電子採購網，經 <a href="https://pcc-api.openfun.app/" rel="noopener">g0v 標案 API</a> 取得。每週一自動更新，最後更新 <time data-updated>—</time>。</p>
+  <p class="fr">Adam Pan<span class="sep"> · </span><a href="https://github.com/lioneer32232002-commits/drone-tenders" rel="noopener">GitHub</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>無人機標案資料方法｜來源、關鍵字、欄位定義與已知限制</title>
+<meta name="description" content="無人機標案觀測站的資料怎麼來的：政府電子採購網經 g0v 標案 API，14 組標題關鍵字去重，欄位定義、領域判斷規則與已知限制都寫在這裡。">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://tenders.skyfaring.net/about.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="無人機標案觀測站">
+<meta property="og:title" content="無人機標案資料方法｜來源、關鍵字、欄位定義與已知限制">
+<meta property="og:description" content="資料怎麼來的、欄位怎麼定義、哪些案子會漏掉。">
+<meta property="og:url" content="https://tenders.skyfaring.net/about.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script type="module" src="assets/about.js"></script>
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="https://skyfaring.net">Skyfaring</a>
+  <span class="site-name">無人機標案觀測站</span>
+  <nav class="nav" aria-label="主選單">
+    <a data-p="index" href="index.html">總覽</a>
+    <a data-p="tenders" href="tenders.html">標案</a>
+    <a data-p="vendors" href="vendors.html">廠商</a>
+    <a data-p="agencies" href="agencies.html">機關</a>
+    <a data-p="about" href="about.html">方法</a>
+  </nav>
+</header>
+
+<main class="col">
+
+  <section class="hero" aria-labelledby="h1">
+    <h1 class="page-title" id="h1">方法</h1>
+    <p class="prose">台灣有通用的標案搜尋，但沒有一個地方把無人機的錢流攤開來看。這個站把政府電子採購網裡跟無人機有關的標案整理成可查、可比較的資料，每週自動更新一次。</p>
+  </section>
+
+  <section aria-labelledby="h-source">
+    <h2 class="sec-h" id="h-source"><span class="sec-n">01</span><span>資料來源與授權</span></h2>
+    <p class="prose">資料來自<a href="https://web.pcc.gov.tw/" rel="noopener">政府電子採購網</a>，透過 g0v 社群維護的 <a href="https://pcc-api.openfun.app/" rel="noopener">標案 API</a> 取得，收錄自 2000 年起。政府採購網的著作權聲明允許非營利、研究與評論用途引用並註明出處，本站每頁頁尾都註明了來源。原始公告以採購網為準，本站只做整理。</p>
+  </section>
+
+  <section aria-labelledby="h-kw">
+    <h2 class="sec-h" id="h-kw"><span class="sec-n">02</span><span>關鍵字</span></h2>
+    <p class="note">用這 14 組字搜標案標題，再以機關代碼加標案案號去重。</p>
+    <ul class="kwlist">
+      <li>無人機</li><li>無人飛行載具</li><li>無人載具</li><li>UAV</li><li>UAS</li>
+      <li>空拍機</li><li>多旋翼</li><li>遙控飛行</li><li>無人飛機</li><li>無人直升機</li>
+      <li>反無人機</li><li>無人機反制</li><li>定翼機</li><li>垂直起降</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-fields">
+    <h2 class="sec-h" id="h-fields"><span class="sec-n">03</span><span>欄位怎麼算</span></h2>
+    <dl class="deflist">
+      <div>
+        <dt>狀態</dt>
+        <dd>有決標公告算「已決標」；只有無法決標公告算「無法決標」；有招標公告、截止日已過又沒決標算「已截止」；還在招標算「招標中」；只有公開徵求或公開閱覽算「前置作業」。同一標案有多次公告，以最新一筆為準。</dd>
+      </div>
+      <div>
+        <dt>金額</dt>
+        <dd>公告上的「3,200,000 元」轉成整數；沒有或寫「不公開」就留空，不推估。共同供應契約通常沒有總額，一律留空。</dd>
+      </div>
+      <div>
+        <dt>領域</dt>
+        <dd>「無人載具」會撈到船艇與車輛。標題含船、艇、水下、水面、潛、車、地面而不含機、飛的歸為水上水下或地面，其餘歸空中。網站預設只顯示空中，篩選器可切換。</dd>
+      </div>
+      <div>
+        <dt>得標廠商</dt>
+        <dd>取投標廠商清單中標示「是否得標＝是」的廠商，金額用該廠商的決標金額，廠商名稱去掉括號內的英文名。</dd>
+      </div>
+      <div>
+        <dt>原產地</dt>
+        <dd>取決標品項的原產地國別與對應得標金額，多個品項同國別會加總。這一欄由機關自行填報，沒填就不計入原產地統計。</dd>
+      </div>
+      <div>
+        <dt>類別與機關群組</dt>
+        <dd>類別依標題與機關名判斷，順序為國防、反制、警政、消防救災、農林漁業、測繪巡檢、教育研究、環境監測、其他。機關群組依機關代碼首段與名稱歸成國防、中央部會、地方政府、國營事業、學校、其他。</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="h-limits">
+    <h2 class="sec-h" id="h-limits"><span class="sec-n">04</span><span>已知限制</span></h2>
+    <ul class="limits">
+      <li>用標題關鍵字搜尋，標題沒寫「無人機」之類字眼的案子會漏掉，例如夾在大型系統採購裡的無人機部分。</li>
+      <li>共同供應契約沒有總額，這些件數會出現在列表裡但不進金額統計。</li>
+      <li>原產地由機關自行填報，填寫率不高，占比只能當趨勢看，不能當精確數字。<span id="data-notes"></span></li>
+      <li>更正公告會改寫先前的內容，本站以最新一筆公告為準，不保留歷史版本。</li>
+      <li>類別與領域是用規則判斷的，邊界案例會有誤判。</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-update">
+    <h2 class="sec-h" id="h-update"><span class="sec-n">05</span><span>更新與程式碼</span></h2>
+    <p class="prose">每週一台灣時間早上九點由 GitHub Actions 重新抓取，資料有變動才會更新。抓取程式與整份資料都放在 <a href="https://github.com/lioneer32232002-commits/drone-tenders" rel="noopener">GitHub</a> 上，<code>data/tenders.json</code> 與 <code>data/summary.json</code> 可以直接取用。最後更新：<time data-updated>—</time>。</p>
+  </section>
+
+  <section aria-labelledby="h-contact">
+    <h2 class="sec-h" id="h-contact"><span class="sec-n">06</span><span>聯絡</span></h2>
+    <p class="prose">作者 Adam Pan。發現錯誤或想要別的切法，寫信到 <a href="mailto:wizard32232002@gmail.com">wizard32232002@gmail.com</a>。</p>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <p>資料來源：政府電子採購網，經 <a href="https://pcc-api.openfun.app/" rel="noopener">g0v 標案 API</a> 取得。每週一自動更新，最後更新 <time data-updated>—</time>。</p>
+  <p class="fr">Adam Pan<span class="sep"> · </span><a href="https://github.com/lioneer32232002-commits/drone-tenders" rel="noopener">GitHub</a></p>
+</footer>
+
+</body>
+</html>
