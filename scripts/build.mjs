@@ -115,6 +115,14 @@ const FOREIGN_CURRENCY = /美元|美金|USD|日圓|日元|JPY|歐元|EUR|英鎊|
 /** 代辦採購的機關（實際買家在「履約執行機關」）。 */
 const PROCUREMENT_AGENTS = /臺灣銀行股份有限公司|台灣銀行股份有限公司/;
 
+/**
+ * 標題是否真的提到無人機。有些機關重複使用標案案號（同一個 unit_id+job_number
+ * 底下混進完全無關的公告），也有「定翼機」這種關鍵字會撈到有人駕駛的飛機隊維修案。
+ * 這個 regex 用來（a）在同一案有多個標案名稱時挑出正確的那一組公告，
+ * （b）標記 drone_in_title，summary.json 只統計 true 的案子。
+ */
+const DRONE_IN_TITLE = /無人|UAV|UAS|空拍|遙控|drone|多旋翼|旋翼機|飛行載具|航空器系統|垂直起降/i;
+
 /** 原產地國別正規化（summary 的 by_origin 分桶）。 */
 const ORIGIN_BUCKETS = ['臺灣', '美國', '中國', '日本'];
 
@@ -583,11 +591,32 @@ function classifyDomain(title) {
 
 const maxDate = (arr) => arr.reduce((m, d) => (d && (!m || d > m) ? d : m), null);
 
-function buildTender(unitId, jobNumber, unitNameHint, records) {
-  const parsed = records
+function buildTender(unitId, jobNumber, unitNameHint, records, keywords = []) {
+  let trimmedOtherCase = false;
+  let parsed = records
     .map(parseRecord)
     .filter((r) => r.type)
     .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));
+  if (!parsed.length) return null;
+
+  // 同一個 unit_id + job_number 底下可能混進不同標案（機關重複用案號）。
+  // 依標案名稱分組，只留下標題真的命中搜尋關鍵字的那些組。
+  const norm = (t) => String(t || '').replace(/\s|　/g, '');
+  const groups = new Map();
+  for (const r of parsed) {
+    const k = norm(r.title);
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(r);
+  }
+  if (groups.size > 1) {
+    const hit = [...groups.entries()].filter(([t]) =>
+      keywords.some((kw) => t.toUpperCase().includes(kw.toUpperCase())));
+    if (hit.length && hit.length < groups.size) {
+      trimmedOtherCase = true;
+      parsed = hit.flatMap(([, rs]) => rs)
+        .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));
+    }
+  }
   if (!parsed.length) return null;
 
   const latest = parsed[parsed.length - 1];
@@ -689,6 +718,8 @@ function buildTender(unitId, jobNumber, unitNameHint, records) {
     sensitive: parsed.some((r) => r.sensitive),
     framework: parsed.some((r) => r.framework),
     plural_award: parsed.some((r) => r.plural),
+    drone_in_title: DRONE_IN_TITLE.test(title),
+    job_number_reused: trimmedOtherCase || undefined,
     fail_reason: status === 'failed' ? lastOf((r) => r.failReason) : null,
     exec_agency: agentCase ? null : (execAgency && execAgency !== announcingAgency ? execAgency : null),
     announcing_agency: agentCase ? announcingAgency : null,
@@ -715,7 +746,7 @@ function quarterOf(iso) {
 
 function buildSummary(all, notes) {
   // 首頁預設只看空中載具，summary 以 domain=air 為準（全領域數字另列於 totals.all_domains）
-  const tenders = all.filter((t) => t.domain === 'air');
+  const tenders = all.filter((t) => t.domain === 'air' && t.drone_in_title);
   const today = todayISO();
   const year = today.slice(0, 4);
   const quarter = quarterOf(today);
@@ -882,7 +913,7 @@ function buildSummary(all, notes) {
 
   return {
     generated_at: new Date().toISOString(),
-    scope: 'domain=air（首頁預設；全領域數字見 totals.all_domains）',
+    scope: 'domain=air 且 drone_in_title=true（首頁預設；全領域數字見 totals.all_domains）',
     totals,
     by_quarter,
     by_year,
@@ -998,9 +1029,11 @@ async function main() {
 
   // --- 3. 解析 ---
   const tenders = [];
+  let reusedJobNumbers = 0;
   for (const { c, json } of results) {
     if (!json || !Array.isArray(json.records) || json.records.length === 0) continue;
-    const t = buildTender(c.unit_id, c.job_number, json.unit_name || c.unit_name, json.records);
+    const t = buildTender(c.unit_id, c.job_number, json.unit_name || c.unit_name, json.records, [...c.keywords]);
+    if (t && t.job_number_reused) { reusedJobNumbers++; delete t.job_number_reused; }
     if (t) {
       t.keywords = [...c.keywords];
       tenders.push(t);
@@ -1029,6 +1062,10 @@ async function main() {
         (b, w) => b + (w.origins || []).reduce((c, o) => c + (o.amount || 0), 0), 0), 0);
       return awardedSum ? Number(((originSum / awardedSum) * 100).toFixed(1)) : 0;
     })(),
+    no_drone_token_in_title: tenders.filter((t) => !t.drone_in_title).length,
+    no_drone_token_awarded_amount: tenders.filter((t) => !t.drone_in_title && t.status === 'awarded')
+      .reduce((a, t) => a + (t.award_amount || 0), 0),
+    reused_job_number_cases: reusedJobNumbers,
     framework_count: tenders.filter((t) => t.framework).length,
     framework_without_amount: frameworkNoAmount.length,
     amount_undisclosed_fields: amountFlags.undisclosed,
@@ -1043,7 +1080,9 @@ async function main() {
       '原產地國別由機關自填，未填者不計入 by_origin；且機關常只填國產部分，原產地金額合計會小於決標金額（覆蓋率見 origin_amount_coverage_pct），by_origin 只能看占比趨勢，不能當總額。',
       '更正公告以最新一筆為準；歷史版本不保留。',
       '臺灣銀行等代辦採購案的 agency 已改用「履約執行機關」，原公告機關記在 announcing_agency。',
-      'summary.json 以 domain=air 計算（首頁預設），全領域數字見 totals.all_domains。',
+      'summary.json 以 domain=air 且 drone_in_title=true 計算（首頁預設），全領域數字見 totals.all_domains。',
+      '「定翼機」這個關鍵字會撈到有人駕駛的飛機（內政部空中勤務總隊 BEECH 機隊維修、金門空中醫療後送等），標題沒有無人機字樣者已標記 drone_in_title=false 並排除於 summary 之外，但仍保留在 tenders.json。',
+      '少數機關會重複使用標案案號，同一個 unit_id+job_number 底下混到無關公告；已依標案名稱分組，只留標題命中搜尋關鍵字的那一組。',
     ],
   };
 
