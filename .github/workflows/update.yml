@@ -2,9 +2,18 @@ name: update data
 
 on:
   schedule:
-    # 每週一 01:00 UTC（台灣時間 09:00）
+    # 每週一 01:00 UTC（台灣 09:00）：增量更新，只重抓有動靜的標案
     - cron: '0 1 * * 1'
+    # 每季第一天 02:30 UTC：完整重抓，把分類規則與歷史資料整批重算
+    # （不用「第一個週日」是因為 GitHub 的 cron 在同時給 day-of-month 與 day-of-week 時是 OR，會多跑很多次）
+    - cron: '30 2 1 1,4,7,10 *'
   workflow_dispatch:
+    inputs:
+      mode:
+        description: '抓取模式'
+        type: choice
+        options: [incremental, full]
+        default: incremental
 
 permissions:
   contents: write
@@ -16,8 +25,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # 上游 API 有速率限制（約 30 req/min），完整重抓約 2 小時，留足夠餘裕。
-    timeout-minutes: 330
+    # 上游 API 限流約 30 req/min：增量約數分鐘，完整重抓約 125 分鐘。
+    timeout-minutes: ${{ (github.event.schedule == '30 2 1 1,4,7,10 *' || inputs.mode == 'full') && 330 || 90 }}
 
     steps:
       - name: Checkout
@@ -28,8 +37,19 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Build data
-        run: node scripts/build.mjs
+      - name: Decide mode
+        id: mode
+        run: |
+          if [ "${{ github.event.schedule }}" = '30 2 1 1,4,7,10 *' ] || [ "${{ inputs.mode }}" = 'full' ]; then
+            echo "flag=--full" >> "$GITHUB_OUTPUT"
+            echo "label=full" >> "$GITHUB_OUTPUT"
+          else
+            echo "flag=" >> "$GITHUB_OUTPUT"
+            echo "label=incremental" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build data (${{ steps.mode.outputs.label }})
+        run: node scripts/build.mjs ${{ steps.mode.outputs.flag }}
 
       - name: Commit if changed
         run: |

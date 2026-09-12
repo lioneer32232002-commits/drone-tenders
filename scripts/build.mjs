@@ -6,7 +6,8 @@
  * 去重、解析、分類後產出 data/tenders.json 與 data/summary.json。
  *
  * 用法：
- *   node scripts/build.mjs                          完整抓取（約 2 小時，見 scripts/README.md）
+ *   node scripts/build.mjs                          增量更新（預設，數分鐘）
+ *   node scripts/build.mjs --full                    完整重抓（約 2 小時，見 scripts/README.md）
  *   node scripts/build.mjs --limit 2                 每個關鍵字只抓前 2 頁
  *   node scripts/build.mjs --keywords 無人機,UAV     只跑指定關鍵字
  *   node scripts/build.mjs --max-age-days 7          本機快取幾天內視為新鮮（預設 7）
@@ -38,10 +39,11 @@ const KEYWORDS = [
  * agency：比對機關名稱；title：比對標案名稱；custom：兩者都給。
  */
 const CATEGORY_RULES = [
+  // 海巡自成一類（含反制的海巡案也歸海巡，不再歸國防），所以排在國防前面
+  { category: '海巡', agency: /海巡/ },
   {
     category: '國防',
     agency: /國防部|軍司令部|防衛指揮部|作戰區|中山科學研究院|軍備局|國防大學|陸軍|海軍|空軍|憲兵|後備|聯合後勤|國軍|軍醫|政治作戰|兵工|飛彈|備役/,
-    custom: (title, agency) => /海巡|海洋委員會/.test(agency) && /反制|反無人機/.test(title),
   },
   {
     category: '反制',
@@ -111,6 +113,14 @@ const PRE_TYPES = /(公開徵求廠商提供參考資料|公開閱覽)/;
 
 /** 外幣關鍵字：金額欄位出現這些字就存 null，並在 data_notes 計數。 */
 const FOREIGN_CURRENCY = /美元|美金|USD|日圓|日元|JPY|歐元|EUR|英鎊|GBP|港幣|HKD|人民幣|RMB|CNY|新加坡幣|SGD|澳幣|AUD|加幣|CAD|瑞士法郎|CHF/i;
+
+/**
+ * 對美軍購（FMS）。這類案子單筆動輒上百億，會淹沒國內採購的趨勢，
+ * 所以標記 fms: true 並在 summary 裡獨立成一軌。
+ * A. I. T. = 美國在台協會，是軍售案在採購網上的「得標廠商」。
+ */
+const FMS_VENDOR = /^A\.?\s*I\.?\s*T\.?$|美國在台協會|American Institute in Taiwan/i;
+const FMS_TEXT = /軍售|外購案|FMS/i;
 
 /** 代辦採購的機關（實際買家在「履約執行機關」）。 */
 const PROCUREMENT_AGENTS = /臺灣銀行股份有限公司|台灣銀行股份有限公司/;
@@ -518,6 +528,12 @@ function parseRecord(record) {
   const failReason = FAIL_TYPES.test(type)
     ? pick(detail, ['無法決標公告:無法決標的理由']) : null;
 
+  // 軍售案常只在附加說明裡寫「軍售」「FMS」，標題看不出來
+  const notes = [
+    detail['決標資料:附加說明'], detail['其他:附加說明'],
+    detail['採購資料:附加說明'], detail['標案內容:附加說明'],
+  ].filter(Boolean).join(' ');
+
   return {
     type,
     date,
@@ -545,6 +561,7 @@ function parseRecord(record) {
     execAgencyId,
     winners,
     failReason,
+    notes,
   };
 }
 
@@ -719,6 +736,9 @@ function buildTender(unitId, jobNumber, unitNameHint, records, keywords = []) {
     framework: parsed.some((r) => r.framework),
     plural_award: parsed.some((r) => r.plural),
     drone_in_title: DRONE_IN_TITLE.test(title),
+    fms: winners.some((w) => FMS_VENDOR.test(w.name))
+      || FMS_TEXT.test(`${title} ${parsed.map((r) => r.notes || '').join(' ')}`),
+    works: lastOf((r) => r.subjectType) === '工程',
     job_number_reused: trimmedOtherCase || undefined,
     fail_reason: status === 'failed' ? lastOf((r) => r.failReason) : null,
     exec_agency: agentCase ? null : (execAgency && execAgency !== announcingAgency ? execAgency : null),
@@ -740,13 +760,31 @@ function quarterOf(iso) {
   return `${y}Q${Math.floor((m - 1) / 3) + 1}`;
 }
 
+/**
+ * 增量模式沿用舊 tenders.json 的案子時，重新套一次分類規則，
+ * 這樣改了頂部的規則表不必整批重抓也會生效。
+ */
+function reclassify(t) {
+  t.category = classifyCategory(t.title, t.agency || '');
+  t.agency_group = classifyAgencyGroup(t.agency_id, t.agency);
+  t.domain = classifyDomain(t.title);
+  t.drone_in_title = DRONE_IN_TITLE.test(t.title);
+  t.works = t.procurement_type === '工程';
+  t.fms = (t.winners || []).some((w) => FMS_VENDOR.test(w.name)) || FMS_TEXT.test(t.title);
+  return t;
+}
+
 // ---------------------------------------------------------------------------
 // summary.json
 // ---------------------------------------------------------------------------
 
 function buildSummary(all, notes) {
-  // 首頁預設只看空中載具，summary 以 domain=air 為準（全領域數字另列於 totals.all_domains）
-  const tenders = all.filter((t) => t.domain === 'air' && t.drone_in_title);
+  // 三軌：domestic（國內採購，首頁主體）／fms（對美軍購）／works（工程類）。
+  // 軍購單筆上百億、工程案是蓋園區不是買飛機，混在一起會把趨勢圖壓扁。
+  const air = all.filter((t) => t.domain === 'air' && t.drone_in_title);
+  const fmsList = air.filter((t) => t.fms);
+  const worksList = air.filter((t) => !t.fms && t.works);
+  const tenders = air.filter((t) => !t.fms && !t.works);
   const today = todayISO();
   const year = today.slice(0, 4);
   const quarter = quarterOf(today);
@@ -905,15 +943,64 @@ function buildSummary(all, notes) {
         title: t.title,
         agency: t.agency,
         domain: t.domain,
+        fms: !!t.fms,
+        works: !!t.works,
         amount: AWARD_TYPES.test(a.type) ? t.award_amount : t.budget,
       });
     }
   }
   recent.sort((a, b) => b.date.localeCompare(a.date));
 
+  // --- 對美軍購（獨立一軌） ---
+  const fmsAwarded = fmsList.filter((t) => t.status === 'awarded');
+  const fms = {
+    count: fmsList.length,
+    awarded_count: fmsAwarded.length,
+    amount: sum(fmsAwarded, (t) => t.award_amount),
+    items: fmsAwarded
+      .slice()
+      .sort((a, b) => (b.award_amount || 0) - (a.award_amount || 0))
+      .map((t) => ({
+        id: t.id,
+        title: t.title,
+        agency: t.agency,
+        award_date: t.award_date,
+        amount: t.award_amount,
+      })),
+  };
+
+  // --- 工程類（獨立一軌） ---
+  const worksAwarded = worksList.filter((t) => t.status === 'awarded');
+  const works = {
+    count: worksList.length,
+    awarded_count: worksAwarded.length,
+    amount: sum(worksAwarded, (t) => t.award_amount),
+    items: worksAwarded
+      .slice()
+      .sort((a, b) => (b.award_amount || 0) - (a.award_amount || 0))
+      .slice(0, 20)
+      .map((t) => ({
+        id: t.id,
+        title: t.title,
+        agency: t.agency,
+        award_date: t.award_date,
+        amount: t.award_amount,
+      })),
+  };
+
   return {
     generated_at: new Date().toISOString(),
-    scope: 'domain=air 且 drone_in_title=true（首頁預設；全領域數字見 totals.all_domains）',
+    scope: 'domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。'
+      + '下面 totals / by_quarter / by_year / by_category / by_agency_group / top_agencies /'
+      + ' top_vendors / by_origin / by_origin_year / vendor_agency_edges 全部只算 domestic；'
+      + '對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。',
+    tracks: {
+      domestic: { count: tenders.length, awarded_count: awarded.length, amount: sum(awarded, (t) => t.award_amount) },
+      fms: { count: fms.count, awarded_count: fms.awarded_count, amount: fms.amount },
+      works: { count: works.count, awarded_count: works.awarded_count, amount: works.amount },
+    },
+    fms,
+    works,
     totals,
     by_quarter,
     by_year,
@@ -935,7 +1022,7 @@ function buildSummary(all, notes) {
 // ---------------------------------------------------------------------------
 
 function parseArgs(argv) {
-  const out = { limit: null, keywords: KEYWORDS, useCache: true, maxAgeDays: 7 };
+  const out = { limit: null, keywords: KEYWORDS, useCache: true, maxAgeDays: 7, full: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--limit') out.limit = Number(argv[++i]);
@@ -945,6 +1032,7 @@ function parseArgs(argv) {
     else if (a === '--max-age-days') out.maxAgeDays = Number(argv[++i]);
     else if (a.startsWith('--max-age-days=')) out.maxAgeDays = Number(a.slice(15));
     else if (a === '--no-cache') out.useCache = false;
+    else if (a === '--full') out.full = true;
     else if (a === '--help' || a === '-h') { console.log(fs.readFileSync(new URL(import.meta.url), 'utf8').split('*/')[0]); process.exit(0); }
     else { console.error(`未知參數：${a}`); process.exit(2); }
   }
@@ -986,9 +1074,15 @@ async function main() {
         n++;
         const id = `${r.unit_id}/${r.job_number}`;
         if (!cases.has(id)) {
-          cases.set(id, { unit_id: r.unit_id, job_number: r.job_number, unit_name: r.unit_name, keywords: new Set() });
+          cases.set(id, {
+            unit_id: r.unit_id, job_number: r.job_number, unit_name: r.unit_name,
+            keywords: new Set(), latestDate: null,
+          });
         }
-        cases.get(id).keywords.add(kw);
+        const c = cases.get(id);
+        c.keywords.add(kw);
+        const rd = numericDate(r.date);
+        if (rd && (!c.latestDate || rd > c.latestDate)) c.latestDate = rd;
       }
     }
     keywordHits[kw] = { announcements: n, total_records: page1.total_records, pages_fetched: pages, total_pages: totalPages };
@@ -1000,9 +1094,41 @@ async function main() {
     process.exit(1);
   }
 
-  // --- 2. 逐案抓全部公告 ---
-  const list = [...cases.values()];
-  log(`開始抓 ${list.length} 個標案的完整公告…`);
+  // --- 2. 決定要抓哪些案（增量） ---
+  const allCases = [...cases.values()];
+  const existing = new Map();
+  if (!opts.full) {
+    try {
+      const prev = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'tenders.json'), 'utf8'));
+      for (const t of prev.tenders || []) existing.set(t.id, t);
+    } catch { /* 沒有舊檔就等於完整抓取 */ }
+  }
+  const mode = existing.size ? 'incremental' : 'full';
+  // 18 個月內還在跑的案子每次都重抓（可能有新的決標或更正公告）
+  const FRESH_CUTOFF = new Date(Date.now() - 548 * 86400000).toISOString().slice(0, 10);
+  const list = [];
+  const reusedCases = [];
+  for (const c of allCases) {
+    const id = `${c.unit_id}/${c.job_number}`;
+    const prev = existing.get(id);
+    if (!prev) { list.push(c); continue; }
+    if (c.latestDate && prev.last_notice_date && c.latestDate > prev.last_notice_date) { list.push(c); continue; }
+    if ((prev.last_notice_date || '') >= FRESH_CUTOFF
+      && prev.status !== 'awarded' && prev.status !== 'failed') { list.push(c); continue; }
+    reusedCases.push({ c, prev });
+  }
+  // 舊檔有、這次搜尋沒出現的案子（標案名稱被改過等），沿用不丟掉
+  let carriedOver = 0;
+  const carried = [];
+  for (const [id, prev] of existing) {
+    if (cases.has(id)) continue;
+    carriedOver++;
+    carried.push(prev);
+  }
+  log(mode === 'incremental'
+    ? `增量模式：既有 ${existing.size} 案，需重抓 ${list.length}，沿用 ${reusedCases.length}，搜尋未出現但保留 ${carriedOver}`
+    : `完整模式：${list.length} 案`);
+
   const failures = [];
   let done = 0;
   const results = await pool(list, async (c) => {
@@ -1020,7 +1146,7 @@ async function main() {
     return { c, json };
   });
 
-  const failureRate = failures.length / list.length;
+  const failureRate = list.length ? failures.length / list.length : 0;
   if (failureRate > 0.02) {
     console.error(`抓取失敗率 ${(failureRate * 100).toFixed(1)}%（${failures.length}/${list.length}），超過 2%，不寫檔。`);
     console.error(failures.slice(0, 10).map((f) => `${f.id}: ${f.error}`).join('\n'));
@@ -1039,6 +1165,14 @@ async function main() {
       tenders.push(t);
     }
   }
+  // 沿用舊資料的案子：重新套一次分類規則（規則表改了不必整批重抓）
+  for (const { c, prev } of reusedCases) {
+    const t = reclassify(prev);
+    t.keywords = [...c.keywords];
+    tenders.push(t);
+  }
+  for (const prev of carried) tenders.push(reclassify(prev));
+
   tenders.sort((a, b) => String(b.last_notice_date || '').localeCompare(String(a.last_notice_date || '')));
 
   // --- 4. data_notes ---
@@ -1047,6 +1181,10 @@ async function main() {
   const withOrigin = awarded.filter((t) => t.winners.some((w) => (w.origins || []).some((o) => o.amount)));
   const frameworkNoAmount = tenders.filter((t) => t.framework && t.award_amount === null);
   const notes = {
+    mode,
+    fetched_cases: list.length,
+    reused_cases: reusedCases.length,
+    carried_over_cases: carriedOver,
     keyword_hits: keywordHits,
     total_cases: tenders.length,
     domain_counts: tenders.reduce((m, t) => ((m[t.domain] = (m[t.domain] || 0) + 1), m), {}),
@@ -1062,6 +1200,11 @@ async function main() {
         (b, w) => b + (w.origins || []).reduce((c, o) => c + (o.amount || 0), 0), 0), 0);
       return awardedSum ? Number(((originSum / awardedSum) * 100).toFixed(1)) : 0;
     })(),
+    track_counts: {
+      domestic: tenders.filter((t) => t.domain === 'air' && t.drone_in_title && !t.fms && !t.works).length,
+      fms: tenders.filter((t) => t.domain === 'air' && t.drone_in_title && t.fms).length,
+      works: tenders.filter((t) => t.domain === 'air' && t.drone_in_title && !t.fms && t.works).length,
+    },
     no_drone_token_in_title: tenders.filter((t) => !t.drone_in_title).length,
     no_drone_token_awarded_amount: tenders.filter((t) => !t.drone_in_title && t.status === 'awarded')
       .reduce((a, t) => a + (t.award_amount || 0), 0),
@@ -1080,7 +1223,8 @@ async function main() {
       '原產地國別由機關自填，未填者不計入 by_origin；且機關常只填國產部分，原產地金額合計會小於決標金額（覆蓋率見 origin_amount_coverage_pct），by_origin 只能看占比趨勢，不能當總額。',
       '更正公告以最新一筆為準；歷史版本不保留。',
       '臺灣銀行等代辦採購案的 agency 已改用「履約執行機關」，原公告機關記在 announcing_agency。',
-      'summary.json 以 domain=air 且 drone_in_title=true 計算（首頁預設），全領域數字見 totals.all_domains。',
+      'summary.json 分三軌：domestic（國內採購，首頁主體）、fms（對美軍購，得標廠商 A. I. T. 或標題／附加說明含軍售）、works（工程類，如無人機產業園區新建工程）。totals 等所有彙總只算 domestic。',
+      '增量模式只重抓「新案」「搜尋顯示有更新公告」「最後公告在 18 個月內且尚未決標／無法決標」的案子，其餘沿用舊 tenders.json 並重新套分類規則；要完整重抓用 --full。',
       '「定翼機」這個關鍵字會撈到有人駕駛的飛機（內政部空中勤務總隊 BEECH 機隊維修、金門空中醫療後送等），標題沒有無人機字樣者已標記 drone_in_title=false 並排除於 summary 之外，但仍保留在 tenders.json。',
       '少數機關會重複使用標案案號，同一個 unit_id+job_number 底下混到無關公告；已依標案名稱分組，只留標題命中搜尋關鍵字的那一組。',
     ],

@@ -18,23 +18,26 @@ Repo：`lioneer32232002-commits/drone-tenders`（公開）
 （2026-09 實測筆數：無人機 3470、無人飛行載具 641、無人載具 526、UAV 467、空拍機 562、多旋翼 321）
 
 ### 領域旗標 `domain`
-`無人載具` 會撈到船艇車輛。用標題判斷：含「船、艇、水下、水面、潛、車、地面」且不含「機、飛」→ `sea`/`ground`；否則 `air`。網站預設只顯示 `air`，篩選器可切到全部。
+`無人載具` 會撈到船艇車輛。用標題判斷：含「船、艇、水下、水面、潛、車、地面」且不含「機、飛」→ `sea`/`ground`；否則 `air`。網站預設只顯示 `air`，篩選器可切到全部。實測 2,546 案中 sea 55 件（水下／水面無人載具），ground 0 件。
 
 ## 二、產出資料（由 `scripts/build.mjs` 產生，commit 進 repo）
 
-### `data/tenders.json`
+以下是**實際輸出的形狀**（2026-09 實跑校正過，前端依此對接）。
+
+### `data/tenders.json`（2026-09 實測 2.77 MB，2546 案）
 ```json
 {
-  "generated_at": "2026-09-14T01:00:00+08:00",
+  "generated_at": "2026-09-13T04:02:32.000+08:00",
   "source": "政府電子採購網（經 g0v 標案 API）",
   "keywords": ["無人機", "..."],
+  "count": 2546,
   "tenders": [
     {
       "id": "3.76.58.2/1150605",
       "title": "新竹市警察局115年度第1次遙控無人機採購案",
       "agency": "新竹市警察局",
       "agency_id": "3.76.58.2",
-      "agency_group": "地方警政",
+      "agency_group": "地方政府",
       "category": "警政",
       "domain": "air",
       "procurement_type": "財物",
@@ -45,7 +48,7 @@ Repo：`lioneer32232002-commits/drone-tenders`（公開）
       "budget": 3200000,
       "award_amount": 3200000,
       "award_date": "2026-08-17",
-      "first_notice_date": "2026-06-29",
+      "first_notice_date": "2026-06-10",
       "last_notice_date": "2026-09-02",
       "bidders_count": 1,
       "winners": [
@@ -53,38 +56,88 @@ Repo：`lioneer32232002-commits/drone-tenders`（公開）
          "origins": [{"country": "美國", "amount": 3200000}]}
       ],
       "national_security": true,
+      "sensitive": true,
       "framework": false,
+      "plural_award": false,
+      "drone_in_title": true,
+      "fms": false,
+      "works": false,
+      "fail_reason": null,
+      "exec_agency": null,
+      "announcing_agency": null,
       "pcc_url": "https://web.pcc.gov.tw/...",
-      "announcements": [{"date": "2026-06-29", "type": "公開招標公告"}, {"date": "2026-09-02", "type": "決標公告"}]
+      "announcements": [{"date": "2026-06-10", "type": "公開招標公告"}, {"date": "2026-09-02", "type": "決標公告"}],
+      "keywords": ["無人機"]
     }
   ]
 }
 ```
 
 欄位規則：
-- `status`：有「決標公告」→ `awarded`；只有「無法決標公告」→ `failed`；有招標公告但截止日已過且無決標 → `closed`；招標中 → `open`；只有「公開徵求廠商提供參考資料」「公開閱覽」→ `pre`。同一標案有多次公告以最新一筆決定。
-- 金額：字串「3,200,000元」→ 整數；沒有或「不公開」→ `null`。共同供應契約通常沒有總額，維持 `null`，不要估。
+- `status`：有「決標公告」「定期彙送」→ `awarded`；只有「無法決標公告」→ `failed`；有招標公告但截止日已過且無決標 → `closed`；招標中 → `open`；只有「公開徵求廠商提供參考資料」「公開閱覽」→ `pre`。同一標案多次公告以最新一筆決定（決標後又重新招標會回到 `open`）。
+- 金額：字串「3,200,000元」→ 整數；沒有、「不公開」、外幣 → `null`（外幣在 `data_notes` 計數）。共同供應契約通常沒有總額，維持 `null`，不要估。
 - 民國日期 `115/08/17` → `2026-08-17`。
-- `winners`：從 `投標廠商:投標廠商N:是否得標 = 是` 取；`決標金額` 為該廠商金額；`原產地國別` 從 `決標品項:第K品項:得標廠商M:原產地國別:原產地國別` 與對應「原產地國別得標金額」取，多品項要合併同國別加總。廠商名稱去掉括號內英文名。
-- `category`（依標題與機關名判斷，順序優先）：`國防`（國防部／軍備局／中科院／國軍／海巡署含「反制」）、`反制`（標題含反制、反無人機、防禦系統、偵測干擾）、`警政`（警察局、警政署、調查局）、`消防救災`（消防局、災防、搜救、防災）、`農林漁業`（農業部、林業、農糧、農改場、漁業、噴灑、農藥）、`測繪巡檢`（測量、測繪、航拍、巡檢、橋梁、電力、台電、水利、河川、國土）、`教育研究`（大學、學校、研究、教學、訓練、實習、考照）、`環境監測`（環保局、空污、水質）、`其他`。
-- `agency_group`：依機關代碼首段與名稱歸成 `國防`、`中央部會`、`地方政府`、`國營事業`、`學校`、`其他`。
+- `winners`：從 `投標廠商:投標廠商N:是否得標 = 是` 取；`決標金額` 為該廠商金額；`原產地國別` 從 `決標品項:第K品項:得標廠商M:原產地國別[N]:原產地國別` 與對應「原產地國別得標金額」取，多品項合併同國別加總。廠商名稱去掉括號內英文名。國別正規化成「臺灣」「美國」「中國」「日本」或原名。
+- `category`（依標題與機關名判斷，順序即優先序）：`海巡`（機關名含海巡，含反制的海巡案也歸這裡）、`國防`、`反制`、`警政`、`消防救災`、`農林漁業`、`測繪巡檢`、`教育研究`、`環境監測`、`其他`。
+- `agency_group`：`國防`、`中央部會`、`地方政府`、`國營事業`、`學校`、`其他`。機關代碼第二段 70–99 視為地方政府。
 - `bidders_count` 從 `投標廠商:投標廠商家數`。
+- `drone_in_title`：標題是否真的提到無人機。`定翼機` 這個關鍵字會撈到有人駕駛的飛機（空勤總隊 BEECH 機隊維修等，109 案），這類標為 `false`，`summary.json` 不計入但這裡保留。
+- `fms`：對美軍購。得標廠商為 A. I. T.（美國在台協會）或標題／附加說明含「軍售」「FMS」。4 案就占 503 億，必須跟國內採購分開看。
+- `works`：`procurement_type === "工程"`（民雄航太園區新建統包工程 46 億那種），不是買飛機。
+- `exec_agency` / `announcing_agency`：臺灣銀行等代辦採購案，`agency` 已改用「履約執行機關」（真正的買家），原公告機關記在 `announcing_agency`。
 
-### `data/summary.json`（前端首頁直接讀，避免載大檔）
-- `totals`：全部／今年／本季的 件數、決標總額、招標中件數
-- `by_quarter[]`：`{q: "2026Q3", awarded_count, awarded_amount, open_count}`（2016Q1 起）
-- `by_year[]`：同上（2010 起）
-- `by_category[]`、`by_agency_group[]`：件數與金額
-- `top_agencies[]`（前 20，件數與金額）、`top_vendors[]`（前 20，件數、金額、主要客戶機關前 3）
-- `by_origin[]`：得標金額依原產地國別加總（台灣、美國、中國、日本、其他），另附 `by_origin_year[]`
-- `recent[]`：最近 60 天的公告，每筆帶 id、date、type、title、agency、amount
-- `vendor_agency_edges[]`：`{vendor, agency, count, amount}` 供關係圖
-- `data_notes`：原產地資訊有多少比例的決標沒填、共同供應契約無金額件數
+### `data/summary.json`（前端首頁直接讀，約 120 KB）
+
+**分三軌**：`domestic`（國內採購，首頁主體）／`fms`（對美軍購）／`works`（工程類）。
+`totals`、`by_quarter`、`by_year`、`by_category`、`by_agency_group`、`top_agencies`、`top_vendors`、`by_origin`、`by_origin_year`、`vendor_agency_edges` **全部只算 domestic**。
+
+```json
+{
+  "generated_at": "...",
+  "scope": "domestic：domain=air 且 drone_in_title=true 且非 fms 非 works…",
+  "tracks": {
+    "domestic": {"count": 2331, "awarded_count": 1710, "amount": 22015038946},
+    "fms":      {"count": 4,    "awarded_count": 4,    "amount": 50300113597},
+    "works":    {"count": 47,   "awarded_count": 39,   "amount": 4863239703}
+  },
+  "fms": {"count": 4, "awarded_count": 4, "amount": 50300113597,
+          "items": [{"id": "3.5/TG15003M019", "title": "無人機", "agency": "國防部",
+                     "award_date": "2026-07-30", "amount": 26946368354}]},
+  "works": {"count": 47, "awarded_count": 39, "amount": 4863239703, "items": [{"id": "...", "title": "...", "agency": "...", "award_date": "...", "amount": 4602000000}]},
+
+  "totals": {
+    "count": 2331, "awarded_count": 1710, "awarded_amount": 22015038946, "open_count": 16,
+    "this_year":    {"year": "2026",   "count": 247, "awarded_count": 120, "awarded_amount": 3066742076, "open_count": 13},
+    "this_quarter": {"quarter": "2026Q3", "count": 88, "awarded_count": 30, "awarded_amount": 1234567, "open_count": 13},
+    "all_domains":  {"count": 2546, "awarded_count": 1855, "awarded_amount": 79748582629}
+  },
+  "by_quarter": [{"q": "2016Q1", "count": 5, "awarded_count": 3, "awarded_amount": 1234567, "open_count": 0}],
+  "by_year":    [{"year": 2026,  "count": 247, "awarded_count": 120, "awarded_amount": 3066742076, "open_count": 13}],
+  "by_category":     [{"category": "國防", "count": 361, "awarded_count": 280, "amount": 14200000000}],
+  "by_agency_group": [{"agency_group": "國防", "count": 400, "awarded_count": 300, "amount": 1234567}],
+  "top_agencies":    [{"agency": "國防部", "count": 60, "awarded_count": 50, "amount": 1234567}],
+  "top_vendors":     [{"vendor": "國家中山科學院", "id": "...", "count": 23, "amount": 5774000000, "sme": false,
+                       "top_agencies": [{"agency": "國防部", "count": 12}]}],
+  "vendor_agency_edges": [{"vendor": "...", "agency": "...", "count": 3, "amount": 1234567}],
+  "by_origin":      [{"country": "臺灣", "amount": 19953000000}],
+  "by_origin_year": [{"year": 2026, "origins": [{"country": "臺灣", "amount": 6418000000}]}],
+  "awarded_with_origin_count": 1624,
+  "recent": [{"id": "...", "date": "2026-09-11", "type": "公開招標公告", "title": "...", "agency": "...",
+              "domain": "air", "fms": false, "works": false, "amount": 30322942}],
+  "data_notes": {"mode": "incremental", "fetched_cases": 0, "reused_cases": 0, "track_counts": {}, "caveats": ["…"]}
+}
+```
+
+- `recent[]`：最近 60 天的公告，**三軌都包含**，每筆帶 `fms` / `works` 旗標讓前端自己決定要不要顯示。
+- `by_origin` 的國別是「臺灣」「美國」「中國」「日本」「其他」，`by_origin_year` 是 `{year, origins[]}` 巢狀。
+- `data_notes`：抓取模式與筆數、原產地未填比例與金額覆蓋率、共同供應契約無金額件數、`定翼機` 雜訊件數、案號重複件數、各軌件數、caveats 清單。
 
 ### 更新
-- `.github/workflows/update.yml`：每週一 01:00 UTC（台灣 09:00）+ `workflow_dispatch`，Node 22，跑 `node scripts/build.mjs`，資料有變才 commit（訊息 `data: weekly update YYYY-MM-DD`）並 push main → Cloudflare Pages 自動部署。
-- 抓取要有節制：並發 ≤ 4、每請求間隔 ≥ 150 ms、失敗重試 3 次退避。完整重抓一次應在 15 分鐘內。可用 `data/cache/`（gitignore）做本機快取，CI 上不依賴。
-- 若 API 掛掉，build 失敗即可，不要 commit 空資料。
+- `.github/workflows/update.yml`：**預設增量**，每週一 01:00 UTC（台灣 09:00）跑 `node scripts/build.mjs`；每季第一天 02:30 UTC 跑 `--full` 完整重抓；另有 `workflow_dispatch` 可手動選模式。資料有變才 commit（訊息 `data: weekly update YYYY-MM-DD`）並 push main → Cloudflare Pages 自動部署。
+- **上游有速率限制**：2026-09 實測 g0v API（Cloudflare）約 30 req/min、突發上限 10 筆，超過回 429。腳本用自適應節流（起始間隔 2000 ms、並發 4、遇 429 拉長間隔並冷卻 15 秒）、失敗重試 3 次退避。**完整重抓 2,532 個請求實測 125 分鐘**，原本寫的 15 分鐘在目前上游限制下做不到。
+- **增量策略**：只重跑 14 個關鍵字的搜尋頁（約 74 個請求），只有「新出現的標案」「搜尋結果顯示有比既有紀錄更新的公告日期」「最後公告在 18 個月內且 status 不是 awarded/failed」才打 `tender` 端點，其餘沿用舊 `tenders.json` 並重新套一次分類規則。
+- 可用 `data/cache/`（gitignore）做本機快取，CI 上不依賴。
+- 若 API 掛掉，build 失敗即可（任何關鍵字搜尋頁抓不到、或標案抓取失敗率 > 2% 就 `exit 1`），不要 commit 空資料。
 
 ## 三、網站（零建置靜態站，Cloudflare Pages build command 空白、輸出 `/`）
 
