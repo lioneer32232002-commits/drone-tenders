@@ -323,6 +323,13 @@ function parseAmount(value) {
   return Math.round(n);
 }
 
+/** 同一法人的舊名／別名 → 現名。中科院 2014 年行政法人化後改「院」。 */
+const VENDOR_ALIAS = new Map([
+  ['國家中山科學研究所', '國家中山科學研究院'],
+  ['中山科學研究院', '國家中山科學研究院'],
+  ['國防部軍備局中山科學研究院', '國家中山科學研究院'],
+]);
+
 /** 廠商名稱正規化：去掉括號內含英文的部分、全形空白、統一空白。不動法定名稱本體。 */
 function normalizeVendorName(raw) {
   let s = toHalfWidth(raw);
@@ -332,7 +339,8 @@ function normalizeVendorName(raw) {
   s = s.replace(/\s+/g, ' ').trim();
   // 中文名稱不該有空白，全部拿掉，讓同一家公司的不同寫法可以合併
   if (/[一-鿿]/.test(s)) s = s.replace(/\s+/g, '');
-  return s.replace(/[，,、]$/, '').trim();
+  s = s.replace(/[，,、]$/, '').trim();
+  return VENDOR_ALIAS.get(s) || s;
 }
 
 /** 合併用的 key：統一台/臺、去標點。顯示仍用 normalizeVendorName 的結果。 */
@@ -769,6 +777,7 @@ function reclassify(t) {
   t.agency_group = classifyAgencyGroup(t.agency_id, t.agency);
   t.domain = classifyDomain(t.title);
   t.drone_in_title = DRONE_IN_TITLE.test(t.title);
+  for (const w of t.winners || []) if (VENDOR_ALIAS.has(w.name)) w.name = VENDOR_ALIAS.get(w.name);
   t.works = t.procurement_type === '工程';
   t.fms = (t.winners || []).some((w) => FMS_VENDOR.test(w.name)) || FMS_TEXT.test(t.title);
   return t;

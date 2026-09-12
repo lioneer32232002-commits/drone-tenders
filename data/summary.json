@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-12T20:22:00.819Z",
+ "generated_at": "2026-09-12T20:31:03.452Z",
  "scope": "domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。下面 totals / by_quarter / by_year / by_category / by_agency_group / top_agencies / top_vendors / by_origin / by_origin_year / vendor_agency_edges 全部只算 domestic；對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。",
  "tracks": {
   "domestic": {
@@ -1075,7 +1075,7 @@
    ]
   },
   {
-   "vendor": "國防部軍備局中山科學研究院",
+   "vendor": "國家中山科學研究院",
    "id": "305101000C",
    "count": 3,
    "amount": 405892000,
@@ -1307,7 +1307,7 @@
    "amount": 472000000
   },
   {
-   "vendor": "國防部軍備局中山科學研究院",
+   "vendor": "國家中山科學研究院",
    "agency": "國防部陸軍司令部",
    "count": 3,
    "amount": 405892000
@@ -3995,15 +3995,15 @@
  "awarded_with_origin_count": 1644,
  "recent": [
   {
-   "id": "3.1.6/M115-009",
+   "id": "3.5.49/115EQ635030007001100",
    "date": "2026-09-11",
-   "type": "招標文件公開閱覽公告資料公告",
-   "title": "115至117年複雜地形偵搜無人機共同供應契約採購案",
-   "agency": "內政部消防署",
+   "type": "公開招標公告",
+   "title": "無人機區域刺絲網圍籬新設案",
+   "agency": "國防部空軍司令部",
    "domain": "air",
    "fms": false,
-   "works": false,
-   "amount": 361500000
+   "works": true,
+   "amount": 30322942
   },
   {
    "id": "3.79.4.93/C115061",
@@ -4028,15 +4028,15 @@
    "amount": 1144000
   },
   {
-   "id": "3.5.49/115EQ635030007001100",
+   "id": "3.1.6/M115-009",
    "date": "2026-09-11",
-   "type": "公開招標公告",
-   "title": "無人機區域刺絲網圍籬新設案",
-   "agency": "國防部空軍司令部",
+   "type": "招標文件公開閱覽公告資料公告",
+   "title": "115至117年複雜地形偵搜無人機共同供應契約採購案",
+   "agency": "內政部消防署",
    "domain": "air",
    "fms": false,
-   "works": true,
-   "amount": 30322942
+   "works": false,
+   "amount": 361500000
   },
   {
    "id": "A.47.1.3/CGS115-02",
@@ -5654,8 +5654,8 @@
    "sea": 55
   },
   "status_counts": {
-   "pre": 312,
    "open": 17,
+   "pre": 312,
    "awarded": 1855,
    "failed": 157,
    "closed": 205
