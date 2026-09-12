@@ -140,7 +140,8 @@ const ORIGIN_BUCKETS = ['臺灣', '美國', '中國', '日本'];
 // 抓取層：節流、退避、快取
 // ---------------------------------------------------------------------------
 
-const API = 'https://pcc-api.openfun.app';
+// PCC_BASE 可指向本站的 /pcc-proxy（functions/pcc-proxy/），GitHub Actions 直連上游會被 403。
+const API = (process.env.PCC_BASE || 'https://pcc-api.openfun.app').replace(/\/$/, '');
 const USER_AGENT = process.env.PCC_UA || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36 skyfaring-drone-tenders/1.0 (+https://tenders.skyfaring.net)';
 
 // 實測（2026-09）：上游 Cloudflare 限流約 30 req/min，突發上限 10。

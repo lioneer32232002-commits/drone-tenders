@@ -49,6 +49,8 @@ jobs:
           fi
 
       - name: Build data (${{ steps.mode.outputs.label }})
+        env:
+          PCC_BASE: https://tenders.skyfaring.net/pcc-proxy
         run: node scripts/build.mjs ${{ steps.mode.outputs.flag }}
 
       - name: Commit if changed
