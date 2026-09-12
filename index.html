@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>台灣無人機標案觀測站｜政府無人機採購決標金額、得標廠商、原產地</title>
+<meta name="description" content="台灣政府無人機採購標案的錢流：每季決標金額、機關群組占比、得標廠商排行，以及最重要的一張圖——無人機到底哪裡製造。資料取自政府電子採購網，每週更新。">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://tenders.skyfaring.net/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="無人機標案觀測站">
+<meta property="og:title" content="台灣無人機標案觀測站｜政府無人機採購決標金額、得標廠商、原產地">
+<meta property="og:description" content="台灣政府無人機採購標案的錢流：每季決標金額、機關群組占比、得標廠商排行，以及無人機原產地逐年變化。">
+<meta property="og:url" content="https://tenders.skyfaring.net/">
+<meta property="og:image" content="https://tenders.skyfaring.net/assets/img/tengyun-hsinchu-2015.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script type="module" src="assets/index.js"></script>
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="https://skyfaring.net">Skyfaring</a>
+  <span class="site-name">無人機標案觀測站</span>
+  <nav class="nav" aria-label="主選單">
+    <a data-p="index" href="index.html">總覽</a>
+    <a data-p="tenders" href="tenders.html">標案</a>
+    <a data-p="vendors" href="vendors.html">廠商</a>
+    <a data-p="agencies" href="agencies.html">機關</a>
+    <a data-p="about" href="about.html">方法</a>
+  </nav>
+</header>
+
+<main class="col">
+
+  <section class="hero" aria-labelledby="lede">
+    <h1 class="serif lede" id="lede">載入中…</h1>
+    <p class="meta" id="hero-meta"></p>
+
+    <dl class="totals">
+      <div class="total">
+        <dt>今年決標</dt>
+        <dd class="num" id="t-year-count">—</dd>
+      </div>
+      <div class="total">
+        <dt>今年金額</dt>
+        <dd class="num" id="t-year-amount">—</dd>
+      </div>
+      <div class="total">
+        <dt>招標中</dt>
+        <dd class="num" id="t-open">—</dd>
+      </div>
+      <div class="total">
+        <dt>歷年金額</dt>
+        <dd class="num" id="t-all-amount">—</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="h-origin">
+    <h2 class="sec-h" id="h-origin"><span class="sec-n">01</span><span>哪裡製造</span></h2>
+    <p class="note">決標金額依機關填報的原產地國別歸戶，沒填的不計入。</p>
+    <div class="sbar sbar-big" id="origin-bar" role="img"></div>
+    <ul class="legend" id="origin-legend"></ul>
+    <p class="note" id="origin-years-note" style="margin:34px 0 0">逐年的比例變化。</p>
+    <div class="years" id="origin-years" role="list"></div>
+  </section>
+
+  <section aria-labelledby="h-quarter">
+    <h2 class="sec-h" id="h-quarter"><span class="sec-n">02</span><span>每季決標金額</span></h2>
+    <p class="note">一根是一季，2016 年起。</p>
+    <div class="chart" id="quarter-chart"></div>
+  </section>
+
+  <section aria-labelledby="h-group">
+    <h2 class="sec-h" id="h-group"><span class="sec-n">03</span><span>錢從哪裡來</span></h2>
+    <p class="note">決標金額依出錢的機關群組拆開。</p>
+    <div class="sbar" id="group-bar" role="img"></div>
+    <ul class="legend" id="group-legend"></ul>
+  </section>
+
+  <section aria-labelledby="h-vendor">
+    <h2 class="sec-h" id="h-vendor"><span class="sec-n">04</span><span>錢到哪裡去</span></h2>
+    <p class="note">得標金額前十名的廠商。</p>
+    <div class="hbars" id="vendor-bars"></div>
+    <p class="more"><a href="vendors.html">看全部廠商與客戶關係</a></p>
+  </section>
+
+  <section aria-labelledby="h-recent">
+    <h2 class="sec-h" id="h-recent"><span class="sec-n">05</span><span>最近</span></h2>
+    <p class="note">最近 60 天的公告。</p>
+    <ul class="recent" id="recent-list"></ul>
+    <p class="more"><a href="tenders.html">看全部標案</a></p>
+  </section>
+
+  <section aria-labelledby="h-photo">
+    <h2 class="sec-h" id="h-photo"><span class="sec-n">06</span><span>標的物</span></h2>
+    <figure class="photo">
+      <img src="assets/img/tengyun-hsinchu-2015.jpg" width="1600" height="900" loading="lazy" decoding="async"
+           alt="停機坪上靜態展示的中科院騰雲大型無人機，機身標示 NCSIST ASRD。">
+      <figcaption>
+        中科院騰雲無人機，2015 年空軍新竹基地營區開放。<br>
+        攝影：玄史生，CC0，<a href="https://commons.wikimedia.org/wiki/File:NCSIST_ASRD_MALE_UAV_Display_at_Hsinchu_Air_Force_Base_20151121a.jpg" rel="noopener">Wikimedia Commons</a>
+      </figcaption>
+    </figure>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <p>資料來源：政府電子採購網，經 <a href="https://pcc-api.openfun.app/" rel="noopener">g0v 標案 API</a> 取得。每週一自動更新，最後更新 <time data-updated>—</time>。</p>
+  <p class="fr">Adam Pan<span class="sep"> · </span><a href="https://github.com/lioneer32232002-commits/drone-tenders" rel="noopener">GitHub</a></p>
+</footer>
+
+</body>
+</html>

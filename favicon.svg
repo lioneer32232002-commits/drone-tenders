@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    :root { color-scheme: light dark; }
+    .ink { stroke: #1a1a18; }
+    .fill { fill: #1a1a18; }
+    @media (prefers-color-scheme: dark) {
+      .ink { stroke: #e9e6e0; }
+      .fill { fill: #e9e6e0; }
+    }
+  </style>
+  <g class="ink" fill="none" stroke-width="1.6" stroke-linecap="round">
+    <path d="M9 9 L23 23 M23 9 L9 23"/>
+    <rect x="13" y="13" width="6" height="6"/>
+    <circle cx="8" cy="8" r="3.4"/>
+    <circle cx="24" cy="8" r="3.4"/>
+    <circle cx="8" cy="24" r="3.4"/>
+    <circle cx="24" cy="24" r="3.4"/>
+  </g>
+</svg>
