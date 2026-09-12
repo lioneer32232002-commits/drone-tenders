@@ -1,0 +1,7 @@
+# scripts/build.mjs — 資料管線
+
+**怎麼跑。** `node scripts/build.mjs`（Node 22+，零依賴，只用內建 `fetch`）會依 `KEYWORDS` 逐一呼叫 g0v 標案 API 的標題搜尋，以 `unit_id + job_number` 去重後逐案抓完整公告，解析成 `data/tenders.json` 與 `data/summary.json`。開發時用 `--limit 2 --keywords 無人機` 只抓兩頁快速驗證；`--max-age-days N` 控制本機快取 `data/cache/`（已 gitignore，CI 不依賴）幾天內視為新鮮，`--no-cache` 完全略過快取。**上游有速率限制**（2026-09 實測：Cloudflare 約 30 req/min、突發上限 10 筆，超過回 429），腳本內建自適應節流（起始間隔 2000 ms、並發 4、遇 429 就拉長間隔並冷卻 15 秒），所以完整重抓約 3300 個請求、**實際需要約 2 小時**，SPEC 裡寫的 15 分鐘在目前的上游限制下做不到；GitHub Actions 的 timeout 已設 330 分鐘。任何關鍵字的搜尋頁抓不到、或標案抓取失敗率超過 2%，腳本會 `exit 1` 且不寫檔。
+
+**怎麼改規則。** 所有分類規則都集中在檔案頂端的常數，改那裡就好，不必動下面的流程：`KEYWORDS`（搜尋關鍵字）、`CATEGORY_RULES`（`category`，陣列由上往下第一個命中者勝出，順序即優先序，每條可用 `agency` / `title` / `custom` 三種比對）、`AGENCY_GROUP_RULES`（`agency_group`，支援機關代碼 `code`、機關名稱 `name`，以及「機關代碼第二段 70–99 視為地方政府」的 `localCode`）、`DOMAIN_SEA` / `DOMAIN_GROUND` / `DOMAIN_AIR_OVERRIDE`（`domain`，`無人載具` 會撈到船艇車輛）、`AWARD_TYPES` / `FAIL_TYPES` / `TENDER_TYPES` / `PRE_TYPES`（`status` 判定用的公告類型）、`FOREIGN_CURRENCY`（外幣金額存 `null` 並計數）、`PROCUREMENT_AGENTS`（代辦採購機關）、`ORIGIN_BUCKETS`（原產地分桶）。改完用 `--limit 2` 跑一次比對結果即可。
+
+**已知限制。** 只搜標案名稱，標題沒寫「無人機」等字的案子會漏掉（例如只寫型號或「遙控載具」）；共同供應契約多半沒有總決標金額，`award_amount` 維持 `null` 不做估算；`原產地國別` 由機關自填，未填就不計入 `by_origin`，比例記在 `data_notes.awarded_without_origin_pct`；更正公告一律以最新一筆為準，不保留歷史版本；`定期彙送` 雖然名稱不像決標公告，但帶完整決標資料，已當作 `awarded` 處理；臺灣銀行等代辦採購案的 `agency` 已改用「履約執行機關」（真正的買家），原公告機關另存 `announcing_agency`；`summary.json` 以 `domain=air` 計算（首頁預設），全領域數字在 `totals.all_domains`；`status` 的 `open`/`closed` 靠截止投標日推算，限制性招標沒有該欄位時以公告日加 90 天粗估。
