@@ -78,10 +78,11 @@ Repo：`lioneer32232002-commits/drone-tenders`（公開）
 - 金額：字串「3,200,000元」→ 整數；沒有、「不公開」、外幣 → `null`（外幣在 `data_notes` 計數）。共同供應契約通常沒有總額，維持 `null`，不要估。
 - 民國日期 `115/08/17` → `2026-08-17`。
 - `winners`：從 `投標廠商:投標廠商N:是否得標 = 是` 取；`決標金額` 為該廠商金額；`原產地國別` 從 `決標品項:第K品項:得標廠商M:原產地國別[N]:原產地國別` 與對應「原產地國別得標金額」取，多品項合併同國別加總。廠商名稱去掉括號內英文名。國別正規化成「臺灣」「美國」「中國」「日本」或原名。
-- `category`（依標題與機關名判斷，順序即優先序）：`海巡`（機關名含海巡，含反制的海巡案也歸這裡）、`國防`、`反制`、`警政`、`消防救災`、`農林漁業`、`測繪巡檢`、`教育研究`、`環境監測`、`其他`。
+- `category`（依標題與機關名判斷，順序即優先序）：`海巡`（機關名含海巡，含反制的海巡案也歸這裡）、`國防`、`反制`、`警政`、`消防救災`、`農林漁業`、`測繪巡檢`、`教育研究`、`環境監測`、`活動展演`、`法規管理`、`產業推動`、`其他`。
+  2026-09 第一次調規則前「其他」有 424 件 26.1 億，是第三大類，代表規則漏太多。補了四件事：機場與園區的「無人機偵防／防制／偵測告警／干擾器」歸 `反制`（不能用裸的「偵測系統」，會吃到影像偵測案）；燈會、花火節、跨年的燈光秀自成 `活動展演`；民航局本部的遙控無人機管理資訊系統、檢驗、法規推動自成 `法規管理`（各航空站的偵防案已先被反制接走）；經濟部沙盒、產業發展署的創新中心與供應鏈計畫、地方政府的產業推廣與參展自成 `產業推動`。另外把公路、鐵道、電力、中油、水土保持、礦業、國有地巡管、農林航空測量所補進 `測繪巡檢`，農業試驗所、特生中心、林區管理處補進 `農林漁業`，中科院各所補進 `國防`，熱顯像／消防局字樣補進 `消防救災`。改完「其他」剩 83 件 0.93 億。
 - `agency_group`：`國防`、`中央部會`、`地方政府`、`國營事業`、`學校`、`其他`。機關代碼第二段 70–99 視為地方政府。
 - `bidders_count` 從 `投標廠商:投標廠商家數`。
-- `drone_in_title`：標題是否真的提到無人機。`定翼機` 這個關鍵字會撈到有人駕駛的飛機（空勤總隊 BEECH 機隊維修等，109 案），這類標為 `false`，`summary.json` 不計入但這裡保留。
+- `drone_in_title`：標題是否真的提到無人機。「無人機房」（無人值守的機房）會命中「無人」兩個字，但跟無人機無關，中華電信／中華郵政／廣播電臺共 14 件約 0.49 億已排除。`定翼機` 這個關鍵字會撈到有人駕駛的飛機（空勤總隊 BEECH 機隊維修等，109 案），這類標為 `false`，`summary.json` 不計入但這裡保留。
 - `fms`：對美軍購。得標廠商為 A. I. T.（美國在台協會）或標題／附加說明含「軍售」「FMS」。4 案就占 503 億，必須跟國內採購分開看。
 - `works`：`procurement_type === "工程"`（民雄航太園區新建統包工程 46 億那種），不是買飛機。
 - `exec_agency` / `announcing_agency`：臺灣銀行等代辦採購案，`agency` 已改用「履約執行機關」（真正的買家），原公告機關記在 `announcing_agency`。
@@ -111,7 +112,8 @@ Repo：`lioneer32232002-commits/drone-tenders`（公開）
     "this_quarter": {"quarter": "2026Q3", "count": 88, "awarded_count": 30, "awarded_amount": 1234567, "open_count": 13},
     "all_domains":  {"count": 2546, "awarded_count": 1855, "awarded_amount": 79748582629}
   },
-  "by_quarter": [{"q": "2016Q1", "count": 5, "awarded_count": 3, "awarded_amount": 1234567, "open_count": 0}],
+  "by_quarter": [{"q": "2016Q1", "count": 5, "awarded_count": 3, "awarded_amount": 1234567, "open_count": 0,
+                  "top": {"title": "…", "agency": "…", "amount": 1234567}}],
   "by_year":    [{"year": 2026,  "count": 247, "awarded_count": 120, "awarded_amount": 3066742076, "open_count": 13}],
   "by_category":     [{"category": "國防", "count": 361, "awarded_count": 280, "amount": 14200000000}],
   "by_agency_group": [{"agency_group": "國防", "count": 400, "awarded_count": 300, "amount": 1234567}],
@@ -119,6 +121,9 @@ Repo：`lioneer32232002-commits/drone-tenders`（公開）
   "top_vendors":     [{"vendor": "國家中山科學院", "id": "...", "count": 23, "amount": 5774000000, "sme": false,
                        "top_agencies": [{"agency": "國防部", "count": 12}]}],
   "vendor_agency_edges": [{"vendor": "...", "agency": "...", "count": 3, "amount": 1234567}],
+  "flow": {"groups": [{"name": "國防", "amount": 14222000000}],
+           "vendors": [{"name": "國家中山科學研究院", "amount": 7079000000}],
+           "links":   [{"group": "國防", "vendor": "國家中山科學研究院", "amount": 5654571000, "count": 16}]},
   "by_origin":      [{"country": "臺灣", "amount": 19953000000}],
   "by_origin_year": [{"year": 2026, "origins": [{"country": "臺灣", "amount": 6418000000}]}],
   "awarded_with_origin_count": 1624,
@@ -129,6 +134,8 @@ Repo：`lioneer32232002-commits/drone-tenders`（公開）
 ```
 
 - `recent[]`：最近 60 天的公告，**三軌都包含**，每筆帶 `fms` / `works` 旗標讓前端自己決定要不要顯示。
+- `by_quarter[].top`：該季決標金額最大的一案，給首頁季度圖當註記用（前端不必為了三行字去載 2.9 MB 的 `tenders.json`）。
+- `flow`：首頁桑基圖的資料。機關群組 → 廠商，只算 domestic 已決標、且廠商有填金額的部分；廠商取金額前 8 名，其餘全部併成「其他廠商」（排序永遠最後）。多家得標而沒逐家拆金額的案子會被略過，所以 `flow` 總額比 `totals.awarded_amount` 略低。
 - `by_origin` 的國別是「臺灣」「美國」「中國」「日本」「其他」，`by_origin_year` 是 `{year, origins[]}` 巢狀。
 - `data_notes`：抓取模式與筆數、原產地未填比例與金額覆蓋率、共同供應契約無金額件數、`定翼機` 雜訊件數、案號重複件數、各軌件數、caveats 清單。
 

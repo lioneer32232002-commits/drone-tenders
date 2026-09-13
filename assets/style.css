@@ -181,7 +181,12 @@ p, li, td, figcaption { text-wrap: pretty; }
   max-width: 42em;
   font-size: 17px;
   color: var(--muted);
+  /* 圖說是短句不是內文，用 balance 讓兩行等長，第二行不會只剩兩三個字 */
+  text-wrap: balance;
 }
+
+/* 桑基圖／分組清單各配一句說明，跟著版面一起切 */
+.note-narrow { display: none; }
 
 h3 {
   margin: 0 0 14px;
@@ -232,7 +237,8 @@ h3 {
   line-height: 1.1;
 }
 
-.total dd .u { font-size: 0.5em; letter-spacing: 0.06em; color: var(--muted); padding-left: 2px; }
+/* max()：手機把大字縮到 27px 時，0.5em 只剩 13.5px，全站字級不得低於 14px */
+.total dd .u { font-size: max(14px, 0.5em); letter-spacing: 0.06em; color: var(--muted); padding-left: 2px; }
 
 /* ---------- 堆疊條 ---------- */
 
@@ -387,6 +393,78 @@ h3 {
 }
 .hit { fill: transparent; cursor: default; }
 
+/* 季度圖上方的註記：細線＋14px */
+.anno-line { stroke: var(--faint); stroke-width: 1; stroke-opacity: 0.5; fill: none; }
+
+.anno {
+  fill: var(--fg);
+  font-family: var(--sans);
+  font-size: 14px;
+}
+
+.anno-q { fill: var(--faint); font-family: var(--mono); }
+.anno-a { fill: var(--muted); }
+
+/* ---------- 錢的流向：桑基圖 ---------- */
+
+.flow { margin-top: 8px; }
+.flow-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.flow-list { display: none; }
+
+.ribbon-f {
+  fill-opacity: 0.3;
+  stroke: none;
+  transition: fill-opacity 150ms ease;
+}
+
+.flow-chart svg.dim .ribbon-f { fill-opacity: 0.09; }
+.ribbon-f.on { fill-opacity: 0.66; }
+
+.f1 { fill: var(--c1); }
+.f2 { fill: var(--c2); }
+.f3 { fill: var(--c3); }
+.f4 { fill: var(--c4); }
+.f5 { fill: var(--c5); }
+.f6 { fill: var(--faint); }
+.fnode.fv { fill: var(--muted); }
+
+.fl {
+  fill: var(--fg);
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.fa { fill: var(--muted); font-size: 14px; }
+
+/* 手機：改成每個群組一小段 */
+.fg + .fg { margin-top: 26px; }
+
+.fg-h {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.fg-h .sw { flex: none; width: 20px; height: 3px; transform: translateY(-4px); }
+.fg-n { flex: 1 1 auto; font-size: 17px; }
+.fg-a { font-size: 17px; color: var(--muted); }
+
+.fg-v li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 5px 12px;
+  padding: 9px 0 10px;
+  border-bottom: 1px solid var(--hair);
+  font-size: 16px;
+}
+
+.fg-v .k { min-width: 0; overflow-wrap: anywhere; }
+.fg-v .v { font-size: 16px; color: var(--muted); }
+.fg-v .t { grid-column: 1 / -1; height: 6px; min-width: 2px; }
+
 /* ---------- 橫條排行 ---------- */
 
 .hbars { margin-top: 4px; }
@@ -405,6 +483,25 @@ h3 {
 .hbar .k { min-width: 0; overflow-wrap: anywhere; }
 .hbar .t { height: 8px; background: var(--accent); min-width: 1px; }
 .hbar .v { font-size: 17px; color: var(--muted); }
+
+/* 哪一類：左類別、中長條、右金額＋件數（件數小一號）。
+   國防一類就占九成，其餘類別在線性尺度上都是細線；底下鋪一條淡軌道，
+   讓「幾乎沒有」也讀得出來，不用去動尺度騙人。 */
+.cats .hbar { grid-template-columns: 6em minmax(0, 1fr) 11em; }
+.cats .hbar .trk { min-width: 0; height: 9px; background: var(--hair); }
+.cats .hbar .trk .t { display: block; height: 100%; min-width: 2px; }
+.cats .hbar:hover .t { background: var(--link-hover); }
+
+.cats .hbar .v {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.cats .hbar .v .amt { color: var(--fg); }
+.cats .hbar .v .n { font-size: 15px; color: var(--faint); }
 
 /* ---------- 最近 ---------- */
 
@@ -806,6 +903,18 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
 
   .hbar { grid-template-columns: minmax(0, 1fr) auto; row-gap: 5px; }
   .hbar .t { grid-column: 1 / -1; }
+
+  /* 窄螢幕：類別與金額同一行，長條走第二行，不要一類吃掉三行 */
+  .cats .hbar { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
+  .cats .hbar .k { grid-area: 1 / 1; }
+  .cats .hbar .v { grid-area: 1 / 2; gap: 10px; }
+  .cats .hbar .trk { grid-area: 2 / 1 / 3 / -1; height: 8px; }
+
+  /* 桑基圖在 390px 讀不動，換成分組清單 */
+  .flow-chart { display: none; }
+  .flow-list { display: block; }
+  .note-wide { display: none; }
+  .note-narrow { display: block; }
 
   .recent li { grid-template-columns: minmax(0, 1fr) auto; }
   .recent .d { grid-column: 1 / -1; }

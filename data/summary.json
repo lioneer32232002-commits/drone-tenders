@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-09-12T20:57:04.442Z",
- "scope": "domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。下面 totals / by_quarter / by_year / by_category / by_agency_group / top_agencies / top_vendors / by_origin / by_origin_year / vendor_agency_edges 全部只算 domestic；對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。",
+ "generated_at": "2026-09-13T03:34:50.948Z",
+ "scope": "domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。下面 totals / by_quarter / by_year / by_category / by_agency_group / top_agencies / top_vendors / by_origin / by_origin_year / vendor_agency_edges / flow 全部只算 domestic；對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。",
  "tracks": {
   "domestic": {
-   "count": 2331,
-   "awarded_count": 1710,
-   "amount": 22015038946
+   "count": 2319,
+   "awarded_count": 1698,
+   "amount": 21968104427
   },
   "fms": {
    "count": 4,
@@ -13,9 +13,9 @@
    "amount": 50300113597
   },
   "works": {
-   "count": 47,
-   "awarded_count": 39,
-   "amount": 4863239703
+   "count": 45,
+   "awarded_count": 37,
+   "amount": 4860900703
   }
  },
  "fms": {
@@ -54,9 +54,9 @@
   ]
  },
  "works": {
-  "count": 47,
-  "awarded_count": 39,
-  "amount": 4863239703,
+  "count": 45,
+  "awarded_count": 37,
+  "amount": 4860900703,
   "items": [
    {
     "id": "45002910/115-0010001057900120",
@@ -201,9 +201,9 @@
   ]
  },
  "totals": {
-  "count": 2331,
-  "awarded_count": 1710,
-  "awarded_amount": 22015038946,
+  "count": 2319,
+  "awarded_count": 1698,
+  "awarded_amount": 21968104427,
   "open_count": 14,
   "this_year": {
    "year": "2026",
@@ -231,310 +231,525 @@
    "awarded_count": 9,
    "awarded_amount": 8911210,
    "open_count": 0,
-   "count": 9
+   "count": 9,
+   "top": {
+    "title": "「無人飛行載具及測繪系統壹組」財物採購案",
+    "agency": "行政院農業委員會農業試驗所",
+    "amount": 2070000
+   }
   },
   {
    "q": "2016Q2",
    "awarded_count": 24,
    "awarded_amount": 15481119,
    "open_count": 0,
-   "count": 25
+   "count": 25,
+   "top": {
+    "title": "UAV結合VR技術之先期研究暨水下橋檢工具初探",
+    "agency": "交通部運輸研究所",
+    "amount": 3830000
+   }
   },
   {
    "q": "2016Q3",
    "awarded_count": 9,
    "awarded_amount": 5008620,
    "open_count": 0,
-   "count": 13
+   "count": 13,
+   "top": {
+    "title": "重點區評估與UAV拍攝作業、即時監看攝影機維護及CCD網站維護暨遠端監看設備租賃及維護",
+    "agency": "國立中興大學",
+    "amount": 1800000
+   }
   },
   {
    "q": "2016Q4",
    "awarded_count": 17,
    "awarded_amount": 18191600,
    "open_count": 0,
-   "count": 19
+   "count": 19,
+   "top": {
+    "title": "資料擷取系統(無人載具管理應用平台)一套",
+    "agency": "台灣電力股份有限公司綜合研究所",
+    "amount": 6006000
+   }
   },
   {
    "q": "2017Q1",
    "awarded_count": 3,
    "awarded_amount": 2100000,
    "open_count": 0,
-   "count": 7
+   "count": 7,
+   "top": {
+    "title": "旋翼式無人載具乙台",
+    "agency": "國防部軍備局生產製造中心",
+    "amount": 910000
+   }
   },
   {
    "q": "2017Q2",
    "awarded_count": 17,
    "awarded_amount": 23055300,
    "open_count": 0,
-   "count": 20
+   "count": 20,
+   "top": {
+    "title": "大規模崩塌潛勢區之無人機飛行光達地形測繪及分析研究",
+    "agency": "行政院農業委員會水土保持局",
+    "amount": 5610000
+   }
   },
   {
    "q": "2017Q3",
-   "awarded_count": 26,
-   "awarded_amount": 52173389,
+   "awarded_count": 24,
+   "awarded_amount": 26365039,
    "open_count": 0,
-   "count": 28
+   "count": 26,
+   "top": {
+    "title": "無人飛行載具對水稻病害監測辨識技術之研發",
+    "agency": "行政院農業委員會農業試驗所",
+    "amount": 4800000
+   }
   },
   {
    "q": "2017Q4",
    "awarded_count": 42,
    "awarded_amount": 31316918,
    "open_count": 0,
-   "count": 52
+   "count": 52,
+   "top": {
+    "title": "遙控無人機干擾裝備採購案",
+    "agency": "國防部空軍司令部",
+    "amount": 5400000
+   }
   },
   {
    "q": "2018Q1",
    "awarded_count": 5,
    "awarded_amount": 5595500,
    "open_count": 0,
-   "count": 8
+   "count": 8,
+   "top": {
+    "title": "107年無人飛行載具拍攝監測盜採砂石影像判釋開口合約",
+    "agency": "經濟部礦務局",
+    "amount": 1840000
+   }
   },
   {
    "q": "2018Q2",
    "awarded_count": 50,
    "awarded_amount": 197672193,
    "open_count": 0,
-   "count": 57
+   "count": 57,
+   "top": {
+    "title": "旋翼型無人飛行載具試辦計畫",
+    "agency": "海洋委員會海巡署",
+    "amount": 127665000
+   }
   },
   {
    "q": "2018Q3",
    "awarded_count": 24,
    "awarded_amount": 43041931,
    "open_count": 0,
-   "count": 32
+   "count": 32,
+   "top": {
+    "title": "國產定翼型無人機系統建置作業案",
+    "agency": "行政院農業委員會林務局農林航空測量所",
+    "amount": 28757000
+   }
   },
   {
    "q": "2018Q4",
    "awarded_count": 42,
    "awarded_amount": 82611409,
    "open_count": 0,
-   "count": 51
+   "count": 51,
+   "top": {
+    "title": "「南科無人機群飛技術發展及應用」委託專業服務案",
+    "agency": "科技部南部科學工業園區管理局",
+    "amount": 25400000
+   }
   },
   {
    "q": "2019Q1",
    "awarded_count": 18,
    "awarded_amount": 85649433,
    "open_count": 0,
-   "count": 21
+   "count": 21,
+   "top": {
+    "title": "2019 台灣燈會在屏東-Intel(英特爾)無人機燈光展演委託規劃及執行",
+    "agency": "屏東縣政府",
+    "amount": 38000000
+   }
   },
   {
    "q": "2019Q2",
    "awarded_count": 36,
    "awarded_amount": 40049323,
    "open_count": 0,
-   "count": 41
+   "count": 41,
+   "top": {
+    "title": "熊鷹號定翼無人機攝像暨人員培訓案",
+    "agency": "行政院農業委員會林務局農林航空測量所",
+    "amount": 8700000
+   }
   },
   {
    "q": "2019Q3",
-   "awarded_count": 32,
-   "awarded_amount": 53904023,
+   "awarded_count": 31,
+   "awarded_amount": 49704023,
    "open_count": 0,
-   "count": 35
+   "count": 34,
+   "top": {
+    "title": "國產定翼型無人載具系統暨多元感測器建置作業",
+    "agency": "行政院農業委員會林務局農林航空測量所",
+    "amount": 37980000
+   }
   },
   {
    "q": "2019Q4",
    "awarded_count": 49,
    "awarded_amount": 129932385,
    "open_count": 0,
-   "count": 61
+   "count": 61,
+   "top": {
+    "title": "109年度無人載具科技創新沙盒暨實證運行推動計畫",
+    "agency": "經濟部",
+    "amount": 58200000
+   }
   },
   {
    "q": "2020Q1",
    "awarded_count": 24,
    "awarded_amount": 39715422,
    "open_count": 0,
-   "count": 28
+   "count": 28,
+   "top": {
+    "title": "2020台灣燈會無人機流星雨創意展演活動委託專業服務勞務採購案(後續擴充)",
+    "agency": "臺中市風景區管理所",
+    "amount": 9499000
+   }
   },
   {
    "q": "2020Q2",
    "awarded_count": 61,
    "awarded_amount": 543541385,
    "open_count": 0,
-   "count": 68
+   "count": 68,
+   "top": {
+    "title": "109-110年度「鋭鳶UAS裝備委修案」協議書",
+    "agency": "國防部海軍司令部",
+    "amount": 369666000
+   }
   },
   {
    "q": "2020Q3",
    "awarded_count": 39,
    "awarded_amount": 53596840,
    "open_count": 0,
-   "count": 43
+   "count": 43,
+   "top": {
+    "title": "109年度熊鷹號定翼型無人機攝像暨人員培訓案",
+    "agency": "行政院農業委員會林務局農林航空測量所",
+    "amount": 13540000
+   }
   },
   {
    "q": "2020Q4",
    "awarded_count": 60,
    "awarded_amount": 254356191,
    "open_count": 0,
-   "count": 70
+   "count": 70,
+   "top": {
+    "title": "無人機防制建置試辦計畫",
+    "agency": "交通部民用航空局臺北國際航空站",
+    "amount": 127000000
+   }
   },
   {
    "q": "2021Q1",
    "awarded_count": 33,
    "awarded_amount": 79367654,
    "open_count": 0,
-   "count": 44
+   "count": 44,
+   "top": {
+    "title": "遙控無人機管理資訊系統精進案",
+    "agency": "交通部民用航空局",
+    "amount": 18900000
+   }
   },
   {
    "q": "2021Q2",
    "awarded_count": 41,
    "awarded_amount": 49199229,
    "open_count": 0,
-   "count": 48
+   "count": 48,
+   "top": {
+    "title": "110年度無人飛行載具農業應用推廣暨訓練計畫",
+    "agency": "行政院農業委員會",
+    "amount": 8250000
+   }
   },
   {
    "q": "2021Q3",
    "awarded_count": 41,
    "awarded_amount": 46126975,
    "open_count": 0,
-   "count": 48
+   "count": 48,
+   "top": {
+    "title": "110-112年新北市政府無人機採購暨管理系統建置及維運",
+    "agency": "新北市政府採購處",
+    "amount": 8003500
+   }
   },
   {
    "q": "2021Q4",
    "awarded_count": 52,
    "awarded_amount": 145095972,
    "open_count": 0,
-   "count": 55
+   "count": 55,
+   "top": {
+    "title": "111年度無人載具科技創新沙盒暨實證運行推動計畫(第3期共4期)",
+    "agency": "經濟部",
+    "amount": 57800000
+   }
   },
   {
    "q": "2022Q1",
    "awarded_count": 48,
    "awarded_amount": 219505225,
    "open_count": 0,
-   "count": 53
+   "count": 53,
+   "top": {
+    "title": "高雄國際航空站遙控無人機偵測告警委外服務案",
+    "agency": "交通部民用航空局高雄國際航空站",
+    "amount": 96910038
+   }
   },
   {
    "q": "2022Q2",
    "awarded_count": 48,
    "awarded_amount": 4456107742,
    "open_count": 0,
-   "count": 59
+   "count": 59,
+   "top": {
+    "title": "遙控無人機防禦系統委製協議書(固定式)採購案",
+    "agency": "國防部空軍司令部",
+    "amount": 3554863000
+   }
   },
   {
    "q": "2022Q3",
    "awarded_count": 24,
    "awarded_amount": 37260867,
    "open_count": 0,
-   "count": 40
+   "count": 40,
+   "top": {
+    "title": "內政部消防署訓練中心遙控無人機訓練課程勞務委託案",
+    "agency": "內政部消防署",
+    "amount": 14323600
+   }
   },
   {
    "q": "2022Q4",
    "awarded_count": 31,
    "awarded_amount": 128435201,
    "open_count": 0,
-   "count": 56
+   "count": 56,
+   "top": {
+    "title": "112年度無人載具科技創新沙盒暨實證運行推動計畫(第4期/共4期)",
+    "agency": "經濟部",
+    "amount": 57600000
+   }
   },
   {
    "q": "2023Q1",
    "awarded_count": 41,
    "awarded_amount": 448557516,
    "open_count": 0,
-   "count": 54
+   "count": 54,
+   "top": {
+    "title": "桃園機場無人機偵防勞務委託案",
+    "agency": "桃園國際機場股份有限公司",
+    "amount": 195000000
+   }
   },
   {
    "q": "2023Q2",
    "awarded_count": 32,
    "awarded_amount": 62236081,
    "open_count": 0,
-   "count": 43
+   "count": 43,
+   "top": {
+    "title": "無人機偏鄉物流運送服務驗證計畫(1/2)-服務模式規劃與系統發展",
+    "agency": "交通部運輸研究所",
+    "amount": 10240000
+   }
   },
   {
    "q": "2023Q3",
-   "awarded_count": 22,
-   "awarded_amount": 260591042,
+   "awarded_count": 21,
+   "awarded_amount": 259176377,
    "open_count": 0,
-   "count": 44
+   "count": 43,
+   "top": {
+    "title": "「旋翼型無人機試辦計畫」",
+    "agency": "海洋委員會海巡署",
+    "amount": 218477000
+   }
   },
   {
    "q": "2023Q4",
    "awarded_count": 35,
    "awarded_amount": 227059723,
    "open_count": 1,
-   "count": 50
+   "count": 50,
+   "top": {
+    "title": "113年度銳鳶UAS裝備委修(製)案",
+    "agency": "國防部海軍司令部",
+    "amount": 133330000
+   }
   },
   {
    "q": "2024Q1",
    "awarded_count": 36,
    "awarded_amount": 250787662,
    "open_count": 0,
-   "count": 49
+   "count": 49,
+   "top": {
+    "title": "113年度無人載具科技創新沙盒暨實證運行推動計畫",
+    "agency": "經濟部",
+    "amount": 49640000
+   }
   },
   {
    "q": "2024Q2",
    "awarded_count": 52,
    "awarded_amount": 151778720,
    "open_count": 0,
-   "count": 72
+   "count": 72,
+   "top": {
+    "title": "新竹園區商用遙控無人機偵測系統租賃",
+    "agency": "國家科學及技術委員會新竹科學園區管理局",
+    "amount": 20283900
+   }
   },
   {
    "q": "2024Q3",
    "awarded_count": 49,
    "awarded_amount": 6973641193,
    "open_count": 0,
-   "count": 72
+   "count": 72,
+   "top": {
+    "title": "陸用型監偵無人機",
+    "agency": "國防部",
+    "amount": 2409590400
+   }
   },
   {
    "q": "2024Q4",
    "awarded_count": 52,
    "awarded_amount": 393503994,
    "open_count": 0,
-   "count": 77
+   "count": 77,
+   "top": {
+    "title": "114年度銳鳶UAS裝備委修案",
+    "agency": "國防部海軍司令部",
+    "amount": 100000000
+   }
   },
   {
    "q": "2025Q1",
    "awarded_count": 25,
    "awarded_amount": 1292868863,
    "open_count": 0,
-   "count": 41
+   "count": 41,
+   "top": {
+    "title": "無人機反制系統",
+    "agency": "國防部",
+    "amount": 987810000
+   }
   },
   {
    "q": "2025Q2",
    "awarded_count": 54,
    "awarded_amount": 135816994,
    "open_count": 0,
-   "count": 80
+   "count": 80,
+   "top": {
+    "title": "113-114年無人機專業操作人儲備人員訓練暨取(換)證訓練案",
+    "agency": "國立虎尾科技大學",
+    "amount": 30500000
+   }
   },
   {
    "q": "2025Q3",
    "awarded_count": 25,
    "awarded_amount": 58290167,
    "open_count": 0,
-   "count": 43
+   "count": 43,
+   "top": {
+    "title": "AI智慧搜救派遣系統建置中程計畫-行政院國家搜救指揮中心AI智慧搜救派遣系統暨補助地方建置案-第2階段複雜地形攜帶型無人機採購案",
+    "agency": "內政部消防署",
+    "amount": 18425000
+   }
   },
   {
    "q": "2025Q4",
    "awarded_count": 51,
    "awarded_amount": 906963094,
    "open_count": 0,
-   "count": 101
+   "count": 101,
+   "top": {
+    "title": "無人機防制建置試辦計畫第二期",
+    "agency": "交通部民用航空局臺北國際航空站",
+    "amount": 411651000
+   }
   },
   {
    "q": "2026Q1",
    "awarded_count": 34,
    "awarded_amount": 691806917,
    "open_count": 0,
-   "count": 61
+   "count": 61,
+   "top": {
+    "title": "無人機反制干擾設備及島區監控系統",
+    "agency": "海洋委員會海巡署東南沙分署",
+    "amount": 472000000
+   }
   },
   {
    "q": "2026Q2",
    "awarded_count": 55,
    "awarded_amount": 476416674,
    "open_count": 0,
-   "count": 100
+   "count": 100,
+   "top": {
+    "title": "無人機反制干擾設備",
+    "agency": "海洋委員會海巡署艦隊分署",
+    "amount": 142200000
+   }
   },
   {
    "q": "2026Q3",
    "awarded_count": 31,
    "awarded_amount": 1898518485,
    "open_count": 13,
-   "count": 86
+   "count": 86,
+   "top": {
+    "title": "艦載無人機",
+    "agency": "海洋委員會海巡署艦隊分署",
+    "amount": 1200000000
+   }
   }
  ],
  "by_year": [
   {
    "year": 2010,
-   "awarded_count": 13,
-   "awarded_amount": 29815135,
+   "awarded_count": 12,
+   "awarded_amount": 24035135,
    "open_count": 0,
-   "count": 18
+   "count": 17
   },
   {
    "year": 2011,
@@ -580,10 +795,10 @@
   },
   {
    "year": 2017,
-   "awarded_count": 88,
-   "awarded_amount": 108645607,
+   "awarded_count": 86,
+   "awarded_amount": 82837257,
    "open_count": 0,
-   "count": 107
+   "count": 105
   },
   {
    "year": 2018,
@@ -594,10 +809,10 @@
   },
   {
    "year": 2019,
-   "awarded_count": 135,
-   "awarded_amount": 309535164,
+   "awarded_count": 134,
+   "awarded_amount": 305335164,
    "open_count": 0,
-   "count": 158
+   "count": 157
   },
   {
    "year": 2020,
@@ -622,10 +837,10 @@
   },
   {
    "year": 2023,
-   "awarded_count": 130,
-   "awarded_amount": 998444362,
+   "awarded_count": 129,
+   "awarded_amount": 997029697,
    "open_count": 1,
-   "count": 191
+   "count": 190
   },
   {
    "year": 2024,
@@ -652,9 +867,9 @@
  "by_category": [
   {
    "category": "國防",
-   "count": 361,
-   "awarded_count": 163,
-   "amount": 14201329558
+   "count": 386,
+   "awarded_count": 187,
+   "amount": 14224064762
   },
   {
    "category": "海巡",
@@ -663,78 +878,96 @@
    "amount": 3207673635
   },
   {
-   "category": "其他",
-   "count": 424,
-   "awarded_count": 367,
-   "amount": 2613746728
+   "category": "反制",
+   "count": 84,
+   "awarded_count": 54,
+   "amount": 1026785972
   },
   {
    "category": "測繪巡檢",
-   "count": 314,
-   "awarded_count": 257,
-   "amount": 635712621
+   "count": 407,
+   "awarded_count": 338,
+   "amount": 854049851
+  },
+  {
+   "category": "產業推動",
+   "count": 49,
+   "awarded_count": 45,
+   "amount": 797106442
   },
   {
    "category": "教育研究",
-   "count": 660,
-   "awarded_count": 523,
-   "amount": 527179900
+   "count": 634,
+   "awarded_count": 500,
+   "amount": 453241423
   },
   {
    "category": "消防救災",
-   "count": 220,
-   "awarded_count": 165,
-   "amount": 347755603
+   "count": 247,
+   "awarded_count": 185,
+   "amount": 368329566
   },
   {
    "category": "農林漁業",
-   "count": 89,
-   "awarded_count": 70,
-   "amount": 230220271
+   "count": 153,
+   "awarded_count": 128,
+   "amount": 292803904
+  },
+  {
+   "category": "活動展演",
+   "count": 37,
+   "awarded_count": 35,
+   "amount": 266284990
+  },
+  {
+   "category": "法規管理",
+   "count": 28,
+   "awarded_count": 25,
+   "amount": 213372686
   },
   {
    "category": "警政",
-   "count": 131,
-   "awarded_count": 83,
-   "amount": 155552021
+   "count": 101,
+   "awarded_count": 68,
+   "amount": 137791323
   },
   {
-   "category": "反制",
-   "count": 20,
-   "awarded_count": 12,
-   "amount": 61241374
+   "category": "其他",
+   "count": 83,
+   "awarded_count": 65,
+   "amount": 93269638
   },
   {
    "category": "環境監測",
-   "count": 30,
-   "awarded_count": 27,
-   "amount": 34627235
+   "count": 28,
+   "awarded_count": 25,
+   "amount": 33330235
   }
  ],
  "by_agency_group": [
   {
    "agency_group": "國防",
-   "count": 389,
-   "awarded_count": 189,
-   "amount": 14231074762
+   "count": 387,
+   "awarded_count": 187,
+   "amount": 14224064762
   },
   {
    "agency_group": "中央部會",
-   "count": 702,
-   "awarded_count": 547,
-   "amount": 6254668319
+   "count": 698,
+   "awarded_count": 543,
+   "amount": 6240511715
   },
   {
    "agency_group": "地方政府",
-   "count": 479,
-   "awarded_count": 384,
-   "amount": 780065466
+   "count": 475,
+   "awarded_count": 380,
+   "amount": 778710566
   },
   {
    "agency_group": "國營事業",
-   "count": 105,
-   "awarded_count": 68,
-   "amount": 364842050
+   "count": 103,
+   "awarded_count": 66,
+   "amount": 340429035
   },
   {
    "agency_group": "學校",
@@ -749,6 +982,254 @@
    "amount": 58294089
   }
  ],
+ "flow": {
+  "groups": [
+   {
+    "name": "國防",
+    "amount": 14222284421
+   },
+   {
+    "name": "中央部會",
+    "amount": 6111975625
+   },
+   {
+    "name": "地方政府",
+    "amount": 778710566
+   },
+   {
+    "name": "國營事業",
+    "amount": 340429035
+   },
+   {
+    "name": "學校",
+    "amount": 326094260
+   },
+   {
+    "name": "其他",
+    "amount": 58294089
+   }
+  ],
+  "vendors": [
+   {
+    "name": "國家中山科學研究院",
+    "amount": 7079472000
+   },
+   {
+    "name": "智飛科技股份有限公司",
+    "amount": 2479218100
+   },
+   {
+    "name": "中光電智能機器人股份有限公司",
+    "amount": 2257952116
+   },
+   {
+    "name": "神通資訊科技股份有限公司",
+    "amount": 1990463942
+   },
+   {
+    "name": "漢翔航空工業股份有限公司",
+    "amount": 1207900000
+   },
+   {
+    "name": "創未來科技股份有限公司",
+    "amount": 1071761625
+   },
+   {
+    "name": "財團法人金屬工業研究發展中心",
+    "amount": 640938000
+   },
+   {
+    "name": "翔隆航太股份有限公司",
+    "amount": 487615253
+   },
+   {
+    "name": "其他廠商",
+    "amount": 4622466960
+   }
+  ],
+  "links": [
+   {
+    "group": "國防",
+    "vendor": "國家中山科學研究院",
+    "amount": 5654571000,
+    "count": 16
+   },
+   {
+    "group": "國防",
+    "vendor": "智飛科技股份有限公司",
+    "amount": 2439930400,
+    "count": 3
+   },
+   {
+    "group": "中央部會",
+    "vendor": "其他廠商",
+    "amount": 2413602115,
+    "count": 470
+   },
+   {
+    "group": "國防",
+    "vendor": "中光電智能機器人股份有限公司",
+    "amount": 2237507866,
+    "count": 5
+   },
+   {
+    "group": "國防",
+    "vendor": "神通資訊科技股份有限公司",
+    "amount": 1861567097,
+    "count": 4
+   },
+   {
+    "group": "中央部會",
+    "vendor": "國家中山科學研究院",
+    "amount": 1229901000,
+    "count": 20
+   },
+   {
+    "group": "中央部會",
+    "vendor": "漢翔航空工業股份有限公司",
+    "amount": 1200000000,
+    "count": 1
+   },
+   {
+    "group": "國防",
+    "vendor": "其他廠商",
+    "amount": 1038390058,
+    "count": 167
+   },
+   {
+    "group": "國防",
+    "vendor": "創未來科技股份有限公司",
+    "amount": 987810000,
+    "count": 1
+   },
+   {
+    "group": "地方政府",
+    "vendor": "其他廠商",
+    "amount": 659973853,
+    "count": 335
+   },
+   {
+    "group": "中央部會",
+    "vendor": "財團法人金屬工業研究發展中心",
+    "amount": 639370000,
+    "count": 14
+   },
+   {
+    "group": "中央部會",
+    "vendor": "翔隆航太股份有限公司",
+    "amount": 393303040,
+    "count": 22
+   },
+   {
+    "group": "學校",
+    "vendor": "其他廠商",
+    "amount": 307025810,
+    "count": 471
+   },
+   {
+    "group": "國營事業",
+    "vendor": "國家中山科學研究院",
+    "amount": 195000000,
+    "count": 1
+   },
+   {
+    "group": "國營事業",
+    "vendor": "其他廠商",
+    "amount": 145181035,
+    "count": 64
+   },
+   {
+    "group": "中央部會",
+    "vendor": "神通資訊科技股份有限公司",
+    "amount": 128896845,
+    "count": 3
+   },
+   {
+    "group": "地方政府",
+    "vendor": "翔隆航太股份有限公司",
+    "amount": 89103763,
+    "count": 35
+   },
+   {
+    "group": "中央部會",
+    "vendor": "創未來科技股份有限公司",
+    "amount": 83951625,
+    "count": 6
+   },
+   {
+    "group": "其他",
+    "vendor": "其他廠商",
+    "amount": 58294089,
+    "count": 26
+   },
+   {
+    "group": "地方政府",
+    "vendor": "智飛科技股份有限公司",
+    "amount": 19164700,
+    "count": 7
+   },
+   {
+    "group": "中央部會",
+    "vendor": "智飛科技股份有限公司",
+    "amount": 13775000,
+    "count": 7
+   },
+   {
+    "group": "地方政府",
+    "vendor": "中光電智能機器人股份有限公司",
+    "amount": 10468250,
+    "count": 4
+   },
+   {
+    "group": "中央部會",
+    "vendor": "中光電智能機器人股份有限公司",
+    "amount": 9176000,
+    "count": 4
+   },
+   {
+    "group": "學校",
+    "vendor": "漢翔航空工業股份有限公司",
+    "amount": 7900000,
+    "count": 1
+   },
+   {
+    "group": "學校",
+    "vendor": "智飛科技股份有限公司",
+    "amount": 6348000,
+    "count": 8
+   },
+   {
+    "group": "學校",
+    "vendor": "翔隆航太股份有限公司",
+    "amount": 4020450,
+    "count": 15
+   },
+   {
+    "group": "國防",
+    "vendor": "財團法人金屬工業研究發展中心",
+    "amount": 1568000,
+    "count": 2
+   },
+   {
+    "group": "國防",
+    "vendor": "翔隆航太股份有限公司",
+    "amount": 940000,
+    "count": 1
+   },
+   {
+    "group": "學校",
+    "vendor": "中光電智能機器人股份有限公司",
+    "amount": 800000,
+    "count": 1
+   },
+   {
+    "group": "國營事業",
+    "vendor": "翔隆航太股份有限公司",
+    "amount": 248000,
+    "count": 1
+   }
+  ]
+ },
  "top_agencies": [
   {
    "agency": "國防部",
@@ -1543,12 +2024,6 @@
    "amount": 23811780
   },
   {
-   "vendor": "驊宏資通股份有限公司",
-   "agency": "中華郵政股份有限公司",
-   "count": 1,
-   "amount": 22998350
-  },
-  {
    "vendor": "中興測量有限公司",
    "agency": "內政部",
    "count": 2,
@@ -2059,12 +2534,6 @@
    "amount": 7150000
   },
   {
-   "vendor": "謦鴻科技股份有限公司",
-   "agency": "國防部軍事情報局",
-   "count": 2,
-   "amount": 7010000
-  },
-  {
    "vendor": "天際航空股份有限公司",
    "agency": "臺東縣政府",
    "count": 1,
@@ -2075,12 +2544,6 @@
    "agency": "臺南市政府消防局",
    "count": 3,
    "amount": 6999920
-  },
-  {
-   "vendor": "健格科技股份有限公司",
-   "agency": "中華電信國際電信分公司網路處",
-   "count": 1,
-   "amount": 6970215
   },
   {
    "vendor": "國家中山科學研究院",
@@ -2171,12 +2634,6 @@
    "agency": "桃園市政府消防局",
    "count": 2,
    "amount": 5800000
-  },
-  {
-   "vendor": "禮盛興業有限公司",
-   "agency": "法務部調查局",
-   "count": 1,
-   "amount": 5780000
   },
   {
    "vendor": "藏識科技有限公司",
@@ -3641,12 +4098,36 @@
    "agency": "苗栗縣政府",
    "count": 1,
    "amount": 1600000
+  },
+  {
+   "vendor": "經緯航太科技股份有限公司",
+   "agency": "臺南市政府地政局",
+   "count": 1,
+   "amount": 1600000
+  },
+  {
+   "vendor": "創思達科技股份有限公司",
+   "agency": "台灣自來水股份有限公司",
+   "count": 1,
+   "amount": 1590750
+  },
+  {
+   "vendor": "臺灣希望創新股份有限公司",
+   "agency": "國立虎尾科技大學",
+   "count": 1,
+   "amount": 1590000
+  },
+  {
+   "vendor": "安慶國際資訊有限公司",
+   "agency": "國防部軍備局中山科學研究院",
+   "count": 1,
+   "amount": 1580000
   }
  ],
  "by_origin": [
   {
    "country": "臺灣",
-   "amount": 19952712918
+   "amount": 19915509903
   },
   {
    "country": "其他",
@@ -3671,7 +4152,7 @@
    "origins": [
     {
      "country": "臺灣",
-     "amount": 27455135
+     "amount": 21675135
     },
     {
      "country": "其他",
@@ -3782,7 +4263,7 @@
    "origins": [
     {
      "country": "臺灣",
-     "amount": 88972038
+     "amount": 63163688
     },
     {
      "country": "中國",
@@ -3824,7 +4305,7 @@
    "origins": [
     {
      "country": "臺灣",
-     "amount": 292641441
+     "amount": 288441441
     },
     {
      "country": "中國",
@@ -3908,7 +4389,7 @@
    "origins": [
     {
      "country": "臺灣",
-     "amount": 934854320
+     "amount": 933439655
     },
     {
      "country": "其他",
@@ -3988,18 +4469,18 @@
    ]
   }
  ],
- "awarded_with_origin_count": 1644,
+ "awarded_with_origin_count": 1639,
  "recent": [
   {
-   "id": "3.5.49/115EQ635030007001100",
+   "id": "A.47.1.3/CGS115-02",
    "date": "2026-09-11",
-   "type": "公開招標公告",
-   "title": "無人機區域刺絲網圍籬新設案",
-   "agency": "國防部空軍司令部",
+   "type": "公開徵求廠商提供參考資料公告",
+   "title": "訓練用繫留無人機",
+   "agency": "海洋委員會海巡署南部分署",
    "domain": "air",
    "fms": false,
-   "works": true,
-   "amount": 30322942
+   "works": false,
+   "amount": null
   },
   {
    "id": "3.79.4.93/C115061",
@@ -4035,15 +4516,15 @@
    "amount": 361500000
   },
   {
-   "id": "A.47.1.3/CGS115-02",
+   "id": "3.5.49/115EQ635030007001100",
    "date": "2026-09-11",
-   "type": "公開徵求廠商提供參考資料公告",
-   "title": "訓練用繫留無人機",
-   "agency": "海洋委員會海巡署南部分署",
+   "type": "公開招標公告",
+   "title": "無人機區域刺絲網圍籬新設案",
+   "agency": "國防部空軍司令部",
    "domain": "air",
    "fms": false,
-   "works": false,
-   "amount": null
+   "works": true,
+   "amount": 30322942
   },
   {
    "id": "3.82.5.32/11516",
@@ -4068,15 +4549,15 @@
    "amount": 722000
   },
   {
-   "id": "A.47.1/CGA116014",
+   "id": "A.15.1/115081901",
    "date": "2026-09-09",
-   "type": "公開徵求廠商提供參考資料公告",
-   "title": "海鷹專案無人機建置計畫",
-   "agency": "海洋委員會海巡署",
+   "type": "公開取得報價單或企劃書公告",
+   "title": "遙控無人機專業操作訓練課程採購案",
+   "agency": "交通部觀光署",
    "domain": "air",
    "fms": false,
    "works": false,
-   "amount": null
+   "amount": 650000
   },
   {
    "id": "3.5.47/FA15105P146",
@@ -4090,15 +4571,15 @@
    "amount": 14325000
   },
   {
-   "id": "A.15.1/115081901",
+   "id": "A.47.1/CGA116014",
    "date": "2026-09-09",
-   "type": "公開取得報價單或企劃書公告",
-   "title": "遙控無人機專業操作訓練課程採購案",
-   "agency": "交通部觀光署",
+   "type": "公開徵求廠商提供參考資料公告",
+   "title": "海鷹專案無人機建置計畫",
+   "agency": "海洋委員會海巡署",
    "domain": "air",
    "fms": false,
    "works": false,
-   "amount": 650000
+   "amount": null
   },
   {
    "id": "3.76.49/1152C20002",
@@ -4167,17 +4648,6 @@
    "amount": 782688000
   },
   {
-   "id": "A.21/M1509321",
-   "date": "2026-09-07",
-   "type": "經公開評選或公開徵求之限制性招標更正公告",
-   "title": "115年度無人機創新應用委託研究計畫",
-   "agency": "衛生福利部",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 20000000
-  },
-  {
    "id": "3.13.30.15/11532",
    "date": "2026-09-07",
    "type": "公開取得報價單或企劃書公告",
@@ -4187,6 +4657,17 @@
    "fms": false,
    "works": false,
    "amount": 525000
+  },
+  {
+   "id": "A.21/M1509321",
+   "date": "2026-09-07",
+   "type": "經公開評選或公開徵求之限制性招標更正公告",
+   "title": "115年度無人機創新應用委託研究計畫",
+   "agency": "衛生福利部",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 20000000
   },
   {
    "id": "3.5.47/FB15078P139",
@@ -4310,17 +4791,6 @@
    "amount": 42459000
   },
   {
-   "id": "3.5/HB15025L245",
-   "date": "2026-09-02",
-   "type": "公開招標公告",
-   "title": "多元運用行政用途無人機",
-   "agency": "國防部",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 247200000
-  },
-  {
    "id": "3.13.31.96/4851570021",
    "date": "2026-09-02",
    "type": "公開招標公告",
@@ -4330,6 +4800,17 @@
    "fms": false,
    "works": true,
    "amount": 8000000
+  },
+  {
+   "id": "3.5/HB15025L245",
+   "date": "2026-09-02",
+   "type": "公開招標公告",
+   "title": "多元運用行政用途無人機",
+   "agency": "國防部",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 247200000
   },
   {
    "id": "3.5.47/FB15040P048",
@@ -4607,17 +5088,6 @@
    "amount": null
   },
   {
-   "id": "3.5/AR15007L513",
-   "date": "2026-08-24",
-   "type": "決標公告",
-   "title": "國軍無人機訓練模擬器行動裝置",
-   "agency": "國防部",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 9900000
-  },
-  {
    "id": "3.82.17/115-A-35",
    "date": "2026-08-24",
    "type": "決標公告",
@@ -4627,6 +5097,17 @@
    "fms": false,
    "works": false,
    "amount": 2968000
+  },
+  {
+   "id": "3.5/AR15007L513",
+   "date": "2026-08-24",
+   "type": "決標公告",
+   "title": "國軍無人機訓練模擬器行動裝置",
+   "agency": "國防部",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 9900000
   },
   {
    "id": "A.51.100.61/1150624-1",
@@ -4651,17 +5132,6 @@
    "amount": 2389000
   },
   {
-   "id": "A.19.4.9/115A004-L",
-   "date": "2026-08-21",
-   "type": "公開取得報價單或企劃書公告",
-   "title": "115年度多旋翼無人機專業操作證術科訓練及考照服務案",
-   "agency": "農業部林業及自然保育署航測及遙測分署",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 500000
-  },
-  {
    "id": "A.9.6L/E115013190-W29",
    "date": "2026-08-21",
    "type": "公開招標公告",
@@ -4671,6 +5141,17 @@
    "fms": false,
    "works": false,
    "amount": 29930000
+  },
+  {
+   "id": "A.19.4.9/115A004-L",
+   "date": "2026-08-21",
+   "type": "公開取得報價單或企劃書公告",
+   "title": "115年度多旋翼無人機專業操作證術科訓練及考照服務案",
+   "agency": "農業部林業及自然保育署航測及遙測分署",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 500000
   },
   {
    "id": "3.82.5.32/11516",
@@ -4717,6 +5198,17 @@
    "amount": 1530000
   },
   {
+   "id": "A.47.2/115-E-06",
+   "date": "2026-08-18",
+   "type": "決標公告",
+   "title": "無人機海域水質採樣試行計畫",
+   "agency": "海洋委員會海洋保育署",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 9600000
+  },
+  {
    "id": "A.19.4.7/114H45-03",
    "date": "2026-08-18",
    "type": "決標公告",
@@ -4737,17 +5229,6 @@
    "fms": false,
    "works": false,
    "amount": null
-  },
-  {
-   "id": "A.47.2/115-E-06",
-   "date": "2026-08-18",
-   "type": "決標公告",
-   "title": "無人機海域水質採樣試行計畫",
-   "agency": "海洋委員會海洋保育署",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 9600000
   },
   {
    "id": "3.19/1150030100B",
@@ -4871,17 +5352,6 @@
    "amount": 8800000
   },
   {
-   "id": "A.9.6L/C115004771-W22",
-   "date": "2026-08-11",
-   "type": "無法決標公告",
-   "title": "F9A-B無人機足球及充電器採購案",
-   "agency": "國立高雄科技大學",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 31419200
-  },
-  {
    "id": "3.5.47/FQ14018P033",
    "date": "2026-08-11",
    "type": "更正決標公告",
@@ -4891,6 +5361,17 @@
    "fms": false,
    "works": false,
    "amount": 290000
+  },
+  {
+   "id": "A.9.6L/C115004771-W22",
+   "date": "2026-08-11",
+   "type": "無法決標公告",
+   "title": "F9A-B無人機足球及充電器採購案",
+   "agency": "國立高雄科技大學",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 31419200
   },
   {
    "id": "3.5.47.1/FD13037P032",
@@ -5507,56 +5988,12 @@
    "fms": false,
    "works": false,
    "amount": 14994000
-  },
-  {
-   "id": "A.7.31.1/GF4-115073",
-   "date": "2026-07-14",
-   "type": "無法決標公告",
-   "title": "特勤無人機",
-   "agency": "海洋委員會海巡署偵防分署",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 42459000
-  },
-  {
-   "id": "A.7.31.1/GF4-115073",
-   "date": "2026-07-14",
-   "type": "公開招標公告",
-   "title": "特勤無人機",
-   "agency": "海洋委員會海巡署偵防分署",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 42459000
-  },
-  {
-   "id": "3.9.34/115W05",
-   "date": "2026-07-14",
-   "type": "無法決標公告",
-   "title": "充氣式無人機足球場套組購買採購案",
-   "agency": "國立高雄師範大學",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 765000
-  },
-  {
-   "id": "3.9.26/115-05-072",
-   "date": "2026-07-14",
-   "type": "決標公告",
-   "title": "無人機套組壹組",
-   "agency": "國立成功大學",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 1050000
   }
  ],
  "data_notes": {
   "mode": "incremental",
-  "fetched_cases": 214,
-  "reused_cases": 2332,
+  "fetched_cases": 213,
+  "reused_cases": 2333,
   "carried_over_cases": 0,
   "keyword_hits": {
    "無人機": {
@@ -5650,8 +6087,8 @@
    "sea": 55
   },
   "status_counts": {
-   "open": 17,
    "pre": 312,
+   "open": 17,
    "awarded": 1855,
    "failed": 157,
    "closed": 205
@@ -5662,12 +6099,12 @@
   "awarded_without_origin_pct": 4.6,
   "origin_amount_coverage_pct": 98.3,
   "track_counts": {
-   "domestic": 2331,
+   "domestic": 2319,
    "fms": 4,
-   "works": 47
+   "works": 45
   },
-  "no_drone_token_in_title": 109,
-  "no_drone_token_awarded_amount": 436032245,
+  "no_drone_token_in_title": 123,
+  "no_drone_token_awarded_amount": 485305764,
   "reused_job_number_cases": 9,
   "framework_count": 4,
   "framework_without_amount": 2,

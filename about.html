@@ -16,8 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/style.css?v=12">
-<script type="module" src="assets/about.js?v=12"></script>
+<link rel="stylesheet" href="assets/style.css?v=13">
+<script type="module" src="assets/about.js?v=13"></script>
 </head>
 <body>
 
@@ -80,7 +80,7 @@
       </div>
       <div>
         <dt>類別與機關群組</dt>
-        <dd>類別依標題與機關名判斷，順序為國防、反制、警政、海巡、消防救災、農林漁業、測繪巡檢、教育研究、環境監測、其他。機關群組依機關代碼首段與名稱歸成國防、中央部會、地方政府、國營事業、學校、其他。</dd>
+        <dd>類別依標題與機關名判斷，由上往下第一個命中者勝出，順序為海巡、國防、反制、警政、消防救災、農林漁業、測繪巡檢、教育研究、環境監測、活動展演、法規管理、產業推動、其他。機場與園區的無人機偵防、偵測告警算反制；燈會與花火節的燈光秀算活動展演；民航局的遙控無人機管理資訊系統與檢驗算法規管理；經濟部沙盒、創新中心與地方產業推廣算產業推動。機關群組依機關代碼首段與名稱歸成國防、中央部會、地方政府、國營事業、學校、其他。</dd>
       </div>
     </dl>
   </section>
@@ -96,6 +96,7 @@
       <li>臺灣銀行等代辦採購案，公告機關不是真正要用的機關。這類案子的機關已改用「履約執行機關」，原公告機關另外記在 <code>announcing_agency</code>。</li>
       <li>更正公告會改寫先前的內容，本站以最新一筆公告為準，不保留歷史版本。</li>
       <li>類別與領域是用規則判斷的，邊界案例會有誤判。</li>
+      <li>首頁的錢的流向只算得標廠商有填金額的部分。多家得標而沒有逐家拆金額的案子會被略過，所以流向圖的總額比決標總額略低。</li>
     </ul>
   </section>
 

@@ -43,37 +43,58 @@ const CATEGORY_RULES = [
   { category: '海巡', agency: /海巡/ },
   {
     category: '國防',
-    agency: /國防部|軍司令部|防衛指揮部|作戰區|中山科學研究院|軍備局|國防大學|陸軍|海軍|空軍|憲兵|後備|聯合後勤|國軍|軍醫|政治作戰|兵工|飛彈|備役/,
+    agency: /國防部|軍司令部|防衛指揮部|作戰區|中山科學研究院|中科院|軍備局|國防大學|陸軍|海軍|空軍|憲兵|後備|聯合後勤|國軍|軍醫|政治作戰|兵工|飛彈|備役/,
   },
   {
+    // 機場與園區的「無人機偵防／防制／偵測告警」是反制，不是巡檢。
+    // 用字要綁「無人機」或器材名，避免把「影像偵測系統」這種一般偵測案吃進來。
     category: '反制',
-    title: /反制|反無人機|無人機防禦|防禦系統|偵測干擾|偵蒐干擾|干擾槍|電子干擾|射頻偵測|RF偵測|聯防/,
+    title: /反制|反無人機|無人機防禦|無人機防制|防制建置|危安防制|偵防|偵測告警|偵測及告警|告警系統|無人機偵測|無人機偵蒐|干擾器|干擾槍|干擾裝置|干擾系統|偵測干擾|偵蒐干擾|電子干擾|射頻偵測|RF偵測|聯防/,
   },
   { category: '警政', agency: /警察|警政|調查局|刑事警察|保安警察|移民署|矯正/ },
   {
     category: '消防救災',
     agency: /消防|空中勤務|災害防救|災防/,
-    title: /搜救|救災|防災|災害|火災|山域|水域搜索/,
+    title: /消防|搜救|救災|防災|災害|火災|山域|水域搜索|熱顯像|熱影像|熱像儀/,
   },
   {
+    // 林務局(?!農林航空)：農林航空測量所做的是測繪，要留給下一條
     category: '農林漁業',
-    agency: /農業部|農業局|林業|農糧|農業改良|農改|漁業|水產|動植物防疫|農田水利|畜產|茶業|種苗/,
-    title: /噴灑|農藥|植保|施藥|作物|果園|魚塭|林班|造林|病蟲害/,
+    agency: /農業部|農業局|林業|農糧|農業改良|農改|漁業|水產|動植物防疫|動物防疫|農田水利|畜產|茶業|種苗|農業試驗|特有生物|林區管理處|林務局(?!農林航空)/,
+    title: /噴灑|農藥|植保|施藥|作物|果園|魚塭|林班|造林|病蟲害|水稻|國有林|外來入侵種/,
   },
   {
+    // 公路、鐵道、電力、自來水、水土保持、礦業、國有地巡管都是「拿無人機去看東西」
     category: '測繪巡檢',
-    agency: /國土測繪|水利署|水利局|公路局|地政|台灣電力|臺灣電力|港務|自來水|鐵道|高速公路/,
-    title: /測量|測繪|航拍|航測|遙測|正射|巡檢|巡查|橋梁|橋樑|電力|輸電|變電|饋線|水利|河川|排水|國土|管線|堤防|坡地|地形|測製|3D建模|點雲/,
+    agency: /國土測繪|水利署|水利局|水土保持|公路局|公路總局|養護工程處|地政|台灣電力|臺灣電力|台灣中油|臺灣中油|中油|港務|自來水|鐵道|高速公路|農林航空測量|大地工程處|國有財產署|礦務局|地質調查|翡翠水庫|下水道|捷運|航港|高灘地/,
+    title: /測量|測繪|航拍|航測|遙測|正射|巡檢|巡查|巡管|橋梁|橋樑|隧道|電力|輸電|變電|饋線|水利|河川|排水|國土|管線|堤防|坡地|崩塌|光達|地形|測製|3D建模|點雲|地籍|砂石|占用/,
   },
   {
     category: '教育研究',
     agency: /大學|學院|學校|研究院|研究所|研究中心|實驗中學|高級中|國民中學|國民小學|科學園區實驗/,
-    title: /研究|教學|教育|訓練|實習|考照|操作證|課程|人才培育|培訓|競賽|營隊|師資|教具/,
+    title: /研究|教學|教育|訓練|實習|考照|考訓|操作證|課程|人才培育|培訓|競賽|營隊|師資|教具/,
   },
   {
     category: '環境監測',
     agency: /環保局|環境保護|環境部|環境管理|空氣品質/,
     title: /空污|空氣污染|空氣品質|水質|污染|排放|稽查/,
+  },
+  {
+    // 燈會、花火節、跨年的無人機燈光秀，金額不小又跟其他類完全不同性質
+    category: '活動展演',
+    title: /燈會|燈光秀|花火|展演|水舞|星光節|嘉年華|煙火|流星雨|藝術月|跨年|七夕|光雕|表演/,
+  },
+  {
+    // 民航局本部：遙控無人機管理資訊系統、註冊檢驗、法規推動。
+    // 各航空站的偵防案已經在上面被「反制」接走。
+    category: '法規管理',
+    custom: (t, a) => /民用航空局|民航局/.test(a),
+  },
+  {
+    // 經濟部沙盒、產業發展署的創新中心與供應鏈計畫、地方政府的產業推廣與參展
+    category: '產業推動',
+    agency: /產業發展署|工業局|^經濟部$|科學園區管理局|科學工業園區管理局|國家發展委員會|外交部|經濟發展局/,
+    title: /產業|園區|沙盒|創新中心|供應鏈|推動計畫|補助|示範|實證|行銷|推廣|展覽|論壇|訪問團|可行性評估|前期規劃|創新應用|創新研發|認證/,
   },
 ];
 const CATEGORY_FALLBACK = '其他';
@@ -132,6 +153,14 @@ const PROCUREMENT_AGENTS = /臺灣銀行股份有限公司|台灣銀行股份有
  * （b）標記 drone_in_title，summary.json 只統計 true 的案子。
  */
 const DRONE_IN_TITLE = /無人|UAV|UAS|空拍|遙控|drone|多旋翼|旋翼機|飛行載具|航空器系統|垂直起降/i;
+
+/**
+ * 「無人機房」＝無人值守的機房，跟無人機一點關係都沒有，但「無人」兩個字會命中。
+ * 中華電信、中華郵政、廣播電臺的機房案 14 件約 0.49 億，會灌進統計，直接排除。
+ */
+const NOT_DRONE_IN_TITLE = /無人機房|無人化機房|無人值守機房|無人自動化機房/;
+
+const droneInTitle = (title) => DRONE_IN_TITLE.test(title || '') && !NOT_DRONE_IN_TITLE.test(title || '');
 
 /** 原產地國別正規化（summary 的 by_origin 分桶）。 */
 const ORIGIN_BUCKETS = ['臺灣', '美國', '中國', '日本'];
@@ -751,7 +780,7 @@ function buildTender(unitId, jobNumber, unitNameHint, records, keywords = []) {
     sensitive: parsed.some((r) => r.sensitive),
     framework: parsed.some((r) => r.framework),
     plural_award: parsed.some((r) => r.plural),
-    drone_in_title: DRONE_IN_TITLE.test(title),
+    drone_in_title: droneInTitle(title),
     fms: winners.some((w) => FMS_VENDOR.test(w.name))
       || FMS_TEXT.test(`${title} ${parsed.map((r) => r.notes || '').join(' ')}`),
     works: lastOf((r) => r.subjectType) === '工程',
@@ -784,7 +813,7 @@ function reclassify(t) {
   t.category = classifyCategory(t.title, t.agency || '');
   t.agency_group = classifyAgencyGroup(t.agency_id, t.agency);
   t.domain = classifyDomain(t.title);
-  t.drone_in_title = DRONE_IN_TITLE.test(t.title);
+  t.drone_in_title = droneInTitle(t.title);
   for (const w of t.winners || []) w.name = canonVendor(w.name);
   t.works = t.procurement_type === '工程';
   t.fms = (t.winners || []).some((w) => FMS_VENDOR.test(w.name)) || FMS_TEXT.test(t.title);
@@ -855,10 +884,22 @@ function buildSummary(all, notes) {
       if (t.status === 'open') row.open_count++;
     }
   }
+  // 每季金額最大的一案，給首頁季度圖當註記用（前端不必為了三行字去載 2.9 MB 的 tenders.json）
+  const topOfQuarter = new Map();
+  for (const t of awarded) {
+    const d = dateOf(t);
+    if (!d || !t.award_amount) continue;
+    const q = quarterOf(d);
+    const cur = topOfQuarter.get(q);
+    if (!cur || t.award_amount > cur.amount) {
+      topOfQuarter.set(q, { title: t.title, agency: t.agency, amount: t.award_amount });
+    }
+  }
+
   const by_quarter = [...byQuarter.entries()]
     .filter(([q]) => q >= '2016Q1')
     .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([q, v]) => ({ q, ...v }));
+    .map(([q, v]) => ({ q, ...v, top: topOfQuarter.get(q) || null }));
   const by_year = [...byYear.entries()]
     .filter(([y]) => Number(y) >= 2010)
     .sort((a, b) => a[0].localeCompare(b[0]))
@@ -882,12 +923,19 @@ function buildSummary(all, notes) {
     .map((r) => ({ agency: r.key, count: r.count, awarded_count: r.awarded_count, amount: r.amount }));
 
   // 廠商（以廠商代碼優先合併，沒有代碼才用正規化名稱）
+  // 中科院等有多個統編的法人以正規化名稱合併，其餘以廠商代碼優先
+  const mergeKey = (w) =>
+    (canonVendor(w.name) !== w.name || VENDOR_CANON.some(([re]) => re.test(w.name))
+      ? vendorKey(w.name)
+      : (w.id || vendorKey(w.name)));
+  // 單一得標廠商時，廠商沒填金額就用標案決標金額
+  const winnerAmount = (w, t) => w.amount ?? (t.winners.length === 1 ? (t.award_amount || 0) : 0);
+
   const vendors = new Map();
   const edges = new Map();
   for (const t of awarded) {
     for (const w of t.winners) {
-      // 中科院等有多個統編的法人以正規化名稱合併，其餘以廠商代碼優先
-      const key = canonVendor(w.name) !== w.name || VENDOR_CANON.some(([re]) => re.test(w.name)) ? vendorKey(w.name) : (w.id || vendorKey(w.name));
+      const key = mergeKey(w);
       if (!vendors.has(key)) vendors.set(key, { name: w.name, id: w.id, count: 0, amount: 0, sme: w.sme, agencies: new Map() });
       const v = vendors.get(key);
       v.count++;
@@ -913,6 +961,46 @@ function buildSummary(all, notes) {
       top_agencies: [...v.agencies.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([agency, count]) => ({ agency, count })),
     }));
   const vendor_agency_edges = [...edges.values()].sort((a, b) => b.amount - a.amount).slice(0, 400);
+
+  // --- 錢的流向：機關群組 → 廠商（首頁桑基圖用） ---
+  // 只算 domestic 已決標。廠商取金額前 8 名，其餘全部併成「其他廠商」，
+  // 節點數控制在 5~6 + 9 個，手刻 SVG 才畫得下、看得懂。
+  const FLOW_VENDOR_N = 8;
+  const FLOW_REST = '其他廠商';
+  const flowNamed = new Map(
+    [...vendors.entries()]
+      .sort((a, b) => b[1].amount - a[1].amount || b[1].count - a[1].count)
+      .slice(0, FLOW_VENDOR_N)
+      .map(([k, v]) => [k, v.name])
+  );
+  const flowGroups = new Map();
+  const flowVendors = new Map();
+  const flowLinks = new Map();
+  for (const t of awarded) {
+    const g = t.agency_group || '其他';
+    for (const w of t.winners) {
+      const amount = winnerAmount(w, t);
+      if (!amount) continue;
+      const name = flowNamed.get(mergeKey(w)) || FLOW_REST;
+      flowGroups.set(g, (flowGroups.get(g) || 0) + amount);
+      flowVendors.set(name, (flowVendors.get(name) || 0) + amount);
+      const lk = `${g} ${name}`;
+      if (!flowLinks.has(lk)) flowLinks.set(lk, { group: g, vendor: name, amount: 0, count: 0 });
+      const l = flowLinks.get(lk);
+      l.amount += amount;
+      l.count++;
+    }
+  }
+  const flow = {
+    groups: [...flowGroups.entries()]
+      .map(([name, amount]) => ({ name, amount }))
+      .sort((a, b) => b.amount - a.amount),
+    vendors: [...flowVendors.entries()]
+      .map(([name, amount]) => ({ name, amount }))
+      // 「其他廠商」是聚合桶，金額再大也排最後，讀者才不會誤會它是一家公司
+      .sort((a, b) => (a.name === FLOW_REST) - (b.name === FLOW_REST) || b.amount - a.amount),
+    links: [...flowLinks.values()].sort((a, b) => b.amount - a.amount),
+  };
 
   // 原產地
   const bucket = (c) => (ORIGIN_BUCKETS.includes(c) ? c : '其他');
@@ -1010,7 +1098,7 @@ function buildSummary(all, notes) {
     generated_at: new Date().toISOString(),
     scope: 'domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。'
       + '下面 totals / by_quarter / by_year / by_category / by_agency_group / top_agencies /'
-      + ' top_vendors / by_origin / by_origin_year / vendor_agency_edges 全部只算 domestic；'
+      + ' top_vendors / by_origin / by_origin_year / vendor_agency_edges / flow 全部只算 domestic；'
       + '對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。',
     tracks: {
       domestic: { count: tenders.length, awarded_count: awarded.length, amount: sum(awarded, (t) => t.award_amount) },
@@ -1024,6 +1112,7 @@ function buildSummary(all, notes) {
     by_year,
     by_category,
     by_agency_group,
+    flow,
     top_agencies,
     top_vendors,
     vendor_agency_edges,

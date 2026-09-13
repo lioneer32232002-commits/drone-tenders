@@ -67,8 +67,8 @@ function render(s) {
 
   origin(d);
   quarters(d);
-  sources(d);
-  vendors(d);
+  categories(d);
+  flow(d);
   recent(d);
   offBook(fms, works);
 }
@@ -214,6 +214,7 @@ function quarters(d) {
     q: r.q || r.quarter,
     awarded_count: r.awarded_count || 0,
     awarded_amount: r.awarded_amount || 0,
+    top: r.top || null,
   })).filter(r => r.q && +r.q.slice(0, 4) >= FIRST_YEAR).sort((a, b) => (a.q < b.q ? -1 : 1));
 
   // 補上沒有資料的季，時間軸才是真的等距
@@ -244,8 +245,19 @@ function drawQuarters() {
   // viewBox 對齊實際像素寬，字級才不會被縮掉
   const W = Math.max(320, Math.round(host.clientWidth || 1000));
   const narrow = W < 560;
-  const H = narrow ? 180 : 230;
-  const PB = 24, PT = 12;
+
+  // 註記：金額最高的幾季，在長條上方標那一季最大的一案。手機只留最高的一季。
+  const notes = rows
+    .map((r, i) => ({ r, i }))
+    .filter(x => x.r.top && x.r.awarded_amount > 0)
+    .sort((a, b) => b.r.awarded_amount - a.r.awarded_amount)
+    .slice(0, narrow ? 1 : 3)
+    .sort((a, b) => a.i - b.i);
+  const ROW = 21;
+  const AN = notes.length ? notes.length * ROW + 10 : 0;
+
+  const H = (narrow ? 180 : 230) + AN;
+  const PB = 24, PT = 12 + AN;
   const max = Math.max(...rows.map(r => r.awarded_amount), 1);
   const step = W / rows.length;
   const bw = Math.max(2, Math.min(46, step * 0.62));
@@ -295,49 +307,247 @@ function drawQuarters() {
     g.append(hit);
   });
 
+  // 註記：細線從長條頂端拉到上方，字 14px。標題截到 14 字。
+  notes.forEach((n, k) => {
+    const x = n.i * step + step / 2;
+    const barTop = H - PB - (n.r.awarded_amount / max) * (H - PB - PT);
+    const y = 14 + k * ROW;
+    const wide = Math.min(300, W * 0.72);
+    let left = x > W * 0.5;
+    if (left && x - wide < 0) left = false;
+    if (!left && x + wide > W) left = true;
+
+    g.append(svg('line', { x1: x, x2: x, y1: barTop - 4, y2: y + 4, class: 'anno-line' }));
+    const t = svg('text', { x: left ? x - 9 : x + 9, y, class: 'anno', 'text-anchor': left ? 'end' : 'start' });
+    const q = svg('tspan', { class: 'anno-q' });
+    q.textContent = `${n.r.q.slice(0, 4)}Q${n.r.q.slice(5)}　`;
+    const ttl = svg('tspan');
+    ttl.textContent = cut(n.r.top.title, 14);
+    const amt = svg('tspan', { class: 'anno-a' });
+    amt.textContent = `　${fmtAmount(n.r.top.amount)}`;
+    t.append(q, ttl, amt);
+    g.append(t);
+  });
+
   host.append(g);
 }
 
-/* ---------- 03 錢從哪裡來 ---------- */
+const cut = (s, n) => (!s ? '' : s.length > n ? `${s.slice(0, n)}…` : s);
 
-function sources(d) {
-  const rows = (d.by_agency_group || [])
-    .map(r => ({ name: r.agency_group ?? r.name, count: r.count, amount: r.amount || 0 }))
+/* ---------- 03 哪一類 ---------- */
+
+function categories(d) {
+  const rows = (d.by_category || [])
+    .map(r => ({ name: r.category ?? r.name, count: r.awarded_count ?? r.count, amount: r.amount || 0 }))
     .filter(r => r.amount > 0)
     .sort((a, b) => b.amount - a.amount);
+  const host = clear($('#category-bars'));
+  if (!rows.length) { host.append(el('p', { class: 'empty', text: '沒有分類資料。' })); return; }
+
+  const max = Math.max(...rows.map(r => r.amount), 1);
   const total = sum(rows, r => r.amount);
-  const bar = clear($('#group-bar'));
-  const leg = clear($('#group-legend'));
-  rows.forEach((r, i) => {
-    bar.append(el('span', {
-      class: `c${(i % 6) + 1}`,
-      style: `width:${(r.amount / total) * 100}%`,
-      title: `${r.name} ${fmtAmount(r.amount)}`,
-    }));
-    leg.append(el('li', null, [
-      el('span', { class: `sw c${(i % 6) + 1}` }),
+  for (const r of rows) {
+    const row = el('div', { class: 'hbar' }, [
       el('span', { class: 'k', text: r.name }),
-      el('span', { class: 'v', text: `${fmtAmount(r.amount)}　${fmtInt(r.count)} 件` }),
-    ]));
-  });
-  bar.setAttribute('aria-label',
-    '機關群組金額占比：' + rows.map(r => `${r.name} ${fmtPct(r.amount, total)}`).join('、'));
+      el('span', { class: 'trk' }, [
+        el('span', { class: 't', style: `width:${Math.max(0.4, (r.amount / max) * 100)}%` }),
+      ]),
+      el('span', { class: 'v num' }, [
+        el('span', { class: 'amt', text: fmtAmount(r.amount) }),
+        el('span', { class: 'n', text: `${fmtInt(r.count)} 件` }),
+      ]),
+    ]);
+    row.addEventListener('pointerenter', e => showTip(e,
+      `<b>${r.name}</b><br><span class="m">決標 ${fmtInt(r.count)} 件 · ${fmtAmount(r.amount)} · 占 ${fmtPct(r.amount, total)}</span>`));
+    row.addEventListener('pointerleave', hideTip);
+    host.append(row);
+  }
 }
 
-/* ---------- 04 錢到哪裡去 ---------- */
+/* ---------- 04 錢的流向（手刻兩欄桑基圖） ---------- */
 
-function vendors(d) {
-  const rows = (d.top_vendors || [])
-    .map(r => ({ name: r.vendor ?? r.name, count: r.count, amount: r.amount || 0 }))
-    .slice(0, 10);
-  const host = clear($('#vendor-bars'));
-  if (!rows.length) { host.append(el('p', { class: 'empty', text: '沒有得標廠商資料。' })); return; }
-  const max = Math.max(...rows.map(r => r.amount), 1);
-  for (const r of rows) {
-    host.append(el('div', { class: 'hbar' }, [
-      el('span', { class: 'k', text: r.name }),
-      el('span', { class: 't', style: `width:${(r.amount / max) * 100}%` }),
-      el('span', { class: 'v', text: `${fmtAmount(r.amount)}　${fmtInt(r.count)} 件` }),
+// 廠商全名太長，右欄標不下，去掉公司型態的後綴
+const shortVendor = n => (n || '')
+  .replace(/股份有限公司|有限公司|股份公司/g, '')
+  .replace(/^財團法人/, '')
+  .trim() || (n || '');
+
+let flowData = null;
+
+function flow(d) {
+  const f = d.flow;
+  const sec = $('#flow');
+  if (!sec) return;
+  if (!f || !f.groups?.length || !f.vendors?.length || !f.links?.length) {
+    clear($('#flow-chart')).append(el('p', { class: 'empty', text: '沒有可畫的流向資料。' }));
+    return;
+  }
+
+  const gi = new Map(f.groups.map((g, i) => [g.name, i]));
+  flowData = {
+    groups: f.groups.map((g, i) => ({ ...g, c: i % 6 + 1 })),
+    vendors: f.vendors.map(v => ({ ...v, label: shortVendor(v.name) })),
+    links: f.links.map(l => ({ ...l, c: (gi.get(l.group) ?? 5) % 6 + 1 })),
+  };
+
+  drawFlow();
+  flowList();
+
+  let t = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(drawFlow, 160);
+  });
+}
+
+function drawFlow() {
+  const wrap = $('#flow');
+  const host = clear($('#flow-chart'));
+  if (!flowData || !wrap) return;
+
+  const { groups, vendors: vs, links } = flowData;
+  // 外層一定看得到，內層在窄螢幕被 CSS 收起來，量它會是 0
+  const W = Math.max(360, Math.round(wrap.clientWidth || 960));
+  const LW = W < 820 ? 120 : 150;
+  const RW = W < 820 ? 200 : 248;
+  const NW = 9;
+  const x0 = LW, x1 = W - RW - NW;
+
+  const total = Math.max(1, sum(groups, g => g.amount));
+  const GAP = 11;
+  const H = 470;
+  const scale = (H - Math.max(groups.length - 1, vs.length - 1) * GAP) / total;
+
+  const place = (list) => {
+    const h = sum(list, r => r.amount) * scale + (list.length - 1) * GAP;
+    let y = (H - h) / 2;
+    return list.map(r => {
+      const box = { ...r, y, h: Math.max(1.5, r.amount * scale) };
+      y += box.h + GAP;
+      return box;
+    });
+  };
+
+  const L = place(groups);
+  const R = place(vs);
+  const byName = m => new Map(m.map(r => [r.name, r]));
+  const lAt = byName(L), rAt = byName(R);
+
+  const g = svg('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img' });
+  g.setAttribute('aria-label',
+    `機關群組到廠商的金額流向圖。${L.map(r => `${r.name} ${fmtAmount(r.amount)}`).join('、')}；`
+    + `收錢的是 ${R.map(r => `${r.label} ${fmtAmount(r.amount)}`).join('、')}。`);
+
+  // 帶狀：左邊依右欄順序疊、右邊依左欄順序疊，線才不會打結
+  const lCur = new Map(L.map(r => [r.name, r.y]));
+  const rCur = new Map(R.map(r => [r.name, r.y]));
+  const order = [];
+  for (const rr of R) for (const ll of L) {
+    const link = links.find(x => x.group === ll.name && x.vendor === rr.name);
+    if (link) order.push(link);
+  }
+  for (const link of order) {
+    const a = lAt.get(link.group), b = rAt.get(link.vendor);
+    if (!a || !b) continue;
+    const th = Math.max(1, link.amount * scale);
+    const ya = lCur.get(link.group), yb = rCur.get(link.vendor);
+    lCur.set(link.group, ya + th);
+    rCur.set(link.vendor, yb + th);
+    const xa = x0 + NW, xb = x1, xm = (xa + xb) / 2;
+    const p = svg('path', {
+      class: `ribbon-f f${link.c}`,
+      d: `M${xa} ${ya} C${xm} ${ya} ${xm} ${yb} ${xb} ${yb}`
+        + ` L${xb} ${yb + th} C${xm} ${yb + th} ${xm} ${ya + th} ${xa} ${ya + th} Z`,
+    });
+    p.addEventListener('pointerenter', e => {
+      g.classList.add('dim');
+      p.classList.add('on');
+      showTip(e, `<b>${link.group} → ${shortVendor(link.vendor)}</b><br>`
+        + `<span class="m">${fmtAmount(link.amount)} · ${fmtInt(link.count)} 件</span>`);
+    });
+    p.addEventListener('pointerleave', () => {
+      g.classList.remove('dim');
+      p.classList.remove('on');
+      hideTip();
+    });
+    g.append(p);
+  }
+
+  // 節點與標籤。標籤中心會被推開，避免小節點的字疊在一起
+  const labelY = (boxes, minGap) => {
+    const ys = boxes.map(b => b.y + b.h / 2);
+    for (let i = 1; i < ys.length; i++) ys[i] = Math.max(ys[i], ys[i - 1] + minGap);
+    const over = ys.length ? ys[ys.length - 1] - (H - 6) : 0;
+    if (over > 0) {
+      ys[ys.length - 1] -= over;
+      for (let i = ys.length - 2; i >= 0; i--) ys[i] = Math.min(ys[i], ys[i + 1] - minGap);
+    }
+    return ys;
+  };
+
+  const lys = labelY(L, 23);
+  const rys = labelY(R, 23);
+
+  L.forEach((b, i) => {
+    g.append(svg('rect', { x: x0, y: b.y, width: NW, height: b.h, class: `fnode f${b.c}` }));
+    const y = lys[i];
+    if (Math.abs(y - (b.y + b.h / 2)) > 2.5) {
+      g.append(svg('path', {
+        class: 'anno-line',
+        d: `M${x0 - 4} ${b.y + b.h / 2} L${x0 - 11} ${y - 4} L${x0 - 15} ${y - 4}`,
+      }));
+    }
+    const t = svg('text', { x: x0 - 16, y: y + 5, 'text-anchor': 'end', class: 'fl' });
+    const nm = svg('tspan'); nm.textContent = b.name;
+    const am = svg('tspan', { class: 'fa' }); am.textContent = `　${fmtAmount(b.amount)}`;
+    t.append(nm, am);
+    g.append(t);
+  });
+
+  R.forEach((b, i) => {
+    g.append(svg('rect', { x: x1, y: b.y, width: NW, height: b.h, class: 'fnode fv' }));
+    const y = rys[i];
+    if (Math.abs(y - (b.y + b.h / 2)) > 2.5) {
+      g.append(svg('path', {
+        class: 'anno-line',
+        d: `M${x1 + NW + 4} ${b.y + b.h / 2} L${x1 + NW + 11} ${y - 4} L${x1 + NW + 15} ${y - 4}`,
+      }));
+    }
+    const t = svg('text', { x: x1 + NW + 16, y: y + 5, class: 'fl' });
+    const nm = svg('tspan'); nm.textContent = b.label;
+    const am = svg('tspan', { class: 'fa' }); am.textContent = `　${fmtAmount(b.amount)}`;
+    t.append(nm, am);
+    g.append(t);
+  });
+
+  host.append(g);
+}
+
+// 手機：桑基圖看不清楚，改成每個群組一段，列出三個最大的廠商
+function flowList() {
+  const host = clear($('#flow-list'));
+  if (!flowData) return;
+  for (const gp of flowData.groups) {
+    const rows = flowData.links
+      .filter(l => l.group === gp.name)
+      .sort((a, b) => b.amount - a.amount)
+      .slice(0, 3);
+    if (!rows.length) continue;
+    const ul = el('ul', { class: 'fg-v' });
+    for (const r of rows) {
+      ul.append(el('li', null, [
+        el('span', { class: 'k', text: shortVendor(r.vendor) }),
+        el('span', { class: 'v num', text: fmtAmount(r.amount) }),
+        el('span', { class: `t c${gp.c}`, style: `width:${Math.max(1, (r.amount / gp.amount) * 100)}%` }),
+      ]));
+    }
+    host.append(el('div', { class: 'fg' }, [
+      el('div', { class: 'fg-h' }, [
+        el('span', { class: `sw c${gp.c}` }),
+        el('span', { class: 'fg-n', text: gp.name }),
+        el('span', { class: 'fg-a num', text: fmtAmount(gp.amount) }),
+      ]),
+      ul,
     ]));
   }
 }
