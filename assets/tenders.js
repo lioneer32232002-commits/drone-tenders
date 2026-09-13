@@ -150,7 +150,7 @@ function row(t) {
   const date = t.award_date || t.last_notice_date || t.first_notice_date;
 
   const btn = el('button', {
-    type: 'button', class: 'linkish open-btn', 'aria-expanded': 'false', text: t.title,
+    type: 'button', class: 'linkbtn open-btn', 'aria-expanded': 'false', text: t.title,
   });
 
   tr.append(

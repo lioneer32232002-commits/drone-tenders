@@ -11,6 +11,8 @@
   --rule: #ddd8d0;
   --hair: #e8e4dd;
   --accent: #2b4f6f;
+  --link: #2b4f6f;
+  --link-hover: #a8763e;
 
   /* 原產地／類別用色，深淺色各一套 */
   --c1: #2b4f6f;
@@ -38,6 +40,8 @@
     --rule: #2b2d2a;
     --hair: #232522;
     --accent: #9dc0dc;
+    --link: #9dc0dc;
+    --link-hover: #d8a86a;
 
     --c1: #7fa9cc;
     --c2: #d8a86a;
@@ -63,8 +67,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: inherit; }
-a:hover { color: var(--accent); }
+/* 連結一律不畫底線，靠顏色辨識；hover 轉赭色 */
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover { color: var(--link-hover); }
 
 h1, h2, h3, p, ul, ol, dl, figure { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
@@ -115,7 +124,7 @@ p, li, td, figcaption { text-wrap: pretty; }
   text-decoration: none;
 }
 
-.brand:hover { color: var(--fg); }
+.brand:hover { color: var(--link); }
 
 .site-name {
   flex: 1 1 auto;
@@ -141,13 +150,11 @@ p, li, td, figcaption { text-wrap: pretty; }
   text-decoration: none;
 }
 
-.nav a:hover { color: var(--fg); }
+.nav a:hover { color: var(--link); }
 
 .nav a[aria-current="page"] {
-  color: var(--fg);
-  text-decoration: underline;
-  text-underline-offset: 6px;
-  text-decoration-thickness: 1px;
+  font-weight: 700;
+  color: var(--link);
 }
 
 .col > section { padding-block: 52px; }
@@ -417,7 +424,6 @@ h3 {
 .recent .a .ty { display: block; font-size: 15px; color: var(--faint); }
 
 .more { margin-top: 22px; font-size: 17px; }
-.more a { text-underline-offset: 5px; }
 
 /* ---------- 圖片 ---------- */
 
@@ -431,9 +437,8 @@ figure.photo figcaption {
   color: var(--muted);
 }
 
-figure.photo figcaption a { text-underline-offset: 3px; }
 
-/* ---------- 篩選器（細框／底線，無膠囊無陰影） ---------- */
+/* ---------- 篩選器（細框，無膠囊無陰影） ---------- */
 
 .filters {
   display: flex;
@@ -457,10 +462,9 @@ figure.photo figcaption a { text-underline-offset: 3px; }
   appearance: none;
   min-width: 7em;
   max-width: 100%;
-  padding: 3px 18px 3px 0;
-  border: 0;
-  border-bottom: 1px solid var(--rule);
-  border-radius: 0;
+  padding: 5px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
   background: none;
   color: var(--fg);
   font: inherit;
@@ -471,38 +475,53 @@ figure.photo figcaption a { text-underline-offset: 3px; }
 .field select {
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
     linear-gradient(135deg, currentColor 50%, transparent 50%);
-  background-position: calc(100% - 8px) calc(50% + 1px), calc(100% - 3px) calc(50% + 1px);
+  padding-right: 26px;
+  background-position: calc(100% - 14px) calc(50% + 1px), calc(100% - 9px) calc(50% + 1px);
   background-size: 5px 5px, 5px 5px;
   background-repeat: no-repeat;
 }
 
-.field select:hover, .field input:hover { border-bottom-color: var(--fg); }
+.field select:hover, .field input:hover { border-color: var(--link); }
 .field input::placeholder { color: var(--faint); }
 .field option { background: var(--bg); color: var(--fg); }
 
 .field-wide input { min-width: 13em; }
 
+/* 細框按鈕：1px 邊框、無底色無陰影，hover 邊框轉主色 */
 .linkish {
+  appearance: none;
+  padding: 5px 14px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.linkish:hover { color: var(--link); }
+
+/* 看起來像連結的按鈕（表格裡的標案名稱），不加框也不加底線 */
+.linkbtn {
   appearance: none;
   padding: 0;
   border: 0;
   background: none;
-  color: inherit;
+  color: var(--link);
   font: inherit;
-  font-size: 17px;
-  text-decoration: underline;
-  text-underline-offset: 5px;
-  text-decoration-thickness: 1px;
+  text-align: left;
   cursor: pointer;
 }
 
-.linkish:hover { color: var(--accent); }
+.linkbtn:hover { color: var(--link-hover); }
 
 .btn {
   appearance: none;
   padding: 5px 14px;
   border: 1px solid var(--rule);
-  border-radius: 0;
+  border-radius: 2px;
   background: none;
   color: var(--fg);
   font: inherit;
@@ -511,7 +530,7 @@ figure.photo figcaption a { text-underline-offset: 3px; }
   cursor: pointer;
 }
 
-.btn:hover { border-color: var(--fg); }
+.btn:hover { border-color: var(--link); }
 
 .result-line {
   margin: 16px 0 0;
@@ -563,11 +582,7 @@ th.t-num { text-align: right; }
 .t-title .open-btn {
   font: inherit;
   text-align: left;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
 }
-
-.t-title .open-btn:hover { border-bottom-color: var(--accent); }
 .t-title .flag { font-size: 15px; color: var(--faint); padding-left: 8px; white-space: nowrap; }
 
 tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); background: none !important; }
@@ -623,7 +638,8 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
   cursor: pointer;
 }
 
-.row-btn:hover .nm { color: var(--accent); }
+.row-btn:hover { background: var(--paper); }
+.row-btn:hover .nm { color: var(--link); }
 .row-btn .i { font-family: var(--mono); font-size: 15px; color: var(--faint); }
 .row-btn .nm { min-width: 0; overflow-wrap: anywhere; text-wrap: pretty; }
 .row-btn .nm .tag { font-size: 14px; letter-spacing: 0.08em; color: var(--faint); padding-left: 10px; white-space: nowrap; }
@@ -713,7 +729,6 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
   color: var(--muted);
 }
 .prose p + p { margin-top: 18px; }
-.prose a { text-underline-offset: 4px; }
 
 .deflist { margin-top: 4px; font-size: 17px; }
 
@@ -746,7 +761,6 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
 .series { max-width: 44em; font-size: 17px; }
 .series li { padding: 12px 0; border-top: 1px solid var(--hair); }
 .series li:last-child { border-bottom: 1px solid var(--hair); }
-.series a { text-underline-offset: 4px; }
 .series .sep { padding: 0 9px; color: var(--rule); }
 .series .k { font-size: 16px; color: var(--faint); }
 .series .d { display: block; font-size: 17px; color: var(--muted); }
@@ -766,7 +780,6 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
   color: var(--muted);
 }
 
-.site-foot a { text-underline-offset: 3px; }
 .site-foot .fr { text-align: right; }
 
 /* ---------- 寬螢幕 ---------- */
