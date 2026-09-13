@@ -96,7 +96,7 @@ function heroSpark(d) {
   if (months.length < 2) { host.remove(); return; }
 
   const max = Math.max(...months.map(m => m.awarded_count || 0), 1);
-  const W = 220, H = 30, GAP = 3;
+  const W = 260, H = 36, GAP = 3;
   const bw = (W - GAP * (months.length - 1)) / months.length;
   const g = svg('svg', { viewBox: `0 0 ${W} ${H}` });
   months.forEach((m, i) => {

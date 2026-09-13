@@ -184,10 +184,10 @@ p, li, td, figcaption { text-wrap: pretty; }
 
 /* ---------- hero 走勢小圖 ---------- */
 
-.spark { width: 220px; max-width: 100%; margin: 16px 0 0; }
-.spark svg { display: block; width: 100%; height: 30px; }
-.spark .bar { fill: var(--rule); }
-.spark .bar.on { fill: var(--accent); }
+.spark { width: 260px; max-width: 100%; margin: 18px 0 0; }
+.spark svg { display: block; width: 100%; height: 36px; }
+.spark .bar { fill: var(--accent); opacity: .38; }
+.spark .bar.on { opacity: 1; }
 
 .sub-h {
   margin: 44px 0 12px;
@@ -256,7 +256,7 @@ h3 {
   line-height: 1.4;
 }
 
-.meta { margin: 18px 0 0; font-size: 17px; color: var(--muted); }
+.meta { margin: 18px 0 0; font-size: 17px; color: var(--muted); word-break: keep-all; }
 .meta .sep { padding: 0 9px; color: var(--rule); }
 .meta time { font-family: var(--mono); font-size: 16px; }
 
