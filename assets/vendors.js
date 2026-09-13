@@ -1,5 +1,5 @@
 import {
-  loadJSON, failInto, initChrome, stampFooter, fmtAmount, fmtInt, fmtDate,
+  loadJSON, failInto, initChrome, stampFooter, fmtAmount, fmtInt, fmtDate, fmtPct,
   el, $, clear, sum, showTip, hideTip, trackOf,
 } from './common.js';
 
@@ -41,6 +41,7 @@ function start(d) {
     `<span class="n">${fmtInt(vendors.length)}</span> 家廠商曾得標` +
     `<span class="sep"> · </span>合計 ${fmtAmount(sum(vendors, v => v.amount))}`;
 
+  renderSme(awarded);
   renderRows(vendors);
   renderGraph(vendors);
   let t = 0;
@@ -48,6 +49,42 @@ function start(d) {
     clearTimeout(t);
     t = setTimeout(() => renderGraph(vendors), 160);
   });
+}
+
+/* ---------- 中小企業占比 ---------- */
+
+function renderSme(awarded) {
+  const big = $('#sme-big');
+  const bar = clear($('#sme-bar'));
+  const keys = clear($('#sme-keys'));
+  if (!big) return;
+
+  let smeAmt = 0, otherAmt = 0, smeCount = 0, otherCount = 0;
+  for (const t of awarded) for (const w of t.winners || []) {
+    if (w.sme === true) { smeAmt += w.amount || 0; smeCount++; }
+    else if (w.sme === false) { otherAmt += w.amount || 0; otherCount++; }
+  }
+  const total = smeAmt + otherAmt;
+  if (!total) { big.textContent = '沒有可歸戶的中小企業資料。'; return; }
+
+  clear(big);
+  big.append(el('span', { text: `中小企業得標 ${fmtPct(smeAmt, total)}` }));
+  big.append(el('span', { class: 'amt', text: `${fmtInt(smeCount)} 件 · ${fmtAmount(smeAmt)}` }));
+
+  bar.setAttribute('aria-label', `中小企業 ${fmtPct(smeAmt, total)}，非中小企業 ${fmtPct(otherAmt, total)}`);
+  bar.append(el('span', { class: 'c1', style: `width:${Math.max(0.6, (smeAmt / total) * 100)}%` }));
+  if (otherAmt) bar.append(el('span', { class: 'c6', style: `width:${Math.max(0.6, (otherAmt / total) * 100)}%` }));
+
+  keys.append(el('li', null, [
+    el('span', { class: 'sw c1' }),
+    el('span', { class: 'k', text: `中小企業 ${fmtPct(smeAmt, total)}` }),
+    el('span', { class: 'v', text: `${fmtInt(smeCount)} 件 · ${fmtAmount(smeAmt)}` }),
+  ]));
+  keys.append(el('li', null, [
+    el('span', { class: 'sw c6' }),
+    el('span', { class: 'k', text: `非中小企業 ${fmtPct(otherAmt, total)}` }),
+    el('span', { class: 'v', text: `${fmtInt(otherCount)} 件 · ${fmtAmount(otherAmt)}` }),
+  ]));
 }
 
 /* ---------- 排行 ---------- */
@@ -78,11 +115,16 @@ function renderRows(vendors) {
 }
 
 function vendorBody(v) {
-  const clients = [...v.agencies].sort((a, b) => b[1] - a[1]).slice(0, 3)
-    .map(([n, a]) => `${n}（${fmtAmount(a)}）`).join('、');
+  const clients = [...v.agencies].sort((a, b) => b[1] - a[1]).slice(0, 3);
+  const maxAmt = clients.length ? clients[0][1] : 1;
 
   return el('div', { class: 'row-body' }, [
-    el('p', { class: 'sub', text: `主要客戶：${clients || '—'}` }),
+    clients.length ? el('p', { class: 'sub', text: '主要客戶' }) : el('p', { class: 'sub', text: '主要客戶：—' }),
+    clients.length ? el('ul', { class: 'fg-v' }, clients.map(([name, amt], i) => el('li', null, [
+      el('span', { class: 'k', text: name }),
+      el('span', { class: 'v num', text: fmtAmount(amt) }),
+      el('span', { class: `t c${i + 1}`, style: `width:${Math.max(1, (amt / maxAmt) * 100)}%` }),
+    ]))) : null,
     el('ul', { class: 'mini-list' }, v.tenders
       .slice()
       .sort((a, b) => (a.t.award_date < b.t.award_date ? 1 : -1))

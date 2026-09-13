@@ -275,6 +275,14 @@ h3 {
 .legend .k { color: var(--fg); }
 .legend .v { font-size: 16px; color: var(--muted); }
 
+/* ---------- 機關頁：每群組一條堆疊橫條 ---------- */
+
+.group-bar { margin: 14px 0 22px; }
+.legend-click li { cursor: default; }
+.legend-click li:hover .k { color: var(--link); }
+
+.sbar-sm { height: 20px; }
+
 .c1 { background: var(--c1); }
 .c2 { background: var(--c2); }
 .c3 { background: var(--c3); }
@@ -282,11 +290,11 @@ h3 {
 .c5 { background: var(--c5); }
 .c6 { background: var(--faint); }
 
-/* ---------- 原產地：大字排版 ---------- */
+/* ---------- 大字數字＋色標清單（原產地、競爭程度、中小企業共用） ---------- */
 
 .origin-lead { margin: 6px 0 0; }
 
-.origin-big {
+.bigstat {
   margin: 0;
   font-family: var(--serif);
   font-weight: 700;
@@ -295,7 +303,7 @@ h3 {
   letter-spacing: 0.005em;
 }
 
-.origin-big .amt {
+.bigstat .amt {
   padding-left: 14px;
   font-family: var(--sans);
   font-weight: 400;
@@ -305,7 +313,7 @@ h3 {
   white-space: nowrap;
 }
 
-.origin-rest {
+.keys {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -314,27 +322,42 @@ h3 {
   font-size: 18px;
 }
 
-.origin-rest li { display: flex; align-items: baseline; gap: 9px; }
+.keys li { display: flex; align-items: baseline; gap: 9px; }
 
-.origin-rest .sw {
+.keys .sw {
   flex: none;
   width: 20px;
   height: 3px;
   transform: translateY(-4px);
 }
 
-.origin-rest .k { color: var(--fg); }
-.origin-rest .v { font-size: 16px; color: var(--muted); }
+.keys .k { color: var(--fg); }
+.keys .v { font-size: 16px; color: var(--muted); }
 
-/* ---------- 原產地：逐年橫條 ---------- */
+/* ---------- 原產地：逐年雙欄橫條 ----------
+   左欄長條是該年決標總額（線性，年與年之間可比），右欄短條永遠滿格、
+   只表示當年的原產地組成。早年金額小到線性長條剩幾個像素，組成仍讀得出來。 */
 
 .yearbars { margin: 4px 0 0; }
 
+.yb-head {
+  display: grid;
+  grid-template-columns: 3.4em minmax(0, 1fr) 6em 132px 4.6em;
+  align-items: baseline;
+  gap: 14px;
+  padding-bottom: 7px;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  color: var(--faint);
+}
+
+.yb-head .r { text-align: right; }
+
 .yb {
   display: grid;
-  grid-template-columns: 3.6em minmax(0, 1fr) 6.2em 5em;
+  grid-template-columns: 3.4em minmax(0, 1fr) 6em 132px 4.6em;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   padding: 9px 0;
   border-top: 1px solid var(--hair);
 }
@@ -347,18 +370,26 @@ h3 {
   color: var(--muted);
 }
 
-.yb-track { min-width: 0; }
+.yb-track, .yb-mix { min-width: 0; }
 
 .yb-bar {
   display: flex;
   height: 14px;
   min-width: 2px;
+  background: var(--accent);
+}
+
+.yb-bar.empty { background: var(--hair); }
+
+.yb-mix .yb-bar {
+  width: 100%;
+  height: 11px;
   background: none;
 }
 
-.yb-bar > i { display: block; height: 100%; min-width: 1px; }
-.yb-bar > i + i { box-shadow: inset 1px 0 0 var(--bg); }
-.yb-bar.empty { background: var(--hair); }
+.yb-mix .yb-bar > i { display: block; height: 100%; min-width: 1px; }
+.yb-mix .yb-bar > i + i { box-shadow: inset 1px 0 0 var(--bg); }
+.yb-mix .yb-bar.empty { background: var(--hair); }
 
 .yb-total {
   font-size: 16px;
@@ -379,6 +410,7 @@ h3 {
 
 .chart { width: 100%; margin-top: 8px; }
 .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart-sm { margin-top: 20px; }
 
 .bar { fill: var(--accent); transition: opacity 150ms ease; }
 .bar-open { fill: var(--rule); }
@@ -537,6 +569,21 @@ figure.photo figcaption {
 
 /* ---------- 篩選器（細框，無膠囊無陰影） ---------- */
 
+.filters-summary {
+  display: none;
+  padding: 8px 0;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.filters-summary::-webkit-details-marker { display: none; }
+.filters-summary::after { content: "▾"; padding-left: 8px; font-size: 12px; }
+details.filters-wrap[open] .filters-summary::after { content: "▴"; }
+.filters-summary:hover { color: var(--link); }
+
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -674,6 +721,14 @@ tbody td:last-child, thead th:last-child { padding-right: 0; }
 .t-vendor { width: 15%; color: var(--muted); }
 .t-status { width: 4.2em; white-space: nowrap; color: var(--muted); }
 
+.stag {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 7px;
+  vertical-align: middle;
+}
+
 th.t-num { text-align: right; }
 
 .t-title .open-btn {
@@ -745,6 +800,7 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
 
 .row-body { padding: 2px 0 20px 3.3em; }
 .row-body .sub { font-size: 16px; color: var(--muted); margin-bottom: 10px; }
+.row-body .fg-v { margin-bottom: 22px; }
 
 .mini-list li {
   display: grid;
@@ -910,6 +966,11 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
   .cats .hbar .v { grid-area: 1 / 2; gap: 10px; }
   .cats .hbar .trk { grid-area: 2 / 1 / 3 / -1; height: 8px; }
 
+  /* 篩選器收合成一列，展開才看得到全部欄位 */
+  .filters-summary { display: block; }
+  details.filters-wrap:not([open]) .filters { display: none; }
+  .filters { padding-top: 4px; }
+
   /* 桑基圖在 390px 讀不動，換成分組清單 */
   .flow-chart { display: none; }
   .flow-list { display: block; }
@@ -919,17 +980,22 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
   .recent li { grid-template-columns: minmax(0, 1fr) auto; }
   .recent .d { grid-column: 1 / -1; }
 
-  .origin-big .amt { display: block; padding-left: 0; padding-top: 6px; }
+  .bigstat .amt { display: block; padding-left: 0; padding-top: 6px; }
+
+  /* 兩排：上排年份＋總額長條＋金額，下排組成條＋非國產占比，組成條對齊上排長條 */
+  .yb-head { display: none; }
 
   .yb {
     grid-template-columns: 3.2em minmax(0, 1fr) auto;
     column-gap: 12px;
-    row-gap: 6px;
+    row-gap: 7px;
   }
 
-  .yb-track { grid-column: 1 / -1; grid-row: 2; }
-  .yb-total { font-size: 15px; }
-  .yb-pct { font-size: 15px; }
+  .yb-y { grid-area: 1 / 1; }
+  .yb-track { grid-area: 1 / 2; }
+  .yb-total { grid-area: 1 / 3; font-size: 15px; }
+  .yb-mix { grid-area: 2 / 2; }
+  .yb-pct { grid-area: 2 / 3; font-size: 15px; }
 
   .row-btn { grid-template-columns: 2em minmax(0, 1fr) auto; row-gap: 2px; }
   .row-btn .cnt { grid-column: 2 / -1; text-align: left; }

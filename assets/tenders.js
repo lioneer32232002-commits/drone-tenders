@@ -1,9 +1,23 @@
 import {
   loadJSON, failInto, initChrome, stampFooter, fmtAmount, fmtInt, fmtDate,
-  el, $, clear, STATUS, DOMAIN, TRACK, trackOf,
+  el, $, clear, sum, STATUS, DOMAIN, TRACK, trackOf,
 } from './common.js';
 
 initChrome('tenders');
+
+// 手機預設收合，節省第一屏空間；桌面版一律展開（.filters-summary 在桌面隱藏，開不了關不了）
+if (window.matchMedia('(max-width: 640px)').matches) {
+  document.querySelector('.filters-wrap')?.removeAttribute('open');
+}
+
+const NS = 'http://www.w3.org/2000/svg';
+function svg(tag, attrs) {
+  const n = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs || {})) if (v != null) n.setAttribute(k, v);
+  return n;
+}
+
+const STATUS_CLASS = { awarded: 'c1', open: 'c2', closed: 'c5', failed: 'c3', pre: 'c6' };
 
 const PAGE = 200;
 
@@ -119,6 +133,63 @@ function apply() {
   shown = 0;
   clear($('#tbody'));
   more();
+  monthlyChart();
+}
+
+let mcT = 0;
+window.addEventListener('resize', () => { clearTimeout(mcT); mcT = setTimeout(monthlyChart, 160); });
+
+/* ---------- 每月件數（依目前篩選即時重算） ---------- */
+
+function monthlyChart() {
+  const host = clear($('#month-chart'));
+  if (!host) return;
+
+  const counts = new Map();
+  for (const t of view) {
+    const d = t.award_date || t.last_notice_date || t.first_notice_date;
+    if (!d || d.slice(0, 4) < '2016') continue;
+    const m = d.slice(0, 7);
+    counts.set(m, (counts.get(m) || 0) + 1);
+  }
+  if (!counts.size) { host.append(el('p', { class: 'empty', text: '沒有可畫的月份資料。' })); return; }
+
+  const months = [...counts.keys()].sort();
+  const [sy, sm] = months[0].split('-').map(Number);
+  const [ey, em] = months.at(-1).split('-').map(Number);
+  const start = sy * 12 + sm - 1, end = ey * 12 + em - 1;
+  const rows = [];
+  for (let i = start; i <= end; i++) {
+    const key = `${Math.floor(i / 12)}-${String((i % 12) + 1).padStart(2, '0')}`;
+    rows.push({ m: key, count: counts.get(key) || 0 });
+  }
+
+  const W = Math.max(320, Math.round(host.clientWidth || 1000));
+  const H = 74, PB = 18, PT = 6;
+  const max = Math.max(...rows.map(r => r.count), 1);
+  const step = W / rows.length;
+  const bw = Math.max(1, Math.min(6, step * 0.7));
+  const g = svg('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img' });
+  g.setAttribute('aria-label', `2016 年起每月件數，最高一個月 ${fmtInt(max)} 件。`);
+
+  g.append(svg('line', { x1: 0, x2: W, y1: H - PB, y2: H - PB, class: 'axis' }));
+
+  rows.forEach((r, i) => {
+    const h = (r.count / max) * (H - PB - PT);
+    if (h > 0) {
+      g.append(svg('rect', {
+        x: i * step + (step - bw) / 2, y: H - PB - h, width: bw, height: Math.max(1, h), class: 'bar',
+      }));
+    }
+    if (r.m.endsWith('-01')) {
+      const t = svg('text', { x: i * step, y: H - 4, class: 'tlabel' });
+      t.textContent = r.m.slice(0, 4);
+      g.append(t);
+      g.append(svg('line', { x1: i * step, x2: i * step, y1: H - PB, y2: H - PB + 3, class: 'axis' }));
+    }
+  });
+
+  host.append(g);
 }
 
 function more() {
@@ -163,7 +234,10 @@ function row(t) {
     el('td', { class: 't-num', 'data-l': '預算', text: fmtAmount(t.budget) }),
     el('td', { class: 't-num', 'data-l': '決標', text: fmtAmount(t.award_amount) }),
     el('td', { class: 't-vendor', text: (t.winners || []).map(w => w.name).join('、') || '—' }),
-    el('td', { class: 't-status', text: STATUS[t.status] || t.status })
+    el('td', { class: 't-status' }, [
+      el('span', { class: `stag ${STATUS_CLASS[t.status] || 'c5'}` }),
+      document.createTextNode(STATUS[t.status] || t.status),
+    ])
   );
 
   let det = null;

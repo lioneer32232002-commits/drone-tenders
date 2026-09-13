@@ -115,6 +115,11 @@ Repo：`lioneer32232002-commits/drone-tenders`（公開）
   "by_quarter": [{"q": "2016Q1", "count": 5, "awarded_count": 3, "awarded_amount": 1234567, "open_count": 0,
                   "top": {"title": "…", "agency": "…", "amount": 1234567}}],
   "by_year":    [{"year": 2026,  "count": 247, "awarded_count": 120, "awarded_amount": 3066742076, "open_count": 13}],
+  "by_month":   [{"m": "2026-09", "count": 23, "awarded_count": 1, "awarded_amount": 42459000}],
+  "by_bidders": {"counted": 1698, "unknown": 0,
+                 "buckets": [{"k": "1", "label": "1 家", "count": 1062, "amount": 12073714828},
+                             {"k": "2", "label": "2 家", "count": 295, "amount": 5575476619},
+                             {"k": "3+", "label": "3 家以上", "count": 341, "amount": 4318912980}]},
   "by_category":     [{"category": "國防", "count": 361, "awarded_count": 280, "amount": 14200000000}],
   "by_agency_group": [{"agency_group": "國防", "count": 400, "awarded_count": 300, "amount": 1234567}],
   "top_agencies":    [{"agency": "國防部", "count": 60, "awarded_count": 50, "amount": 1234567}],
@@ -135,6 +140,8 @@ Repo：`lioneer32232002-commits/drone-tenders`（公開）
 
 - `recent[]`：最近 60 天的公告，**三軌都包含**，每筆帶 `fms` / `works` 旗標讓前端自己決定要不要顯示。
 - `by_quarter[].top`：該季決標金額最大的一案，給首頁季度圖當註記用（前端不必為了三行字去載 2.9 MB 的 `tenders.json`）。
+- `by_month`：2016-01 起連續，沒有資料的月份補 0，給首頁 hero 迷你走勢與標案頁的每月件數圖用。
+- `by_bidders`：只算已決標且機關有填投標家數的案子；`unknown` 是決標但沒填投標家數的件數，不混進 `counted` 的分母。給首頁「競爭程度」一節用。
 - `flow`：首頁桑基圖的資料。機關群組 → 廠商，只算 domestic 已決標、且廠商有填金額的部分；廠商取金額前 8 名，其餘全部併成「其他廠商」（排序永遠最後）。多家得標而沒逐家拆金額的案子會被略過，所以 `flow` 總額比 `totals.awarded_amount` 略低。
 - `by_origin` 的國別是「臺灣」「美國」「中國」「日本」「其他」，`by_origin_year` 是 `{year, origins[]}` 巢狀。
 - `data_notes`：抓取模式與筆數、原產地未填比例與金額覆蓋率、共同供應契約無金額件數、`定翼機` 雜訊件數、案號重複件數、各軌件數、caveats 清單。

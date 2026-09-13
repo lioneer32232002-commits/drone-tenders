@@ -68,6 +68,7 @@ function render(s) {
   origin(d);
   quarters(d);
   categories(d);
+  competition(d);
   flow(d);
   recent(d);
   offBook(fms, works);
@@ -169,18 +170,22 @@ function originYears(d) {
     const oTotal = m ? sum([...m.values()]) : 0;
     const awarded = awardedByYear.get(y) || 0;
 
-    const bar = el('span', { class: oTotal ? 'yb-bar' : 'yb-bar empty' });
-    bar.style.width = `${Math.max(awarded ? 0.8 : 0, (awarded / maxAwarded) * 100)}%`;
+    // 左欄：該年決標總額，線性，年與年之間可比
+    const totalBar = el('span', { class: awarded ? 'yb-bar' : 'yb-bar empty' });
+    totalBar.style.width = `${Math.max(awarded ? 0.8 : 0, (awarded / maxAwarded) * 100)}%`;
+
+    // 右欄：永遠滿格，只表示當年原產地組成，早年金額小也讀得出來
+    const mixBar = el('span', { class: oTotal ? 'yb-bar' : 'yb-bar empty' });
     if (oTotal) {
       for (const b of BUCKETS) {
         const v = m.get(b) || 0;
         if (!v) continue;
-        bar.append(el('i', { class: BUCKET_CLASS[b], style: `width:${(v / oTotal) * 100}%` }));
+        mixBar.append(el('i', { class: BUCKET_CLASS[b], style: `width:${(v / oTotal) * 100}%` }));
       }
     }
 
     const foreign = oTotal ? (oTotal - m.get('臺灣')) / oTotal : null;
-    const pctText = foreign ? fmtPct(oTotal - m.get('臺灣'), oTotal) : '—';
+    const pctText = foreign != null ? fmtPct(oTotal - m.get('臺灣'), oTotal) : '—';
     const hot = foreign != null && foreign > avgForeign;
 
     const row = el('div', {
@@ -189,8 +194,9 @@ function originYears(d) {
       'aria-label': `${y} 年，國內決標 ${fmtAmount(awarded)}，非國產占 ${pctText}`,
     }, [
       el('span', { class: 'yb-y', text: String(y) }),
-      el('span', { class: 'yb-track' }, [bar]),
+      el('span', { class: 'yb-track' }, [totalBar]),
       el('span', { class: 'yb-total num', text: awarded ? fmtAmount(awarded) : '—' }),
+      el('span', { class: 'yb-mix' }, [mixBar]),
       el('span', { class: `yb-pct num${hot ? ' hot' : ''}`, text: pctText }),
     ]);
 
@@ -364,7 +370,43 @@ function categories(d) {
   }
 }
 
-/* ---------- 04 錢的流向（手刻兩欄桑基圖） ---------- */
+/* ---------- 04 競爭程度 ---------- */
+
+const COMP_CLASS = ['c1', 'c2', 'c3'];
+
+function competition(d) {
+  const b = d.by_bidders;
+  const big = $('#comp-big');
+  const bar = clear($('#comp-bar'));
+  const keys = clear($('#comp-keys'));
+  if (!big) return;
+  if (!b || !b.counted) {
+    big.textContent = '沒有可歸戶的投標家數。';
+    return;
+  }
+
+  const single = b.buckets[0];
+  const pctSingle = fmtPct(single.count, b.counted);
+  clear(big);
+  big.append(el('span', { text: `單一投標占 ${pctSingle}` }));
+  big.append(el('span', { class: 'amt', text: `${fmtInt(single.count)} 件 · ${fmtAmount(single.amount)}` }));
+
+  bar.setAttribute('aria-label', b.buckets
+    .map((r, i) => `${r.label} ${fmtPct(r.count, b.counted)}`).join('，'));
+
+  b.buckets.forEach((r, i) => {
+    if (!r.count) return;
+    bar.append(el('span', { class: COMP_CLASS[i], style: `width:${Math.max(0.6, (r.count / b.counted) * 100)}%` }));
+
+    keys.append(el('li', null, [
+      el('span', { class: `sw ${COMP_CLASS[i]}` }),
+      el('span', { class: 'k', text: `${r.label} ${fmtPct(r.count, b.counted)}` }),
+      el('span', { class: 'v', text: `${fmtInt(r.count)} 件 · ${fmtAmount(r.amount)}` }),
+    ]));
+  });
+}
+
+/* ---------- 05 錢的流向（手刻兩欄桑基圖） ---------- */
 
 // 廠商全名太長，右欄標不下，去掉公司型態的後綴
 const shortVendor = n => (n || '')
@@ -552,7 +594,7 @@ function flowList() {
   }
 }
 
-/* ---------- 05 最近 ---------- */
+/* ---------- 06 最近 ---------- */
 
 function recent(d) {
   const rows = (d.recent || []).slice(0, 15);
@@ -573,7 +615,7 @@ function recent(d) {
   }
 }
 
-/* ---------- 06 帳外：對美軍購與工程類 ---------- */
+/* ---------- 07 帳外：對美軍購與工程類 ---------- */
 
 function offBook(fms, works) {
   const sec = $('#offbook');

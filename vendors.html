@@ -16,8 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/style.css?v=13">
-<script type="module" src="assets/vendors.js?v=13"></script>
+<link rel="stylesheet" href="assets/style.css?v=14">
+<script type="module" src="assets/vendors.js?v=14"></script>
 </head>
 <body>
 
@@ -41,13 +41,23 @@
     <p class="result-line" id="result">載入中…</p>
   </section>
 
+  <section aria-labelledby="h-sme">
+    <h2 class="sec-h" id="h-sme"><span class="sec-n">01</span><span>中小企業占比</span></h2>
+    <p class="note">依決標金額計算，只算機關有填是否為中小企業的得標紀錄，不含對美軍購與工程類。</p>
+    <div class="origin-lead">
+      <p class="bigstat" id="sme-big">—</p>
+      <div class="sbar" id="sme-bar" role="img"></div>
+      <ul class="keys" id="sme-keys"></ul>
+    </div>
+  </section>
+
   <section class="tight" aria-labelledby="h-rank">
-    <h2 class="sec-h" id="h-rank"><span class="sec-n">01</span><span>排行</span></h2>
+    <h2 class="sec-h" id="h-rank"><span class="sec-n">02</span><span>排行</span></h2>
     <ul class="rows" id="rows"><li class="loading">載入中…</li></ul>
   </section>
 
   <section aria-labelledby="h-graph">
-    <h2 class="sec-h" id="h-graph"><span class="sec-n">02</span><span>誰賣給誰</span></h2>
+    <h2 class="sec-h" id="h-graph"><span class="sec-n">03</span><span>誰賣給誰</span></h2>
     <p class="note">帶狀寬度是得標金額，左邊廠商、右邊出錢的機關，不含對美軍購與工程類。</p>
     <div class="graph" id="graph"></div>
     <ul class="graph-key">

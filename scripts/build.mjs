@@ -905,6 +905,48 @@ function buildSummary(all, notes) {
     .sort((a, b) => a[0].localeCompare(b[0]))
     .map(([y, v]) => ({ year: Number(y), ...v }));
 
+  // 每月（2016-01 起連續，沒有資料的月份補 0）：首頁 hero 迷你走勢用
+  const byMonth = new Map();
+  for (const t of tenders) {
+    const d = dateOf(t);
+    if (!d) continue;
+    const m = d.slice(0, 7);
+    if (!byMonth.has(m)) byMonth.set(m, { count: 0, awarded_count: 0, awarded_amount: 0 });
+    const row = byMonth.get(m);
+    row.count++;
+    if (t.status === 'awarded') { row.awarded_count++; row.awarded_amount += t.award_amount || 0; }
+  }
+  const by_month = [];
+  {
+    const lastKey = [...byMonth.keys()].filter((m) => m >= '2016-01').sort().pop() || today.slice(0, 7);
+    const end = Math.max(Number(lastKey.slice(0, 4)) * 12 + Number(lastKey.slice(5, 7)) - 1,
+      Number(today.slice(0, 4)) * 12 + Number(today.slice(5, 7)) - 1);
+    for (let i = 2016 * 12; i <= end; i++) {
+      const key = `${Math.floor(i / 12)}-${String((i % 12) + 1).padStart(2, '0')}`;
+      by_month.push({ m: key, ...(byMonth.get(key) || { count: 0, awarded_count: 0, awarded_amount: 0 }) });
+    }
+  }
+
+  // 投標家數分布：只看已決標且機關有填投標家數的案子，沒填的另計不混進比例
+  const bidderBuckets = [
+    { k: '1', label: '1 家', count: 0, amount: 0 },
+    { k: '2', label: '2 家', count: 0, amount: 0 },
+    { k: '3+', label: '3 家以上', count: 0, amount: 0 },
+  ];
+  let biddersUnknown = 0;
+  for (const t of awarded) {
+    const n = t.bidders_count;
+    if (n == null || !(n >= 1)) { biddersUnknown++; continue; }
+    const b = n === 1 ? bidderBuckets[0] : n === 2 ? bidderBuckets[1] : bidderBuckets[2];
+    b.count++;
+    b.amount += t.award_amount || 0;
+  }
+  const by_bidders = {
+    counted: bidderBuckets.reduce((a, b) => a + b.count, 0),
+    unknown: biddersUnknown,
+    buckets: bidderBuckets,
+  };
+
   const groupBy = (keyFn) => {
     const m = new Map();
     for (const t of tenders) {
@@ -1097,7 +1139,7 @@ function buildSummary(all, notes) {
   return {
     generated_at: new Date().toISOString(),
     scope: 'domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。'
-      + '下面 totals / by_quarter / by_year / by_category / by_agency_group / top_agencies /'
+      + '下面 totals / by_quarter / by_year / by_month / by_bidders / by_category / by_agency_group / top_agencies /'
       + ' top_vendors / by_origin / by_origin_year / vendor_agency_edges / flow 全部只算 domestic；'
       + '對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。',
     tracks: {
@@ -1110,6 +1152,8 @@ function buildSummary(all, notes) {
     totals,
     by_quarter,
     by_year,
+    by_month,
+    by_bidders,
     by_category,
     by_agency_group,
     flow,

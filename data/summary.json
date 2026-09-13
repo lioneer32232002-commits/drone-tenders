@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-09-13T03:34:50.948Z",
- "scope": "domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。下面 totals / by_quarter / by_year / by_category / by_agency_group / top_agencies / top_vendors / by_origin / by_origin_year / vendor_agency_edges / flow 全部只算 domestic；對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。",
+ "generated_at": "2026-09-13T04:31:16.805Z",
+ "scope": "domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。下面 totals / by_quarter / by_year / by_month / by_bidders / by_category / by_agency_group / top_agencies / top_vendors / by_origin / by_origin_year / vendor_agency_edges / flow 全部只算 domestic；對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。",
  "tracks": {
   "domestic": {
    "count": 2319,
@@ -864,6 +864,806 @@
    "count": 247
   }
  ],
+ "by_month": [
+  {
+   "m": "2016-01",
+   "count": 1,
+   "awarded_count": 1,
+   "awarded_amount": 400000
+  },
+  {
+   "m": "2016-02",
+   "count": 3,
+   "awarded_count": 3,
+   "awarded_amount": 4185000
+  },
+  {
+   "m": "2016-03",
+   "count": 5,
+   "awarded_count": 5,
+   "awarded_amount": 4326210
+  },
+  {
+   "m": "2016-04",
+   "count": 8,
+   "awarded_count": 8,
+   "awarded_amount": 3188239
+  },
+  {
+   "m": "2016-05",
+   "count": 6,
+   "awarded_count": 5,
+   "awarded_amount": 4462900
+  },
+  {
+   "m": "2016-06",
+   "count": 11,
+   "awarded_count": 11,
+   "awarded_amount": 7829980
+  },
+  {
+   "m": "2016-07",
+   "count": 4,
+   "awarded_count": 4,
+   "awarded_amount": 3288720
+  },
+  {
+   "m": "2016-08",
+   "count": 6,
+   "awarded_count": 4,
+   "awarded_amount": 1434500
+  },
+  {
+   "m": "2016-09",
+   "count": 3,
+   "awarded_count": 1,
+   "awarded_amount": 285400
+  },
+  {
+   "m": "2016-10",
+   "count": 8,
+   "awarded_count": 6,
+   "awarded_amount": 3012000
+  },
+  {
+   "m": "2016-11",
+   "count": 6,
+   "awarded_count": 6,
+   "awarded_amount": 7979600
+  },
+  {
+   "m": "2016-12",
+   "count": 5,
+   "awarded_count": 5,
+   "awarded_amount": 7200000
+  },
+  {
+   "m": "2017-01",
+   "count": 2,
+   "awarded_count": 0,
+   "awarded_amount": 0
+  },
+  {
+   "m": "2017-02",
+   "count": 4,
+   "awarded_count": 3,
+   "awarded_amount": 2100000
+  },
+  {
+   "m": "2017-03",
+   "count": 1,
+   "awarded_count": 0,
+   "awarded_amount": 0
+  },
+  {
+   "m": "2017-04",
+   "count": 8,
+   "awarded_count": 8,
+   "awarded_amount": 8187300
+  },
+  {
+   "m": "2017-05",
+   "count": 5,
+   "awarded_count": 4,
+   "awarded_amount": 5256000
+  },
+  {
+   "m": "2017-06",
+   "count": 7,
+   "awarded_count": 5,
+   "awarded_amount": 9612000
+  },
+  {
+   "m": "2017-07",
+   "count": 9,
+   "awarded_count": 8,
+   "awarded_amount": 18132600
+  },
+  {
+   "m": "2017-08",
+   "count": 9,
+   "awarded_count": 8,
+   "awarded_amount": 3446950
+  },
+  {
+   "m": "2017-09",
+   "count": 8,
+   "awarded_count": 8,
+   "awarded_amount": 4785489
+  },
+  {
+   "m": "2017-10",
+   "count": 15,
+   "awarded_count": 12,
+   "awarded_amount": 5123230
+  },
+  {
+   "m": "2017-11",
+   "count": 22,
+   "awarded_count": 17,
+   "awarded_amount": 13092688
+  },
+  {
+   "m": "2017-12",
+   "count": 15,
+   "awarded_count": 13,
+   "awarded_amount": 13101000
+  },
+  {
+   "m": "2018-01",
+   "count": 2,
+   "awarded_count": 1,
+   "awarded_amount": 699000
+  },
+  {
+   "m": "2018-02",
+   "count": 2,
+   "awarded_count": 1,
+   "awarded_amount": 460000
+  },
+  {
+   "m": "2018-03",
+   "count": 4,
+   "awarded_count": 3,
+   "awarded_amount": 4436500
+  },
+  {
+   "m": "2018-04",
+   "count": 16,
+   "awarded_count": 14,
+   "awarded_amount": 24975379
+  },
+  {
+   "m": "2018-05",
+   "count": 19,
+   "awarded_count": 17,
+   "awarded_amount": 154050274
+  },
+  {
+   "m": "2018-06",
+   "count": 22,
+   "awarded_count": 19,
+   "awarded_amount": 18646540
+  },
+  {
+   "m": "2018-07",
+   "count": 11,
+   "awarded_count": 10,
+   "awarded_amount": 33055805
+  },
+  {
+   "m": "2018-08",
+   "count": 15,
+   "awarded_count": 9,
+   "awarded_amount": 4531126
+  },
+  {
+   "m": "2018-09",
+   "count": 6,
+   "awarded_count": 5,
+   "awarded_amount": 5455000
+  },
+  {
+   "m": "2018-10",
+   "count": 16,
+   "awarded_count": 13,
+   "awarded_amount": 20442625
+  },
+  {
+   "m": "2018-11",
+   "count": 22,
+   "awarded_count": 16,
+   "awarded_amount": 21118640
+  },
+  {
+   "m": "2018-12",
+   "count": 13,
+   "awarded_count": 13,
+   "awarded_amount": 41050144
+  },
+  {
+   "m": "2019-01",
+   "count": 4,
+   "awarded_count": 3,
+   "awarded_amount": 38646000
+  },
+  {
+   "m": "2019-02",
+   "count": 6,
+   "awarded_count": 6,
+   "awarded_amount": 27379500
+  },
+  {
+   "m": "2019-03",
+   "count": 11,
+   "awarded_count": 9,
+   "awarded_amount": 19623933
+  },
+  {
+   "m": "2019-04",
+   "count": 13,
+   "awarded_count": 10,
+   "awarded_amount": 7727470
+  },
+  {
+   "m": "2019-05",
+   "count": 15,
+   "awarded_count": 14,
+   "awarded_amount": 15216488
+  },
+  {
+   "m": "2019-06",
+   "count": 13,
+   "awarded_count": 12,
+   "awarded_amount": 17105365
+  },
+  {
+   "m": "2019-07",
+   "count": 11,
+   "awarded_count": 10,
+   "awarded_amount": 4837000
+  },
+  {
+   "m": "2019-08",
+   "count": 11,
+   "awarded_count": 10,
+   "awarded_amount": 4909000
+  },
+  {
+   "m": "2019-09",
+   "count": 12,
+   "awarded_count": 11,
+   "awarded_amount": 39958023
+  },
+  {
+   "m": "2019-10",
+   "count": 25,
+   "awarded_count": 22,
+   "awarded_amount": 26730880
+  },
+  {
+   "m": "2019-11",
+   "count": 20,
+   "awarded_count": 12,
+   "awarded_amount": 23572690
+  },
+  {
+   "m": "2019-12",
+   "count": 16,
+   "awarded_count": 15,
+   "awarded_amount": 79628815
+  },
+  {
+   "m": "2020-01",
+   "count": 4,
+   "awarded_count": 4,
+   "awarded_amount": 13948800
+  },
+  {
+   "m": "2020-02",
+   "count": 8,
+   "awarded_count": 5,
+   "awarded_amount": 7778272
+  },
+  {
+   "m": "2020-03",
+   "count": 16,
+   "awarded_count": 15,
+   "awarded_amount": 17988350
+  },
+  {
+   "m": "2020-04",
+   "count": 24,
+   "awarded_count": 23,
+   "awarded_amount": 485645785
+  },
+  {
+   "m": "2020-05",
+   "count": 24,
+   "awarded_count": 20,
+   "awarded_amount": 48018117
+  },
+  {
+   "m": "2020-06",
+   "count": 20,
+   "awarded_count": 18,
+   "awarded_amount": 9877483
+  },
+  {
+   "m": "2020-07",
+   "count": 13,
+   "awarded_count": 11,
+   "awarded_amount": 14463800
+  },
+  {
+   "m": "2020-08",
+   "count": 16,
+   "awarded_count": 15,
+   "awarded_amount": 23705300
+  },
+  {
+   "m": "2020-09",
+   "count": 14,
+   "awarded_count": 13,
+   "awarded_amount": 15427740
+  },
+  {
+   "m": "2020-10",
+   "count": 23,
+   "awarded_count": 20,
+   "awarded_amount": 134720289
+  },
+  {
+   "m": "2020-11",
+   "count": 24,
+   "awarded_count": 20,
+   "awarded_amount": 23571271
+  },
+  {
+   "m": "2020-12",
+   "count": 23,
+   "awarded_count": 20,
+   "awarded_amount": 96064631
+  },
+  {
+   "m": "2021-01",
+   "count": 7,
+   "awarded_count": 4,
+   "awarded_amount": 10646688
+  },
+  {
+   "m": "2021-02",
+   "count": 14,
+   "awarded_count": 10,
+   "awarded_amount": 34428700
+  },
+  {
+   "m": "2021-03",
+   "count": 23,
+   "awarded_count": 19,
+   "awarded_amount": 34292266
+  },
+  {
+   "m": "2021-04",
+   "count": 12,
+   "awarded_count": 12,
+   "awarded_amount": 19863970
+  },
+  {
+   "m": "2021-05",
+   "count": 16,
+   "awarded_count": 12,
+   "awarded_amount": 10748500
+  },
+  {
+   "m": "2021-06",
+   "count": 20,
+   "awarded_count": 17,
+   "awarded_amount": 18586759
+  },
+  {
+   "m": "2021-07",
+   "count": 22,
+   "awarded_count": 18,
+   "awarded_amount": 21161133
+  },
+  {
+   "m": "2021-08",
+   "count": 15,
+   "awarded_count": 14,
+   "awarded_amount": 10131195
+  },
+  {
+   "m": "2021-09",
+   "count": 11,
+   "awarded_count": 9,
+   "awarded_amount": 14834647
+  },
+  {
+   "m": "2021-10",
+   "count": 12,
+   "awarded_count": 12,
+   "awarded_amount": 9352890
+  },
+  {
+   "m": "2021-11",
+   "count": 18,
+   "awarded_count": 17,
+   "awarded_amount": 10784263
+  },
+  {
+   "m": "2021-12",
+   "count": 25,
+   "awarded_count": 23,
+   "awarded_amount": 124958819
+  },
+  {
+   "m": "2022-01",
+   "count": 12,
+   "awarded_count": 8,
+   "awarded_amount": 31943930
+  },
+  {
+   "m": "2022-02",
+   "count": 16,
+   "awarded_count": 16,
+   "awarded_amount": 134808901
+  },
+  {
+   "m": "2022-03",
+   "count": 25,
+   "awarded_count": 24,
+   "awarded_amount": 52752394
+  },
+  {
+   "m": "2022-04",
+   "count": 17,
+   "awarded_count": 16,
+   "awarded_amount": 693056242
+  },
+  {
+   "m": "2022-05",
+   "count": 25,
+   "awarded_count": 19,
+   "awarded_amount": 3700334515
+  },
+  {
+   "m": "2022-06",
+   "count": 17,
+   "awarded_count": 13,
+   "awarded_amount": 62716985
+  },
+  {
+   "m": "2022-07",
+   "count": 13,
+   "awarded_count": 6,
+   "awarded_amount": 18959050
+  },
+  {
+   "m": "2022-08",
+   "count": 19,
+   "awarded_count": 15,
+   "awarded_amount": 14350817
+  },
+  {
+   "m": "2022-09",
+   "count": 8,
+   "awarded_count": 3,
+   "awarded_amount": 3951000
+  },
+  {
+   "m": "2022-10",
+   "count": 12,
+   "awarded_count": 5,
+   "awarded_amount": 2750045
+  },
+  {
+   "m": "2022-11",
+   "count": 14,
+   "awarded_count": 7,
+   "awarded_amount": 16792490
+  },
+  {
+   "m": "2022-12",
+   "count": 30,
+   "awarded_count": 19,
+   "awarded_amount": 108892666
+  },
+  {
+   "m": "2023-01",
+   "count": 12,
+   "awarded_count": 8,
+   "awarded_amount": 7115250
+  },
+  {
+   "m": "2023-02",
+   "count": 19,
+   "awarded_count": 17,
+   "awarded_amount": 352200000
+  },
+  {
+   "m": "2023-03",
+   "count": 23,
+   "awarded_count": 16,
+   "awarded_amount": 89242266
+  },
+  {
+   "m": "2023-04",
+   "count": 13,
+   "awarded_count": 10,
+   "awarded_amount": 31962479
+  },
+  {
+   "m": "2023-05",
+   "count": 13,
+   "awarded_count": 11,
+   "awarded_amount": 11898602
+  },
+  {
+   "m": "2023-06",
+   "count": 17,
+   "awarded_count": 11,
+   "awarded_amount": 18375000
+  },
+  {
+   "m": "2023-07",
+   "count": 11,
+   "awarded_count": 6,
+   "awarded_amount": 6943000
+  },
+  {
+   "m": "2023-08",
+   "count": 17,
+   "awarded_count": 8,
+   "awarded_amount": 225856077
+  },
+  {
+   "m": "2023-09",
+   "count": 15,
+   "awarded_count": 7,
+   "awarded_amount": 26377300
+  },
+  {
+   "m": "2023-10",
+   "count": 14,
+   "awarded_count": 8,
+   "awarded_amount": 9038100
+  },
+  {
+   "m": "2023-11",
+   "count": 10,
+   "awarded_count": 9,
+   "awarded_amount": 30733340
+  },
+  {
+   "m": "2023-12",
+   "count": 26,
+   "awarded_count": 18,
+   "awarded_amount": 187288283
+  },
+  {
+   "m": "2024-01",
+   "count": 17,
+   "awarded_count": 16,
+   "awarded_amount": 184711270
+  },
+  {
+   "m": "2024-02",
+   "count": 10,
+   "awarded_count": 5,
+   "awarded_amount": 15818588
+  },
+  {
+   "m": "2024-03",
+   "count": 22,
+   "awarded_count": 15,
+   "awarded_amount": 50257804
+  },
+  {
+   "m": "2024-04",
+   "count": 18,
+   "awarded_count": 14,
+   "awarded_amount": 42608375
+  },
+  {
+   "m": "2024-05",
+   "count": 26,
+   "awarded_count": 18,
+   "awarded_amount": 47691570
+  },
+  {
+   "m": "2024-06",
+   "count": 28,
+   "awarded_count": 20,
+   "awarded_amount": 61478775
+  },
+  {
+   "m": "2024-07",
+   "count": 27,
+   "awarded_count": 18,
+   "awarded_amount": 54809800
+  },
+  {
+   "m": "2024-08",
+   "count": 28,
+   "awarded_count": 21,
+   "awarded_amount": 6908865184
+  },
+  {
+   "m": "2024-09",
+   "count": 17,
+   "awarded_count": 10,
+   "awarded_amount": 9966209
+  },
+  {
+   "m": "2024-10",
+   "count": 24,
+   "awarded_count": 13,
+   "awarded_amount": 63008706
+  },
+  {
+   "m": "2024-11",
+   "count": 24,
+   "awarded_count": 15,
+   "awarded_amount": 35646991
+  },
+  {
+   "m": "2024-12",
+   "count": 29,
+   "awarded_count": 24,
+   "awarded_amount": 294848297
+  },
+  {
+   "m": "2025-01",
+   "count": 13,
+   "awarded_count": 9,
+   "awarded_amount": 1015046772
+  },
+  {
+   "m": "2025-02",
+   "count": 12,
+   "awarded_count": 7,
+   "awarded_amount": 98868923
+  },
+  {
+   "m": "2025-03",
+   "count": 16,
+   "awarded_count": 9,
+   "awarded_amount": 178953168
+  },
+  {
+   "m": "2025-04",
+   "count": 26,
+   "awarded_count": 14,
+   "awarded_amount": 49790125
+  },
+  {
+   "m": "2025-05",
+   "count": 34,
+   "awarded_count": 24,
+   "awarded_amount": 53775220
+  },
+  {
+   "m": "2025-06",
+   "count": 20,
+   "awarded_count": 16,
+   "awarded_amount": 32251649
+  },
+  {
+   "m": "2025-07",
+   "count": 18,
+   "awarded_count": 13,
+   "awarded_amount": 35001750
+  },
+  {
+   "m": "2025-08",
+   "count": 11,
+   "awarded_count": 5,
+   "awarded_amount": 5738767
+  },
+  {
+   "m": "2025-09",
+   "count": 14,
+   "awarded_count": 7,
+   "awarded_amount": 17549650
+  },
+  {
+   "m": "2025-10",
+   "count": 45,
+   "awarded_count": 19,
+   "awarded_amount": 465253969
+  },
+  {
+   "m": "2025-11",
+   "count": 23,
+   "awarded_count": 7,
+   "awarded_amount": 17983065
+  },
+  {
+   "m": "2025-12",
+   "count": 33,
+   "awarded_count": 25,
+   "awarded_amount": 423726060
+  },
+  {
+   "m": "2026-01",
+   "count": 22,
+   "awarded_count": 11,
+   "awarded_amount": 158390221
+  },
+  {
+   "m": "2026-02",
+   "count": 21,
+   "awarded_count": 12,
+   "awarded_amount": 43995063
+  },
+  {
+   "m": "2026-03",
+   "count": 18,
+   "awarded_count": 11,
+   "awarded_amount": 489421633
+  },
+  {
+   "m": "2026-04",
+   "count": 43,
+   "awarded_count": 28,
+   "awarded_amount": 251904692
+  },
+  {
+   "m": "2026-05",
+   "count": 29,
+   "awarded_count": 15,
+   "awarded_amount": 36444482
+  },
+  {
+   "m": "2026-06",
+   "count": 28,
+   "awarded_count": 12,
+   "awarded_amount": 188067500
+  },
+  {
+   "m": "2026-07",
+   "count": 31,
+   "awarded_count": 16,
+   "awarded_amount": 1454136150
+  },
+  {
+   "m": "2026-08",
+   "count": 32,
+   "awarded_count": 14,
+   "awarded_amount": 401923335
+  },
+  {
+   "m": "2026-09",
+   "count": 23,
+   "awarded_count": 1,
+   "awarded_amount": 42459000
+  }
+ ],
+ "by_bidders": {
+  "counted": 1698,
+  "unknown": 0,
+  "buckets": [
+   {
+    "k": "1",
+    "label": "1 家",
+    "count": 1062,
+    "amount": 12073714828
+   },
+   {
+    "k": "2",
+    "label": "2 家",
+    "count": 295,
+    "amount": 5575476619
+   },
+   {
+    "k": "3+",
+    "label": "3 家以上",
+    "count": 341,
+    "amount": 4318912980
+   }
+  ]
+ },
  "by_category": [
   {
    "category": "國防",

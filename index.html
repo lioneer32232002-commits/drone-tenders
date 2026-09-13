@@ -18,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/style.css?v=13">
-<script type="module" src="assets/index.js?v=13"></script>
+<link rel="stylesheet" href="assets/style.css?v=14">
+<script type="module" src="assets/index.js?v=14"></script>
 </head>
 <body>
 
@@ -66,11 +66,16 @@
     <h2 class="sec-h" id="h-origin"><span class="sec-n">01</span><span>哪裡製造</span></h2>
     <p class="note">決標金額依機關填報的原產地國別歸戶，沒填的不計入，不含對美軍購與工程類。</p>
     <div class="origin-lead" id="origin-lead">
-      <p class="origin-big" id="origin-big">—</p>
-      <ul class="origin-rest" id="origin-rest"></ul>
+      <p class="bigstat" id="origin-big">—</p>
+      <ul class="keys" id="origin-rest"></ul>
     </div>
-    <p class="note" id="origin-years-note" style="margin:38px 0 0">長條是該年國內決標總額，尾端顏色是臺灣以外的原產地；右側是非國產占比。</p>
-    <div class="yearbars" id="origin-years" role="list"></div>
+    <p class="note" id="origin-years-note" style="margin:38px 0 0">左邊長條是該年國內決標總額；右邊短條永遠滿格，只表示當年原產地組成。</p>
+    <div class="yearbars" id="origin-years-wrap">
+      <div class="yb-head" aria-hidden="true">
+        <span></span><span></span><span class="r">決標總額</span><span>原產地組成</span><span class="r">非國產</span>
+      </div>
+      <div id="origin-years" role="list"></div>
+    </div>
   </section>
 
   <section aria-labelledby="h-quarter">
@@ -85,8 +90,18 @@
     <div class="hbars cats" id="category-bars"></div>
   </section>
 
+  <section aria-labelledby="h-comp">
+    <h2 class="sec-h" id="h-comp"><span class="sec-n">04</span><span>競爭程度</span></h2>
+    <p class="note">依決標案的投標家數分組，只算有填投標家數的案子，不含對美軍購與工程類。</p>
+    <div class="origin-lead">
+      <p class="bigstat" id="comp-big">—</p>
+      <div class="sbar" id="comp-bar" role="img"></div>
+      <ul class="keys" id="comp-keys"></ul>
+    </div>
+  </section>
+
   <section aria-labelledby="h-flow">
-    <h2 class="sec-h" id="h-flow"><span class="sec-n">04</span><span>錢的流向</span></h2>
+    <h2 class="sec-h" id="h-flow"><span class="sec-n">05</span><span>錢的流向</span></h2>
     <p class="note note-wide">左邊出錢的機關群組，右邊收錢的廠商，帶子寬度就是金額；廠商取前八名。</p>
     <p class="note note-narrow">每個群組底下是拿最多錢的三家廠商，廠商取前八名。</p>
     <div class="flow" id="flow">
@@ -97,20 +112,20 @@
   </section>
 
   <section aria-labelledby="h-recent">
-    <h2 class="sec-h" id="h-recent"><span class="sec-n">05</span><span>最近</span></h2>
+    <h2 class="sec-h" id="h-recent"><span class="sec-n">06</span><span>最近</span></h2>
     <p class="note">最近 60 天的公告。</p>
     <ul class="recent" id="recent-list"></ul>
     <p class="more"><a href="tenders">看全部標案</a></p>
   </section>
 
   <section id="offbook" aria-labelledby="h-offbook" hidden>
-    <h2 class="sec-h" id="h-offbook"><span class="sec-n">06</span><span>不在圖表裡的</span></h2>
+    <h2 class="sec-h" id="h-offbook"><span class="sec-n">07</span><span>不在圖表裡的</span></h2>
     <p class="note">經美國在台協會的對美軍購，以及金額最大的幾件工程類標案，量級與國內採購不同，單獨列在這裡。</p>
     <ul class="recent" id="offbook-list"></ul>
   </section>
 
   <section aria-labelledby="h-photo">
-    <h2 class="sec-h" id="h-photo"><span class="sec-n">07</span><span>標的物</span></h2>
+    <h2 class="sec-h" id="h-photo"><span class="sec-n">08</span><span>標的物</span></h2>
     <figure class="photo">
       <img src="assets/img/tengyun-hsinchu-2015.jpg" width="1600" height="900" loading="lazy" decoding="async"
            alt="停機坪上靜態展示的中科院騰雲大型無人機，機身標示 NCSIST ASRD。">
@@ -122,7 +137,7 @@
   </section>
 
   <section aria-labelledby="h-series">
-    <h2 class="sec-h" id="h-series"><span class="sec-n">08</span><span>同系列</span></h2>
+    <h2 class="sec-h" id="h-series"><span class="sec-n">09</span><span>同系列</span></h2>
     <p class="note">標案看政府買進多少，出口看台灣賣出多少；論文與戰場是另外兩條線。</p>
     <ul class="series">
       <li>

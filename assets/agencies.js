@@ -1,5 +1,5 @@
 import {
-  loadJSON, failInto, initChrome, stampFooter, fmtAmount, fmtInt, fmtDate,
+  loadJSON, failInto, initChrome, stampFooter, fmtAmount, fmtInt, fmtDate, fmtPct,
   el, $, clear, sum, STATUS, trackOf,
 } from './common.js';
 
@@ -45,16 +45,62 @@ function start(d) {
     const total = sum(list, a => a.amount);
 
     const rows = el('ul', { class: 'rows' });
-    list.forEach((a, i) => rows.append(agencyRow(a, i)));
+    const btnByName = new Map();
+    list.forEach((a, i) => {
+      const row = agencyRow(a, i);
+      btnByName.set(a.name, row.querySelector('.row-btn'));
+      rows.append(row);
+    });
+
+    const goTo = (name) => {
+      const btn = btnByName.get(name);
+      if (!btn) return;
+      if (btn.getAttribute('aria-expanded') !== 'true') btn.click();
+      btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
 
     host.append(el('section', { class: 'rank-group' }, [
       el('div', { class: 'rank-head' }, [
         el('h3', { text: g }),
         el('span', { class: 's', text: `${fmtInt(list.length)} 個機關　${fmtAmount(total)}` }),
       ]),
+      total ? groupBar(list, total, goTo) : null,
       rows,
     ]));
   }
+}
+
+// 前 5 機關分段＋其他，一條堆疊橫條；點色塊或圖例可跳到下面該機關展開
+function groupBar(list, total, goTo) {
+  const top = list.slice(0, 5).filter(a => a.amount > 0);
+  const otherAmt = total - sum(top, a => a.amount);
+  const segs = top.map((a, i) => ({ name: a.name, amount: a.amount, c: `c${i + 1}` }));
+  if (otherAmt > 0) segs.push({ name: '其他', amount: otherAmt, c: 'c6' });
+
+  const bar = el('div', {
+    class: 'sbar sbar-sm', role: 'img',
+    'aria-label': segs.map(s => `${s.name} ${fmtAmount(s.amount)}`).join('，'),
+  });
+  const keys = el('ul', { class: 'legend legend-click' });
+
+  for (const s of segs) {
+    const seg = el('span', { class: s.c, style: `width:${Math.max(0.6, (s.amount / total) * 100)}%` });
+    const li = el('li', null, [
+      el('span', { class: `sw ${s.c}` }),
+      el('span', { class: 'k', text: s.name }),
+      el('span', { class: 'v', text: `${fmtAmount(s.amount)} · ${fmtPct(s.amount, total)}` }),
+    ]);
+    if (s.name !== '其他') {
+      seg.style.cursor = 'pointer';
+      li.style.cursor = 'pointer';
+      seg.addEventListener('click', () => goTo(s.name));
+      li.addEventListener('click', () => goTo(s.name));
+    }
+    bar.append(seg);
+    keys.append(li);
+  }
+
+  return el('div', { class: 'group-bar' }, [bar, keys]);
 }
 
 function agencyRow(a, i) {
