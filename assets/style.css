@@ -69,6 +69,11 @@ a:hover { color: var(--accent); }
 h1, h2, h3, p, ul, ol, dl, figure { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 
+/* 標題與短句換行不留孤字：h1/h2/h3/大字句用 balance 讓多行等長，
+   內文、圖說、表格內文字用 pretty 避免最後一行只剩一兩個字 */
+h1, h2, h3, .lede { text-wrap: balance; }
+p, li, td, figcaption { text-wrap: pretty; }
+
 .serif { font-family: var(--serif); font-weight: 700; }
 .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
@@ -569,8 +574,8 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
 
 .row-btn:hover .nm { color: var(--accent); }
 .row-btn .i { font-family: var(--mono); font-size: 14px; color: var(--faint); }
-.row-btn .nm { min-width: 0; overflow-wrap: anywhere; }
-.row-btn .nm .tag { font-size: 13px; letter-spacing: 0.08em; color: var(--faint); padding-left: 10px; }
+.row-btn .nm { min-width: 0; overflow-wrap: anywhere; text-wrap: pretty; }
+.row-btn .nm .tag { font-size: 13px; letter-spacing: 0.08em; color: var(--faint); padding-left: 10px; white-space: nowrap; }
 .row-btn .amt { text-align: right; font-size: 16px; }
 .row-btn .cnt { text-align: right; font-size: 15px; color: var(--muted); }
 
