@@ -685,6 +685,16 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
 .limits li { padding: 10px 0; border-top: 1px solid var(--hair); }
 .limits li:last-child { border-bottom: 1px solid var(--hair); }
 
+/* ---------- 同系列 ---------- */
+
+.series { max-width: 44em; font-size: 17px; }
+.series li { padding: 12px 0; border-top: 1px solid var(--hair); }
+.series li:last-child { border-bottom: 1px solid var(--hair); }
+.series a { text-underline-offset: 4px; }
+.series .sep { padding: 0 9px; color: var(--rule); }
+.series .k { font-size: 15px; color: var(--faint); }
+.series .d { display: block; font-size: 16px; color: var(--muted); }
+
 /* ---------- 頁尾 ---------- */
 
 .site-foot {
