@@ -157,6 +157,46 @@ p, li, td, figcaption { text-wrap: pretty; }
   color: var(--link);
 }
 
+/* ---------- 節內導覽（首頁） ---------- */
+
+.secnav {
+  display: flex;
+  gap: 20px;
+  max-width: var(--col);
+  margin: 0 auto;
+  padding: 0 var(--pad) 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+
+.secnav::-webkit-scrollbar { display: none; }
+
+.secnav a {
+  flex: none;
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+.secnav a:hover { color: var(--link); }
+
+/* ---------- hero 走勢小圖 ---------- */
+
+.spark { width: 220px; max-width: 100%; margin: 16px 0 0; }
+.spark svg { display: block; width: 100%; height: 30px; }
+.spark .bar { fill: var(--rule); }
+.spark .bar.on { fill: var(--accent); }
+
+.sub-h {
+  margin: 44px 0 12px;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
 .col > section { padding-block: 52px; }
 .col > section + section { border-top: 1px solid var(--rule); }
 .col > section.hero { padding-top: 26px; }
@@ -1021,20 +1061,32 @@ tr.detail > td { padding: 0 0 18px; border-bottom: 1px solid var(--hair); backgr
     width: auto;
   }
 
-  td.t-date { width: auto; font-size: 15px; }
-  td.t-title { width: auto; padding: 3px 0 5px; font-size: 17px; }
-  td.t-agency { width: auto; font-size: 16px; color: var(--muted); }
+  /* 層次：標題最大最深、機關次之偏淡、決標金額自成一行右對齊、其餘細節最小 */
+  td.t-date { width: auto; font-size: 14px; color: var(--faint); }
+  td.t-title { width: auto; padding: 4px 0 3px; font-size: 18px; }
+  td.t-agency { width: auto; font-size: 15px; color: var(--muted); }
 
-  td.t-num, td.t-vendor, td.t-status {
+  td.t-award {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    margin-top: 8px;
+    font-size: 18px;
+    color: var(--fg);
+  }
+
+  td.t-award::before { content: attr(data-l); font-size: 14px; color: var(--muted); }
+
+  td.t-budget, td.t-vendor, td.t-status {
     display: inline;
     width: auto;
     text-align: left;
-    font-size: 16px;
+    font-size: 15px;
     color: var(--muted);
   }
 
-  td.t-num::before { content: attr(data-l) " "; color: var(--faint); }
-  td.t-num + td.t-num::before { content: " · " attr(data-l) " "; }
+  td.t-budget::before { content: attr(data-l) " "; color: var(--faint); }
   td.t-vendor::before { content: " · "; color: var(--rule); }
   td.t-status::before { content: " · "; color: var(--rule); }
 

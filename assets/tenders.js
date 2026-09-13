@@ -231,8 +231,8 @@ function row(t) {
       btn,
       t.framework ? el('span', { class: 'flag', text: '共同供應契約' }) : null,
     ]),
-    el('td', { class: 't-num', 'data-l': '預算', text: fmtAmount(t.budget) }),
-    el('td', { class: 't-num', 'data-l': '決標', text: fmtAmount(t.award_amount) }),
+    el('td', { class: 't-num t-budget', 'data-l': '預算', text: fmtAmount(t.budget) }),
+    el('td', { class: 't-num t-award', 'data-l': '決標', text: fmtAmount(t.award_amount) }),
     el('td', { class: 't-vendor', text: (t.winners || []).map(w => w.name).join('、') || '—' }),
     el('td', { class: 't-status' }, [
       el('span', { class: `stag ${STATUS_CLASS[t.status] || 'c5'}` }),

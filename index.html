@@ -18,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/style.css?v=14">
-<script type="module" src="assets/index.js?v=14"></script>
+<link rel="stylesheet" href="assets/style.css?v=15">
+<script type="module" src="assets/index.js?v=15"></script>
 </head>
 <body>
 
@@ -35,10 +35,22 @@
   </nav>
 </header>
 
+<nav class="secnav" aria-label="本頁章節">
+  <a href="#h-origin">01 哪裡製造</a>
+  <a href="#h-quarter">02 每季決標</a>
+  <a href="#h-category">03 哪一類</a>
+  <a href="#h-comp">04 競爭程度</a>
+  <a href="#h-flow">05 錢的流向</a>
+  <a href="#h-recent">06 最近</a>
+  <a href="#h-photo">07 標的物</a>
+  <a href="#h-offbook">08 其他</a>
+</nav>
+
 <main class="col">
 
   <section class="hero" aria-labelledby="lede">
     <h1 class="serif lede" id="lede">載入中…</h1>
+    <div class="spark" id="hero-spark" role="img"></div>
     <p class="meta" id="hero-aside" hidden></p>
     <p class="meta" id="hero-meta"></p>
 
@@ -118,14 +130,8 @@
     <p class="more"><a href="tenders">看全部標案</a></p>
   </section>
 
-  <section id="offbook" aria-labelledby="h-offbook" hidden>
-    <h2 class="sec-h" id="h-offbook"><span class="sec-n">07</span><span>不在圖表裡的</span></h2>
-    <p class="note">經美國在台協會的對美軍購，以及金額最大的幾件工程類標案，量級與國內採購不同，單獨列在這裡。</p>
-    <ul class="recent" id="offbook-list"></ul>
-  </section>
-
   <section aria-labelledby="h-photo">
-    <h2 class="sec-h" id="h-photo"><span class="sec-n">08</span><span>標的物</span></h2>
+    <h2 class="sec-h" id="h-photo"><span class="sec-n">07</span><span>標的物</span></h2>
     <figure class="photo">
       <img src="assets/img/tengyun-hsinchu-2015.jpg" width="1600" height="900" loading="lazy" decoding="async"
            alt="停機坪上靜態展示的中科院騰雲大型無人機，機身標示 NCSIST ASRD。">
@@ -136,8 +142,12 @@
     </figure>
   </section>
 
-  <section aria-labelledby="h-series">
-    <h2 class="sec-h" id="h-series"><span class="sec-n">09</span><span>同系列</span></h2>
+  <section aria-labelledby="h-offbook">
+    <h2 class="sec-h" id="h-offbook"><span class="sec-n">08</span><span>不在圖表裡的／同系列</span></h2>
+    <p class="note" id="offbook-note">經美國在台協會的對美軍購，以及金額最大的幾件工程類標案，量級與國內採購不同，單獨列在這裡。</p>
+    <ul class="recent" id="offbook-list"></ul>
+
+    <h3 class="sub-h">同系列</h3>
     <p class="note">標案看政府買進多少，出口看台灣賣出多少；論文與戰場是另外兩條線。</p>
     <ul class="series">
       <li>

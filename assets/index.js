@@ -51,6 +51,7 @@ function render(s) {
     `共 <b>${money.value}${money.unit ? ' ' + money.unit : ''}</b>元。`;
 
   aside(fms, works);
+  heroSpark(d);
 
   $('#hero-meta').innerHTML =
     `資料更新 <time data-updated>—</time><span class="sep">·</span>` +
@@ -85,6 +86,32 @@ function aside(fms, works) {
   if (!bits.length) { node.hidden = true; return; }
   node.hidden = false;
   node.textContent = `另有${bits.join('、')}，未計入下方圖表。`;
+}
+
+// hero 大字下方的小走勢：近 12 個月決標件數，只看趨勢不標數字
+function heroSpark(d) {
+  const host = $('#hero-spark');
+  if (!host) return;
+  const months = (d.by_month || []).slice(-12);
+  if (months.length < 2) { host.remove(); return; }
+
+  const max = Math.max(...months.map(m => m.awarded_count || 0), 1);
+  const W = 220, H = 30, GAP = 3;
+  const bw = (W - GAP * (months.length - 1)) / months.length;
+  const g = svg('svg', { viewBox: `0 0 ${W} ${H}` });
+  months.forEach((m, i) => {
+    const h = Math.max(1, ((m.awarded_count || 0) / max) * H);
+    g.append(svg('rect', {
+      x: i * (bw + GAP), y: H - h, width: bw, height: h,
+      class: i === months.length - 1 ? 'bar on' : 'bar',
+    }));
+  });
+
+  clear(host);
+  host.append(g);
+  const first = months[0].m, last = months.at(-1);
+  host.setAttribute('aria-label',
+    `近 12 個月決標件數走勢，${first} 到 ${last.m}，最新一月決標 ${fmtInt(last.awarded_count)} 件。`);
 }
 
 function num(node, v, unit) {
@@ -597,7 +624,7 @@ function flowList() {
 /* ---------- 06 最近 ---------- */
 
 function recent(d) {
-  const rows = (d.recent || []).slice(0, 15);
+  const rows = (d.recent || []).slice(0, 8);
   const host = clear($('#recent-list'));
   if (!rows.length) { host.append(el('li', { class: 'empty', text: '最近 60 天沒有新公告。' })); return; }
   for (const r of rows) {
@@ -618,9 +645,9 @@ function recent(d) {
 /* ---------- 07 帳外：對美軍購與工程類 ---------- */
 
 function offBook(fms, works) {
-  const sec = $('#offbook');
   const host = $('#offbook-list');
-  if (!sec || !host) return;
+  const note = $('#offbook-note');
+  if (!host) return;
   clear(host);
 
   const byAmount = (a, b) => (b.award_amount ?? b.amount ?? 0) - (a.award_amount ?? a.amount ?? 0);
@@ -630,8 +657,8 @@ function offBook(fms, works) {
     ...itemsOf(works).sort(byAmount).slice(0, 5).map(r => ({ ...r, kind: '工程類' })),
   ].sort(byAmount);
 
-  if (!rows.length) { sec.hidden = true; return; }
-  sec.hidden = false;
+  host.hidden = !rows.length;
+  if (note) note.hidden = !rows.length;
 
   for (const r of rows) {
     host.append(el('li', null, [
