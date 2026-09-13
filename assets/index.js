@@ -110,39 +110,35 @@ function origin(d) {
   for (const r of d.by_origin || []) main.set(bucket(r.country), main.get(bucket(r.country)) + (r.amount || 0));
 
   const total = sum([...main.values()]);
-  const bar = clear($('#origin-bar'));
-  const leg = clear($('#origin-legend'));
+  const big = $('#origin-big');
+  const rest = clear($('#origin-rest'));
 
   if (!total) {
-    bar.remove();
-    leg.append(el('li', { class: 'v', text: '目前沒有可歸戶的原產地金額。' }));
+    big.textContent = '沒有可歸戶的原產地金額。';
+    return;
   }
+
+  // 臺灣壓倒性多數，畫成色帶看不出東西，改用大字直接把數字講出來
+  clear(big);
+  big.append(el('span', { text: `臺灣 ${fmtPct(main.get('臺灣'), total)}` }));
+  big.append(el('span', { class: 'amt', text: fmtAmount(main.get('臺灣')) }));
 
   for (const b of BUCKETS) {
-    const amount = main.get(b);
-    if (amount > 0) {
-      bar.append(el('span', {
-        class: BUCKET_CLASS[b],
-        style: `width:${(amount / total) * 100}%`,
-        title: `${b} ${fmtAmount(amount)}`,
-      }));
-    }
-    leg.append(el('li', null, [
+    if (b === '臺灣') continue;
+    rest.append(el('li', null, [
       el('span', { class: `sw ${BUCKET_CLASS[b]}` }),
-      el('span', { class: 'k', text: b }),
-      el('span', { class: 'v', text: `${fmtAmount(amount)}　${fmtPct(amount, total)}` }),
+      el('span', { class: 'k', text: `${b} ${fmtPct(main.get(b), total)}` }),
+      el('span', { class: 'v', text: fmtAmount(main.get(b)) }),
     ]));
   }
-
-  bar.setAttribute('aria-label',
-    '原產地金額占比：' + BUCKETS.map(b => `${b} ${fmtPct(main.get(b), total)}`).join('、'));
 
   originYears(d);
 }
 
-// 2016 起每年一根 100% 堆疊條，年份下方是該年國內決標總額
+// 2016 起每年一列：長條長度是該年國內決標總額，分段顏色是原產地，右側是非國產占比
 function originYears(d) {
   const wrap = clear($('#origin-years'));
+
   const rows = new Map();
   for (const r of d.by_origin_year || []) {
     const y = +(r.year ?? r.y);
@@ -155,40 +151,57 @@ function originYears(d) {
     rows.set(y, m);
   }
 
-  const awardedByYear = new Map(
-    (d.by_year || []).map(r => [+(r.year ?? r.y), r.awarded_amount || 0])
-  );
-
-  const last = Math.max(FIRST_YEAR, ...[...rows.keys()], ...[...awardedByYear.keys()]);
+  const awardedByYear = new Map((d.by_year || []).map(r => [+(r.year ?? r.y), r.awarded_amount || 0]));
+  const last = Math.max(FIRST_YEAR, ...rows.keys(), ...awardedByYear.keys());
   if (!isFinite(last)) { wrap.remove(); return; }
+
+  const maxAwarded = Math.max(1, ...[...awardedByYear.entries()].filter(([y]) => y >= FIRST_YEAR).map(([, v]) => v));
+
+  // 門檻用各年非國產比例的平均。整期比例會被金額最大的那一年壓低，
+  // 拿來當門檻會有一半以上的年份都被標成偏高，反而看不出哪一年異常。
+  const yearly = [...rows.entries()]
+    .filter(([y, m]) => y >= FIRST_YEAR && sum([...m.values()]) > 0)
+    .map(([, m]) => { const t = sum([...m.values()]); return (t - m.get('臺灣')) / t; });
+  const avgForeign = yearly.length ? sum(yearly) / yearly.length : 0;
 
   for (let y = FIRST_YEAR; y <= last; y++) {
     const m = rows.get(y);
-    const t = m ? sum([...m.values()]) : 0;
-    const col = el('span', { class: 'col-bar' });
-    if (t > 0) {
+    const oTotal = m ? sum([...m.values()]) : 0;
+    const awarded = awardedByYear.get(y) || 0;
+
+    const bar = el('span', { class: oTotal ? 'yb-bar' : 'yb-bar empty' });
+    bar.style.width = `${Math.max(awarded ? 0.8 : 0, (awarded / maxAwarded) * 100)}%`;
+    if (oTotal) {
       for (const b of BUCKETS) {
         const v = m.get(b) || 0;
         if (!v) continue;
-        col.append(el('span', {
-          class: BUCKET_CLASS[b],
-          style: `height:${(v / t) * 100}%`,
-          title: `${y} ${b} ${fmtAmount(v)}`,
-        }));
+        bar.append(el('i', { class: BUCKET_CLASS[b], style: `width:${(v / oTotal) * 100}%` }));
       }
     }
-    const awarded = awardedByYear.get(y);
-    wrap.append(el('div', {
-      class: 'yr',
+
+    const foreign = oTotal ? (oTotal - m.get('臺灣')) / oTotal : null;
+    const pctText = foreign ? fmtPct(oTotal - m.get('臺灣'), oTotal) : '—';
+    const hot = foreign != null && foreign > avgForeign;
+
+    const row = el('div', {
+      class: 'yb',
       role: 'listitem',
-      'aria-label': t
-        ? `${y} 年，` + BUCKETS.filter(b => m.get(b)).map(b => `${b} ${fmtPct(m.get(b), t)}`).join('、')
-        : `${y} 年沒有填報原產地的決標`,
+      'aria-label': `${y} 年，國內決標 ${fmtAmount(awarded)}，非國產占 ${pctText}`,
     }, [
-      col,
-      el('span', { class: 'yl', text: String(y) }),
-      el('span', { class: 'yv', text: awarded ? fmtAmount(awarded) : '—' }),
-    ]));
+      el('span', { class: 'yb-y', text: String(y) }),
+      el('span', { class: 'yb-track' }, [bar]),
+      el('span', { class: 'yb-total num', text: awarded ? fmtAmount(awarded) : '—' }),
+      el('span', { class: `yb-pct num${hot ? ' hot' : ''}`, text: pctText }),
+    ]);
+
+    const detail = oTotal
+      ? BUCKETS.filter(b => m.get(b)).map(b => `${b} ${fmtAmount(m.get(b))}`).join('　')
+      : '這一年沒有填報原產地';
+    row.addEventListener('pointerenter', e => showTip(e,
+      `<b>${y}</b> 國內決標 ${fmtAmount(awarded)}<br><span class="m">${detail}</span>`));
+    row.addEventListener('pointerleave', hideTip);
+
+    wrap.append(row);
   }
 }
 

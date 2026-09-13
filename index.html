@@ -18,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/style.css?v=10">
-<script type="module" src="assets/index.js?v=9"></script>
+<link rel="stylesheet" href="assets/style.css?v=11">
+<script type="module" src="assets/index.js?v=11"></script>
 </head>
 <body>
 
@@ -65,10 +65,12 @@
   <section aria-labelledby="h-origin">
     <h2 class="sec-h" id="h-origin"><span class="sec-n">01</span><span>哪裡製造</span></h2>
     <p class="note">決標金額依機關填報的原產地國別歸戶，沒填的不計入，不含對美軍購與工程類。</p>
-    <div class="sbar sbar-big" id="origin-bar" role="img"></div>
-    <ul class="legend" id="origin-legend"></ul>
-    <p class="note" id="origin-years-note" style="margin:34px 0 0">2016 年起每年的比例，年份下方是該年國內決標總額。</p>
-    <div class="years" id="origin-years" role="list"></div>
+    <div class="origin-lead" id="origin-lead">
+      <p class="origin-big" id="origin-big">—</p>
+      <ul class="origin-rest" id="origin-rest"></ul>
+    </div>
+    <p class="note" id="origin-years-note" style="margin:38px 0 0">長條是該年國內決標總額，尾端顏色是臺灣以外的原產地；右側是非國產占比。</p>
+    <div class="yearbars" id="origin-years" role="list"></div>
   </section>
 
   <section aria-labelledby="h-quarter">
