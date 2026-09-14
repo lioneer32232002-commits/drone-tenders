@@ -1,9 +1,9 @@
 {
- "generated_at": "2026-09-13T04:31:16.805Z",
+ "generated_at": "2026-09-14T06:16:43.657Z",
  "scope": "domestic：domain=air 且 drone_in_title=true 且非 fms 非 works。下面 totals / by_quarter / by_year / by_month / by_bidders / by_category / by_agency_group / top_agencies / top_vendors / by_origin / by_origin_year / vendor_agency_edges / flow 全部只算 domestic；對美軍購見 fms、工程類見 works、全領域件數見 totals.all_domains。",
  "tracks": {
   "domestic": {
-   "count": 2319,
+   "count": 2320,
    "awarded_count": 1698,
    "amount": 21968104427
   },
@@ -201,26 +201,26 @@
   ]
  },
  "totals": {
-  "count": 2319,
+  "count": 2320,
   "awarded_count": 1698,
   "awarded_amount": 21968104427,
   "open_count": 14,
   "this_year": {
    "year": "2026",
-   "count": 247,
+   "count": 248,
    "awarded_count": 120,
    "awarded_amount": 3066742076,
    "open_count": 13
   },
   "this_quarter": {
    "quarter": "2026Q3",
-   "count": 86,
+   "count": 87,
    "awarded_count": 31,
    "awarded_amount": 1898518485,
    "open_count": 13
   },
   "all_domains": {
-   "count": 2546,
+   "count": 2547,
    "awarded_count": 1855,
    "awarded_amount": 79748582629
   }
@@ -735,7 +735,7 @@
    "awarded_count": 31,
    "awarded_amount": 1898518485,
    "open_count": 13,
-   "count": 86,
+   "count": 87,
    "top": {
     "title": "艦載無人機",
     "agency": "海洋委員會海巡署艦隊分署",
@@ -861,7 +861,7 @@
    "awarded_count": 120,
    "awarded_amount": 3066742076,
    "open_count": 13,
-   "count": 247
+   "count": 248
   }
  ],
  "by_month": [
@@ -1635,7 +1635,7 @@
   },
   {
    "m": "2026-09",
-   "count": 23,
+   "count": 24,
    "awarded_count": 1,
    "awarded_amount": 42459000
   }
@@ -1727,7 +1727,7 @@
   },
   {
    "category": "警政",
-   "count": 101,
+   "count": 102,
    "awarded_count": 68,
    "amount": 137791323
   },
@@ -1753,7 +1753,7 @@
   },
   {
    "agency_group": "中央部會",
-   "count": 698,
+   "count": 699,
    "awarded_count": 543,
    "amount": 6240511715
   },
@@ -5272,37 +5272,59 @@
  "awarded_with_origin_count": 1639,
  "recent": [
   {
-   "id": "A.47.1.3/CGS115-02",
-   "date": "2026-09-11",
+   "id": "A.21/M1509321",
+   "date": "2026-09-14",
+   "type": "經公開評選或公開徵求之限制性招標更正公告",
+   "title": "115年度無人機創新應用委託研究計畫",
+   "agency": "衛生福利部",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 20000000
+  },
+  {
+   "id": "3.5.49/115EQ635030007001100",
+   "date": "2026-09-14",
+   "type": "公開招標更正公告",
+   "title": "無人機區域刺絲網圍籬新設案",
+   "agency": "國防部空軍司令部",
+   "domain": "air",
+   "fms": false,
+   "works": true,
+   "amount": 30322942
+  },
+  {
+   "id": "3.1.6/M115-009",
+   "date": "2026-09-14",
+   "type": "招標文件公開閱覽公告資料更正公告",
+   "title": "115至117年複雜地形偵搜無人機共同供應契約採購案",
+   "agency": "內政部消防署",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 361500000
+  },
+  {
+   "id": "A.1.1.41/PTOI1150901",
+   "date": "2026-09-14",
    "type": "公開徵求廠商提供參考資料公告",
-   "title": "訓練用繫留無人機",
-   "agency": "海洋委員會海巡署南部分署",
+   "title": "引入無人機鐵塔巡檢案",
+   "agency": "內政部警政署警察通訊所",
    "domain": "air",
    "fms": false,
    "works": false,
    "amount": null
   },
   {
-   "id": "3.79.4.93/C115061",
+   "id": "3.5.49/115EQ635030007001100",
    "date": "2026-09-11",
-   "type": "公開取得報價單或企劃書公告",
-   "title": "無人機特色人才培育計畫採購案",
-   "agency": "臺北市立大學",
+   "type": "公開招標公告",
+   "title": "無人機區域刺絲網圍籬新設案",
+   "agency": "國防部空軍司令部",
    "domain": "air",
    "fms": false,
-   "works": false,
-   "amount": 893554
-  },
-  {
-   "id": "3.76.47.2/115-019",
-   "date": "2026-09-11",
-   "type": "公開取得報價單或企劃書公告",
-   "title": "115年度無人機操作證教育訓練採購案(開口契約)",
-   "agency": "彰化縣警察局",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 1144000
+   "works": true,
+   "amount": 30322942
   },
   {
    "id": "3.1.6/M115-009",
@@ -5316,15 +5338,37 @@
    "amount": 361500000
   },
   {
-   "id": "3.5.49/115EQ635030007001100",
+   "id": "3.76.47.2/115-019",
    "date": "2026-09-11",
-   "type": "公開招標公告",
-   "title": "無人機區域刺絲網圍籬新設案",
-   "agency": "國防部空軍司令部",
+   "type": "公開取得報價單或企劃書公告",
+   "title": "115年度無人機操作證教育訓練採購案(開口契約)",
+   "agency": "彰化縣警察局",
    "domain": "air",
    "fms": false,
-   "works": true,
-   "amount": 30322942
+   "works": false,
+   "amount": 1144000
+  },
+  {
+   "id": "3.79.4.93/C115061",
+   "date": "2026-09-11",
+   "type": "公開取得報價單或企劃書公告",
+   "title": "無人機特色人才培育計畫採購案",
+   "agency": "臺北市立大學",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 893554
+  },
+  {
+   "id": "A.47.1.3/CGS115-02",
+   "date": "2026-09-11",
+   "type": "公開徵求廠商提供參考資料公告",
+   "title": "訓練用繫留無人機",
+   "agency": "海洋委員會海巡署南部分署",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": null
   },
   {
    "id": "3.82.5.32/11516",
@@ -5448,17 +5492,6 @@
    "amount": 782688000
   },
   {
-   "id": "3.13.30.15/11532",
-   "date": "2026-09-07",
-   "type": "公開取得報價單或企劃書公告",
-   "title": "農用無人機購置",
-   "agency": "台灣糖業股份有限公司研究所",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 525000
-  },
-  {
    "id": "A.21/M1509321",
    "date": "2026-09-07",
    "type": "經公開評選或公開徵求之限制性招標更正公告",
@@ -5468,6 +5501,17 @@
    "fms": false,
    "works": false,
    "amount": 20000000
+  },
+  {
+   "id": "3.13.30.15/11532",
+   "date": "2026-09-07",
+   "type": "公開取得報價單或企劃書公告",
+   "title": "農用無人機購置",
+   "agency": "台灣糖業股份有限公司研究所",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 525000
   },
   {
    "id": "3.5.47/FB15078P139",
@@ -5525,17 +5569,6 @@
    "amount": 2389000
   },
   {
-   "id": "3.71.2.63/N115430730125",
-   "date": "2026-09-03",
-   "type": "公開招標公告",
-   "title": "115年無人機紅火蟻加強防治",
-   "agency": "金門縣採購招標所",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 1750000
-  },
-  {
    "id": "A.15.3.3/1155024920",
    "date": "2026-09-03",
    "type": "公開招標公告",
@@ -5545,6 +5578,17 @@
    "fms": false,
    "works": false,
    "amount": 2620000
+  },
+  {
+   "id": "3.71.2.63/N115430730125",
+   "date": "2026-09-03",
+   "type": "公開招標公告",
+   "title": "115年無人機紅火蟻加強防治",
+   "agency": "金門縣採購招標所",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 1750000
   },
   {
    "id": "A.47.3/NAMR115053",
@@ -5591,17 +5635,6 @@
    "amount": 42459000
   },
   {
-   "id": "3.13.31.96/4851570021",
-   "date": "2026-09-02",
-   "type": "公開招標公告",
-   "title": "龍崎變電所無人機反制通訊鐵塔基礎工程",
-   "agency": "台灣電力股份有限公司嘉南供電區營運處",
-   "domain": "air",
-   "fms": false,
-   "works": true,
-   "amount": 8000000
-  },
-  {
    "id": "3.5/HB15025L245",
    "date": "2026-09-02",
    "type": "公開招標公告",
@@ -5613,15 +5646,15 @@
    "amount": 247200000
   },
   {
-   "id": "3.5.47/FB15040P048",
+   "id": "3.13.31.96/4851570021",
    "date": "2026-09-02",
-   "type": "無法決標公告",
-   "title": "無人機模擬器系統",
-   "agency": "國防部陸軍司令部",
+   "type": "公開招標公告",
+   "title": "龍崎變電所無人機反制通訊鐵塔基礎工程",
+   "agency": "台灣電力股份有限公司嘉南供電區營運處",
    "domain": "air",
    "fms": false,
-   "works": false,
-   "amount": 1496000
+   "works": true,
+   "amount": 8000000
   },
   {
    "id": "3.76.58.2/1150605",
@@ -5633,6 +5666,17 @@
    "fms": false,
    "works": false,
    "amount": 3200000
+  },
+  {
+   "id": "3.5.47/FB15040P048",
+   "date": "2026-09-02",
+   "type": "無法決標公告",
+   "title": "無人機模擬器系統",
+   "agency": "國防部陸軍司令部",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 1496000
   },
   {
    "id": "A.21/M1509321",
@@ -5679,6 +5723,17 @@
    "amount": 18900000
   },
   {
+   "id": "3.13.50.50/B0315P012",
+   "date": "2026-08-31",
+   "type": "公開取得報價單或企劃書公告",
+   "title": "監視用多旋翼無人機【1ST】",
+   "agency": "台灣中油股份有限公司探採事業部",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 1050000
+  },
+  {
    "id": "3.5.47/115FB04308474000120",
    "date": "2026-08-31",
    "type": "公開招標公告",
@@ -5699,17 +5754,6 @@
    "fms": false,
    "works": false,
    "amount": null
-  },
-  {
-   "id": "3.13.50.50/B0315P012",
-   "date": "2026-08-31",
-   "type": "公開取得報價單或企劃書公告",
-   "title": "監視用多旋翼無人機【1ST】",
-   "agency": "台灣中油股份有限公司探採事業部",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 1050000
   },
   {
    "id": "3.76.48/115-11-06-005-F",
@@ -5800,17 +5844,6 @@
    "amount": 1320000
   },
   {
-   "id": "3.5/TG15003M019",
-   "date": "2026-08-27",
-   "type": "決標公告",
-   "title": "無人機",
-   "agency": "國防部",
-   "domain": "air",
-   "fms": true,
-   "works": false,
-   "amount": 26946368354
-  },
-  {
    "id": "A.47.1.4/E11414",
    "date": "2026-08-27",
    "type": "更正無法決標公告",
@@ -5820,6 +5853,17 @@
    "fms": false,
    "works": false,
    "amount": null
+  },
+  {
+   "id": "3.5/TG15003M019",
+   "date": "2026-08-27",
+   "type": "決標公告",
+   "title": "無人機",
+   "agency": "國防部",
+   "domain": "air",
+   "fms": true,
+   "works": false,
+   "amount": 26946368354
   },
   {
    "id": "3.5.47/FB15078P139",
@@ -5888,17 +5932,6 @@
    "amount": null
   },
   {
-   "id": "3.82.17/115-A-35",
-   "date": "2026-08-24",
-   "type": "決標公告",
-   "title": "2026新北無人機展覽暨論壇活動委託專業服務案",
-   "agency": "新北市政府經濟發展局",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 2968000
-  },
-  {
    "id": "3.5/AR15007L513",
    "date": "2026-08-24",
    "type": "決標公告",
@@ -5908,6 +5941,17 @@
    "fms": false,
    "works": false,
    "amount": 9900000
+  },
+  {
+   "id": "3.82.17/115-A-35",
+   "date": "2026-08-24",
+   "type": "決標公告",
+   "title": "2026新北無人機展覽暨論壇活動委託專業服務案",
+   "agency": "新北市政府經濟發展局",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 2968000
   },
   {
    "id": "A.51.100.61/1150624-1",
@@ -5998,6 +6042,17 @@
    "amount": 1530000
   },
   {
+   "id": "A.47.1.1/N115-031",
+   "date": "2026-08-18",
+   "type": "無法決標公告",
+   "title": "無人機電池防爆櫃",
+   "agency": "海洋委員會海巡署北部分署",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": null
+  },
+  {
    "id": "A.47.2/115-E-06",
    "date": "2026-08-18",
    "type": "決標公告",
@@ -6018,17 +6073,6 @@
    "fms": false,
    "works": false,
    "amount": 500000
-  },
-  {
-   "id": "A.47.1.1/N115-031",
-   "date": "2026-08-18",
-   "type": "無法決標公告",
-   "title": "無人機電池防爆櫃",
-   "agency": "海洋委員會海巡署北部分署",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": null
   },
   {
    "id": "3.19/1150030100B",
@@ -6229,17 +6273,6 @@
    "amount": null
   },
   {
-   "id": "3.9.26/115-02-092",
-   "date": "2026-08-07",
-   "type": "決標公告",
-   "title": "無人機掛載光達空拍作業壹式",
-   "agency": "國立成功大學",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 380000
-  },
-  {
    "id": "A.47.1.7/B115111",
    "date": "2026-08-07",
    "type": "決標公告",
@@ -6249,6 +6282,17 @@
    "fms": false,
    "works": false,
    "amount": 1774800
+  },
+  {
+   "id": "3.9.26/115-02-092",
+   "date": "2026-08-07",
+   "type": "決標公告",
+   "title": "無人機掛載光達空拍作業壹式",
+   "agency": "國立成功大學",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 380000
   },
   {
    "id": "A.47.1.7/B115946",
@@ -6361,17 +6405,6 @@
    "amount": 7675000
   },
   {
-   "id": "3.97.32/115-C17",
-   "date": "2026-08-03",
-   "type": "決標公告",
-   "title": "115年紅外線熱顯像無人機組",
-   "agency": "高雄市政府消防局",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 11000000
-  },
-  {
    "id": "3.10.90.40/Sju115006",
    "date": "2026-08-03",
    "type": "決標公告",
@@ -6381,6 +6414,17 @@
    "fms": false,
    "works": false,
    "amount": 745000
+  },
+  {
+   "id": "3.97.32/115-C17",
+   "date": "2026-08-03",
+   "type": "決標公告",
+   "title": "115年紅外線熱顯像無人機組",
+   "agency": "高雄市政府消防局",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 11000000
   },
   {
    "id": "A.51.100.61/1150624-1",
@@ -6537,6 +6581,17 @@
    "amount": 41203000
   },
   {
+   "id": "A.7.31.1/LP5-114063",
+   "date": "2026-07-22",
+   "type": "公開招標更正公告",
+   "title": "無人機組",
+   "agency": "臺灣銀行股份有限公司",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 1048108000
+  },
+  {
    "id": "3.1.1/UT-11503",
    "date": "2026-07-22",
    "type": "選擇性招標(個案)更正公告",
@@ -6548,15 +6603,15 @@
    "amount": 3670000000
   },
   {
-   "id": "A.7.31.1/LP5-114063",
+   "id": "3.10.70/115063",
    "date": "2026-07-22",
-   "type": "公開招標更正公告",
-   "title": "無人機組",
-   "agency": "臺灣銀行股份有限公司",
+   "type": "決標公告",
+   "title": "115年度農業廳無人機應用介紹展區更新",
+   "agency": "國立科學工藝博物館",
    "domain": "air",
    "fms": false,
    "works": false,
-   "amount": 1048108000
+   "amount": 785000
   },
   {
    "id": "3.9.26/115-02-083",
@@ -6579,17 +6634,6 @@
    "fms": false,
    "works": false,
    "amount": 203950000
-  },
-  {
-   "id": "3.10.70/115063",
-   "date": "2026-07-22",
-   "type": "決標公告",
-   "title": "115年度農業廳無人機應用介紹展區更新",
-   "agency": "國立科學工藝博物館",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 785000
   },
   {
    "id": "3.82.17/115-A-35",
@@ -6658,17 +6702,6 @@
    "amount": 400000
   },
   {
-   "id": "3.5.47/FB14067P045",
-   "date": "2026-07-17",
-   "type": "拒絕往來廠商名單公告",
-   "title": "無人機採購案",
-   "agency": "國防部陸軍司令部",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 4500000
-  },
-  {
    "id": "A.5.15/HB15044P032",
    "date": "2026-07-17",
    "type": "決標公告",
@@ -6678,6 +6711,17 @@
    "fms": false,
    "works": false,
    "amount": 2188000
+  },
+  {
+   "id": "3.5.47/FB14067P045",
+   "date": "2026-07-17",
+   "type": "拒絕往來廠商名單公告",
+   "title": "無人機採購案",
+   "agency": "國防部陸軍司令部",
+   "domain": "air",
+   "fms": false,
+   "works": false,
+   "amount": 4500000
   },
   {
    "id": "A.15.3.2/115-010",
@@ -6722,83 +6766,17 @@
    "fms": false,
    "works": false,
    "amount": null
-  },
-  {
-   "id": "A.9.6L/C115004771-W22",
-   "date": "2026-07-15",
-   "type": "公開招標公告",
-   "title": "F9A-B無人機足球及充電器採購案",
-   "agency": "國立高雄科技大學",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 31419200
-  },
-  {
-   "id": "A.9.6L/C115004771-W22",
-   "date": "2026-07-15",
-   "type": "無法決標公告",
-   "title": "F9A-B無人機足球及充電器採購案",
-   "agency": "國立高雄科技大學",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 31419200
-  },
-  {
-   "id": "3.9.34/115W05",
-   "date": "2026-07-15",
-   "type": "公開取得報價單或企劃書公告",
-   "title": "充氣式無人機足球場套組購買採購案",
-   "agency": "國立高雄師範大學",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 765000
-  },
-  {
-   "id": "3.5.48/PC16010P",
-   "date": "2026-07-15",
-   "type": "公開徵求廠商提供參考資料公告",
-   "title": "水面無人載具(含可攜式導控站、機動指管車及中繼台)",
-   "agency": "國防部海軍司令部",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": null
-  },
-  {
-   "id": "A.5.15/HB15056L",
-   "date": "2026-07-15",
-   "type": "公開徵求廠商提供參考資料公告",
-   "title": "AI小型ISR無人機採購",
-   "agency": "國防部憲兵指揮部",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": null
-  },
-  {
-   "id": "3.13.31.83/3521500117",
-   "date": "2026-07-15",
-   "type": "決標公告",
-   "title": "無人機防禦系統塔架工作",
-   "agency": "台灣電力股份有限公司第三核能發電廠",
-   "domain": "air",
-   "fms": false,
-   "works": false,
-   "amount": 14994000
   }
  ],
  "data_notes": {
   "mode": "incremental",
-  "fetched_cases": 213,
+  "fetched_cases": 214,
   "reused_cases": 2333,
   "carried_over_cases": 0,
   "keyword_hits": {
    "無人機": {
-    "announcements": 3469,
-    "total_records": 3470,
+    "announcements": 3473,
+    "total_records": 3474,
     "pages_fetched": 35,
     "total_pages": 35
    },
@@ -6881,14 +6859,14 @@
     "total_pages": 1
    }
   },
-  "total_cases": 2546,
+  "total_cases": 2547,
   "domain_counts": {
-   "air": 2491,
+   "air": 2492,
    "sea": 55
   },
   "status_counts": {
-   "pre": 312,
    "open": 17,
+   "pre": 313,
    "awarded": 1855,
    "failed": 157,
    "closed": 205
@@ -6899,7 +6877,7 @@
   "awarded_without_origin_pct": 4.6,
   "origin_amount_coverage_pct": 98.3,
   "track_counts": {
-   "domestic": 2319,
+   "domestic": 2320,
    "fms": 4,
    "works": 45
   },
